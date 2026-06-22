@@ -1,5 +1,62 @@
 # Roadmap
 
+## Atualizacao Prompt 16.5
+
+- O modo escuro passou a ser a aparencia padrao do portfolio.
+- Tokens globais em `src/app/globals.css` foram ajustados para fundo preto, superficies escuras, borda clara e sombras duras claras.
+- A paleta clara anterior fica apenas como referencia futura documentada, sem toggle.
+- O nome publico oficial passou a ser `Gustavo Poncell`.
+- O proximo prompt recomendado continua sendo Prompt 17 - Deploy Vercel.
+
+## Atualizacao Prompt 16
+
+- Fase 16 implementou contato publico, SEO base, sitemap, robots, manifest e health check publico seguro.
+- `/contato` mostra apenas dados reais vindos do perfil publico ou links visiveis.
+- Admin/login receberam `noindex`.
+- Checklist de performance, SEO e acessibilidade foi registrado em `docs/performance-checklist.md`.
+- Deploy, dominio, analytics, Search Console e formulario real seguem para proximas etapas.
+
+## Atualizacao Prompt 15
+
+- Fase 15 implementou upload protegido de imagens com Supabase Storage.
+- Avatar de perfil, capa de projeto Design e galeria de projeto Design agora aceitam upload server-side.
+- Bucket `portfolio-media` foi documentado para leitura publica e escrita restrita ao admin/server-side.
+- Behance real, contato publico, SEO avancado, performance fina e deploy seguem para proximas etapas.
+
+## Atualizacao Prompt 14
+
+- Fase 14 implementou a curadoria protegida de projetos Dev em `/admin/projetos/dev`.
+- Repositorios GitHub/fallback agora podem receber titulo, descricao, tags, ferramentas, ordem, visibilidade e destaque.
+- `/dev` usa curadoria publica quando Supabase estiver configurado e houver itens visiveis, mantendo fallback quando nao houver.
+- Upload, Storage, Behance real, SEO avancado e deploy seguem para etapas futuras.
+
+## Atualizacao Prompt 13
+
+- Fase 13 implementou o CRUD protegido de projetos Design em `/admin/projetos/design`.
+- Projetos Design agora podem ser criados, editados, publicados, ocultados, arquivados, destacados e excluidos.
+- Galeria e capa continuam como campos textuais; upload real segue pendente.
+- CRUD de projetos Dev e curadoria GitHub ficam para o Prompt 14.
+
+## Atualizacao Prompt 12
+
+- Fase 12 iniciou com CRUD de perfil, experiencias e cursos/certificados.
+- CRUD de projetos Design fica para o Prompt 13.
+- CRUD de projetos Dev, curadoria GitHub, Behance real e upload seguem para etapas futuras.
+
+## Atualizacao Prompt 11
+
+- Fase 11 agora cobre login com Supabase Auth, logout, protecao inicial de `/admin`, autorizacao por `ADMIN_EMAIL`, dashboard inicial e rota `/api/auth/status`.
+- CRUDs continuam na Fase 12.
+- Upload real de imagens continua na Fase 13.
+- Curadoria GitHub, Behance real e formularios publicos seguem para etapas futuras.
+
+## Atualizacao Prompt 10
+
+- Fase 10 agora cobre a base Supabase: dependencias, clients, proxy, health check, schema SQL, seed SQL e documentacao.
+- Login funcional, protecao real de `/admin`, dashboard inicial e validacao de administrador seguem para a Fase 11.
+- CRUDs continuam na Fase 12.
+- Upload real de imagens continua na Fase 13.
+
 ## Fase 1: documentação e estruturação
 
 - Criar `AGENTS.md`.
@@ -116,3 +173,9 @@
 - Validar acessibilidade mínima.
 - Registrar pendências para evolução pós-MVP.
 
+### Ajuste Prompt 16.6
+
+- Refinar contraste do modo escuro.
+- Corrigir legibilidade de cards amarelos/verdes e blocos internos escuros.
+- Remover nomes crus de variaveis de ambiente da interface de login/admin.
+- Validar lint, build, audit, buscas de seguranca e rotas publicas/protegidas.

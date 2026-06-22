@@ -1,5 +1,388 @@
 # Registro de Prompts
 
+## Prompt 16.5: Modo escuro padrao e nome publico
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar modo escuro como aparencia padrao e trocar o nome publico para `Gustavo Poncell`.
+- Arquivos criados:
+  - Nenhum arquivo novo.
+- Arquivos alterados:
+  - `README.md`
+  - `AGENTS.md`
+  - `src/app/globals.css`
+  - `src/app/layout.tsx`
+  - `src/app/manifest.ts`
+  - `src/config/site.ts`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/contato/page.tsx`
+  - `src/components/layout/site-header.tsx`
+  - `src/components/layout/site-footer.tsx`
+  - `src/components/layout/mode-switcher.tsx`
+  - `src/components/brand/brutal-button.tsx`
+  - `src/components/brand/section-heading.tsx`
+  - `src/components/brand/mode-badge.tsx`
+  - `src/components/home/about-preview-section.tsx`
+  - `src/components/home/contact-preview-section.tsx`
+  - `src/components/contact/contact-cta-section.tsx`
+  - `src/components/design/design-cta-section.tsx`
+  - `src/components/dev/dev-cta-section.tsx`
+  - `src/components/dev/dev-hero-section.tsx`
+  - `src/components/dev/dev-projects-section.tsx`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/performance-checklist.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - O tema escuro foi aplicado pelos tokens globais, sem toggle.
+  - A paleta clara antiga ficou apenas como referencia comentada.
+  - Sombras duras passaram a usar off-white para aparecer no fundo escuro.
+  - `bg-design` e `bg-dev` recebem texto preto por regra global.
+  - Metadata, manifest e JSON-LD herdam `Gustavo Poncell` via `siteConfig`.
+- Observacoes de acessibilidade:
+  - Foco visivel usa verde Dev.
+  - Inputs, textareas e selects receberam fundo escuro, borda clara e placeholder secundario.
+  - Cards amarelos/verdes mantem contraste com texto preto.
+- Proximo prompt recomendado: Prompt 17 - Deploy Vercel.
+
+## Prompt 16: Contato, SEO e performance
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar pagina publica de contato, SEO base, sitemap, robots, manifest, health check publico e checklist de performance/acessibilidade.
+- Arquivos criados:
+  - `src/app/contato/page.tsx`
+  - `src/components/contact/contact-hero-section.tsx`
+  - `src/components/contact/contact-links-section.tsx`
+  - `src/components/contact/contact-link-card.tsx`
+  - `src/components/contact/contact-empty-state.tsx`
+  - `src/components/contact/contact-cta-section.tsx`
+  - `src/lib/public-profile.ts`
+  - `src/lib/seo/urls.ts`
+  - `src/lib/seo/metadata.ts`
+  - `src/lib/seo/structured-data.ts`
+  - `src/app/sitemap.ts`
+  - `src/app/robots.ts`
+  - `src/app/manifest.ts`
+  - `src/app/api/site/health/route.ts`
+  - `docs/performance-checklist.md`
+- Arquivos alterados:
+  - `.env.example`
+  - `README.md`
+  - `src/config/site.ts`
+  - `src/app/layout.tsx`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/login/page.tsx`
+  - `src/app/admin/page.tsx`
+  - `src/app/admin/perfil/page.tsx`
+  - `src/app/admin/experiencias/page.tsx`
+  - `src/app/admin/cursos/page.tsx`
+  - `src/app/admin/projetos/design/page.tsx`
+  - `src/app/admin/projetos/dev/page.tsx`
+  - `src/components/home/contact-preview-section.tsx`
+  - `src/components/layout/site-footer.tsx`
+  - `src/lib/supabase/types.ts`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/design-system.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - `/contato` le `profiles` e `contact_links` com client publico Supabase quando configurado.
+  - Sem Supabase ou sem dados, a pagina mostra estado vazio sem inventar contato.
+  - `NEXT_PUBLIC_SITE_URL` alimenta canonical, Open Graph, sitemap e robots.
+  - Admin e login recebem `noindex`.
+  - Sitemap inclui apenas rotas publicas e projetos publicos locais.
+  - Manifest nao declara icones inexistentes.
+- Observacoes de seguranca:
+  - Nenhum secret foi prefixado com `NEXT_PUBLIC_`.
+  - Nenhum client component importa o client admin Supabase.
+  - Health checks nao retornam URLs secretas, tokens ou cookies.
+  - Nao foi implementado envio real de formulario.
+- Proximo prompt recomendado: Prompt 17 - Deploy Vercel.
+
+## Prompt 15: Upload de imagens
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar upload protegido de imagens com Supabase Storage para avatar, capa de projeto Design e galeria de projeto Design.
+- Arquivos criados:
+  - `src/types/media.ts`
+  - `src/config/media.ts`
+  - `src/lib/storage/validation.ts`
+  - `src/lib/storage/paths.ts`
+  - `src/lib/storage/media.ts`
+  - `src/app/admin/actions/media-actions.ts`
+  - `src/app/api/admin/storage/health/route.ts`
+  - `src/components/admin/media/image-upload-field.tsx`
+  - `src/components/admin/media/image-preview-card.tsx`
+  - `src/components/admin/media/storage-status-card.tsx`
+  - `src/components/media/responsive-image.tsx`
+- Arquivos alterados:
+  - `src/app/admin/perfil/page.tsx`
+  - `src/app/admin/projetos/design/page.tsx`
+  - `src/components/admin/forms/profile-form.tsx`
+  - `src/components/admin/projects/design-project-form.tsx`
+  - `src/components/admin/admin-dashboard-shell.tsx`
+  - `src/components/admin/admin-overview-cards.tsx`
+  - `src/components/admin/admin-next-steps.tsx`
+  - `src/components/projects/project-hero-section.tsx`
+  - `src/components/projects/project-gallery-section.tsx`
+  - `src/components/design/design-projects-section.tsx`
+  - `src/components/home/featured-projects-section.tsx`
+  - `src/types/project.ts`
+  - `supabase/schema.sql`
+  - `supabase/README.md`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/design-system.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - Bucket esperado: `portfolio-media`, publico para leitura.
+  - Escrita no Storage fica apenas server-side com client admin apos validar admin.
+  - Tipos aceitos: JPEG, PNG, WebP e GIF.
+  - Limite por imagem: 5 MB.
+  - Paths usam slug, timestamp e UUID parcial, sem nome original puro.
+  - Avatar salva URL em `profiles.avatar_url`.
+  - Capa Design salva URL em `projects.cover_url`.
+  - Galeria Design cria item em `project_gallery` com `image_url`.
+  - `next/image` nao foi usado porque o host Supabase e configuravel por ambiente; foi criado componente local com `<img>` e alt obrigatorio.
+- Observacoes de seguranca:
+  - Upload actions validam admin antes de enviar arquivo.
+  - Nenhum secret e exposto no client.
+  - Nao ha upload anonimo publico.
+  - `.env.local` continua ignorado.
+  - Upload de video, PDF, resumable, crop, CDN customizado e Behance real ficaram fora do escopo.
+- Proximo prompt recomendado: Prompt 16 - Contato, SEO e performance.
+
+## Prompt 14: Criar curadoria de projetos Dev
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar curadoria protegida de repositorios/projetos Dev usando GitHub server-side, fallback local e tabela `github_repository_curations`.
+- Arquivos criados:
+  - `src/lib/github-curation.ts`
+  - `src/lib/admin/dev-curation.ts`
+  - `src/lib/dev-repositories.ts`
+  - `src/app/admin/actions/dev-curation-actions.ts`
+  - `src/app/admin/projetos/dev/page.tsx`
+  - `src/app/api/admin/projects/dev/health/route.ts`
+  - `src/components/admin/projects/dev-curation-form.tsx`
+  - `src/components/admin/projects/dev-curation-list.tsx`
+  - `src/components/admin/projects/dev-repository-admin-card.tsx`
+  - `src/components/admin/projects/repository-source-badge.tsx`
+- Arquivos alterados:
+  - `src/types/github.ts`
+  - `src/types/admin.ts`
+  - `src/lib/supabase/types.ts`
+  - `src/components/dev/github-preview-section.tsx`
+  - `src/components/github/github-repository-card.tsx`
+  - `src/components/github/github-repositories-grid.tsx`
+  - `src/components/admin/admin-dashboard-shell.tsx`
+  - `src/components/admin/admin-overview-cards.tsx`
+  - `src/components/admin/admin-next-steps.tsx`
+  - `supabase/schema.sql`
+  - `supabase/seed.sql`
+  - `supabase/README.md`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - `github_repository_curations` recebeu `custom_summary`, `custom_tags`, `custom_tools` e `custom_status`.
+  - Repositorios sem curadoria aparecem no admin como nao configurados.
+  - Publicamente, curadorias visiveis sao priorizadas quando disponiveis.
+  - Sem Supabase ou sem curadoria visivel, o modo Dev mantem GitHub/fallback atual.
+  - Remover curadoria remove apenas a linha Supabase, nunca o repositorio GitHub.
+- Observacoes de seguranca:
+  - Server Actions validam admin antes de qualquer escrita.
+  - Client admin Supabase permanece server-only.
+  - `GITHUB_TOKEN` continua sendo usado apenas no servidor.
+  - Nenhum token, cookie ou secret e retornado por health checks.
+- Proximo prompt recomendado: Prompt 15 - Upload de imagens.
+
+## Prompt 13: Criar CRUD de projetos Design
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar CRUD protegido para projetos Design usando Supabase, sem CRUD Dev, upload, Behance real ou leitura publica Supabase.
+- Arquivos criados:
+  - `src/lib/admin/design-projects.ts`
+  - `src/app/admin/actions/design-project-actions.ts`
+  - `src/app/admin/projetos/design/page.tsx`
+  - `src/app/api/admin/projects/design/health/route.ts`
+  - `src/components/admin/projects/design-project-form.tsx`
+  - `src/components/admin/projects/design-projects-list.tsx`
+  - `src/components/admin/projects/project-admin-card.tsx`
+  - `src/components/admin/projects/project-status-badge.tsx`
+- Arquivos alterados:
+  - `src/types/project.ts`
+  - `src/types/admin.ts`
+  - `src/components/admin/admin-dashboard-shell.tsx`
+  - `src/components/admin/admin-overview-cards.tsx`
+  - `src/components/admin/admin-next-steps.tsx`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+  - `supabase/README.md`
+- Decisoes tecnicas:
+  - As Server Actions validam admin e FormData antes de escrever.
+  - A camada `src/lib/admin/design-projects.ts` tambem valida admin antes de abrir o client admin.
+  - Updates e deletes sempre filtram `type = 'design'`.
+  - Tags, ferramentas, galeria e destaques sao recriados a cada edicao para manter o formulario simples.
+  - Galeria e capa sao textuais; upload real fica para Storage em etapa futura.
+  - Dados publicos continuam em mocks.
+- Observacoes de seguranca:
+  - Nenhum Client Component importa `src/lib/supabase/admin.ts`.
+  - Nenhuma chave real foi adicionada.
+  - `.env.local` continua fora do Git.
+- Proximo prompt recomendado: Prompt 14 - Criar curadoria de projetos Dev.
+
+## Prompt 12: Criar CRUD de perfil, experiencias, cursos e certificados
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar o primeiro conjunto real de CRUDs do admin usando Supabase, cobrindo perfil, experiencias e cursos/certificados, sem projetos ou upload.
+- Arquivos criados:
+  - `src/types/admin.ts`
+  - `src/lib/admin/profile.ts`
+  - `src/lib/admin/experiences.ts`
+  - `src/lib/admin/courses.ts`
+  - `src/app/admin/actions/profile-actions.ts`
+  - `src/app/admin/actions/experience-actions.ts`
+  - `src/app/admin/actions/course-actions.ts`
+  - `src/app/admin/perfil/page.tsx`
+  - `src/app/admin/experiencias/page.tsx`
+  - `src/app/admin/cursos/page.tsx`
+  - `src/app/api/admin/health/route.ts`
+  - `src/components/admin/forms/profile-form.tsx`
+  - `src/components/admin/forms/experience-form.tsx`
+  - `src/components/admin/forms/course-form.tsx`
+  - `src/components/admin/lists/experiences-list.tsx`
+  - `src/components/admin/lists/courses-list.tsx`
+- Arquivos alterados:
+  - `src/lib/supabase/types.ts`
+  - `src/lib/supabase/admin.ts`
+  - `src/components/admin/admin-dashboard-shell.tsx`
+  - `src/components/admin/admin-overview-cards.tsx`
+  - `src/components/admin/admin-next-steps.tsx`
+  - `supabase/seed.sql`
+  - `supabase/README.md`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - Server Actions validam admin antes de qualquer operacao.
+  - Camada `src/lib/admin/` tambem valida admin antes de escrita.
+  - Escrita usa client admin server-side apenas depois da autorizacao.
+  - Sem chave admin, as paginas mostram mensagem amigavel em vez de quebrar.
+  - Perfil usa `profiles.id = auth.users.id`, por isso o seed nao cria perfil generico.
+  - Experiencias e cursos receberam seeds temporarios com UUID fixo para execucao repetida.
+  - Dados publicos continuam em mocks nesta etapa.
+- Observacoes de seguranca:
+  - `src/lib/supabase/admin.ts` segue server-only.
+  - Nenhum Client Component importa o client admin.
+  - Nenhum secret foi exposto no client.
+  - Nao foi criado CRUD de projetos, upload, Storage, Behance real ou curadoria GitHub.
+- Proximo prompt recomendado: Prompt 13 — Criar CRUD de projetos Design.
+
+## Prompt 11: Criar login e estrutura inicial do admin
+
+- Data aproximada: 21/06/2026.
+- Objetivo: implementar login com Supabase Auth, logout, protecao de `/admin`, dashboard inicial informativo e rota segura de status de autenticacao.
+- Arquivos criados:
+  - `src/lib/auth/types.ts`
+  - `src/lib/auth/session.ts`
+  - `src/lib/auth/admin.ts`
+  - `src/lib/auth/actions.ts`
+  - `src/components/auth/login-form.tsx`
+  - `src/components/auth/logout-button.tsx`
+  - `src/components/auth/auth-status-card.tsx`
+  - `src/components/admin/admin-dashboard-shell.tsx`
+  - `src/components/admin/admin-overview-cards.tsx`
+  - `src/components/admin/admin-next-steps.tsx`
+  - `src/components/admin/admin-user-card.tsx`
+  - `src/app/api/auth/status/route.ts`
+- Arquivos alterados:
+  - `.env.example`
+  - `src/app/login/page.tsx`
+  - `src/app/admin/page.tsx`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+  - `supabase/README.md`
+- Decisoes tecnicas:
+  - O admin e validado por `ADMIN_EMAIL`, normalizado com trim/lowercase.
+  - `getCurrentUser()` usa `supabase.auth.getClaims()` para validacao server-side e `getUser()` apenas como complemento quando o e-mail nao vem nos claims.
+  - `/admin` e protegido no Server Component com `requireAdmin()` e `redirect("/login")`.
+  - `LoginForm` usa Server Action com `signInWithPassword`.
+  - Usuario autenticado que nao corresponde a `ADMIN_EMAIL` sofre logout imediato na action.
+  - `/api/auth/status` retorna apenas booleanos e timestamp.
+- Observacoes de seguranca:
+  - Nao ha cadastro publico, OAuth, recuperacao de senha, CRUD ou upload.
+  - Nao foi criado `NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY`.
+  - Nao foi criado `NEXT_PUBLIC_GITHUB_TOKEN`.
+  - `src/lib/supabase/admin.ts` nao e importado por Client Components.
+  - Nenhum token, cookie ou service role e retornado nas rotas de diagnostico.
+- Proximo prompt recomendado: Prompt 12 — Criar CRUD de perfil, experiencias, cursos e certificados.
+
+## Prompt 10: Planejar e implementar Supabase
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar a fundacao Supabase do projeto com dependencias, envs, clients browser/server/admin, proxy de sessao, schema SQL, seeds, health check seguro e placeholders mais informativos para admin/login.
+- Dependencias instaladas:
+  - `@supabase/supabase-js`
+  - `@supabase/ssr`
+- Arquivos criados:
+  - `src/lib/supabase/env.ts`
+  - `src/lib/supabase/client.ts`
+  - `src/lib/supabase/server.ts`
+  - `src/lib/supabase/admin.ts`
+  - `src/lib/supabase/proxy.ts`
+  - `src/lib/supabase/types.ts`
+  - `src/lib/data-source.ts`
+  - `src/app/api/supabase/health/route.ts`
+  - `proxy.ts`
+  - `supabase/schema.sql`
+  - `supabase/seed.sql`
+  - `supabase/README.md`
+- Arquivos alterados:
+  - `.env.example`
+  - `package.json`
+  - `package-lock.json`
+  - `src/lib/projects.ts`
+  - `src/app/admin/page.tsx`
+  - `src/app/login/page.tsx`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisoes tecnicas:
+  - `src/lib/supabase/env.ts` valida envs de forma leve e nao quebra build sem Supabase.
+  - Client browser usa publishable key moderna com fallback para anon key legada.
+  - Client server usa cookies com `getAll`/`setAll`, seguindo o pacote `@supabase/ssr` atual.
+  - Client admin tem `import "server-only"` e exige secret/service role somente no servidor.
+  - `proxy.ts` atualiza sessao apenas quando env publica Supabase existe; sem env, deixa rotas publicas seguirem.
+  - Dados publicos continuam vindo de mocks por `src/lib/data-source.ts`.
+  - SQL documenta RLS sem liberar escrita publica.
+- Observacoes de seguranca:
+  - Nao foi criado `NEXT_PUBLIC_GITHUB_TOKEN`.
+  - Nao foi criado `NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY`.
+  - Health check nao retorna URL, keys ou tokens.
+  - `.env.local` segue ignorado pelo Git.
+  - Nenhum login, CRUD, upload ou dashboard real foi implementado.
+- Proximo prompt recomendado: Prompt 11 — Criar login e estrutura inicial do admin.
+
 Este arquivo registra os prompts usados para evoluir o projeto e manter histórico de decisões.
 
 ## Prompt 1: Estruturar documentação base e AGENTS.md
@@ -17,3 +400,287 @@ Este arquivo registra os prompts usados para evoluir o projeto e manter históri
   - Supabase será usado futuramente para autenticação, banco e storage.
 - Próximo prompt previsto: Criar projeto base Next.js.
 
+## Prompt 2: Criar projeto base Next.js no repositório
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar a base técnica inicial do projeto com Next.js, App Router, TypeScript, Tailwind CSS, ESLint, estrutura `src/` e alias `@/*`.
+- Arquivos principais criados:
+  - `package.json`
+  - `package-lock.json`
+  - `next.config.ts`
+  - `tsconfig.json`
+  - `eslint.config.mjs`
+  - `postcss.config.mjs`
+  - `.gitignore`
+  - `.env.example`
+  - `src/app/layout.tsx`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/admin/page.tsx`
+  - `src/app/login/page.tsx`
+  - `src/app/globals.css`
+  - `src/data/mock-projects.ts`
+  - `src/lib/utils.ts`
+- Decisões técnicas:
+  - Usar o template oficial do `create-next-app` em pasta temporária para preservar a documentação existente.
+  - Manter Tailwind CSS na configuração gerada pela versão atual do template.
+  - Criar placeholders simples para validar rotas, sem implementar design final.
+  - Criar dados mockados sem informações sensíveis e sem links pessoais reais.
+  - Criar `.env.example` apenas com placeholders.
+  - Não instalar shadcn/ui, Supabase ou integração GitHub nesta etapa.
+- Próximo prompt recomendado: Prompt 3 — Configurar Tailwind, shadcn/ui e design system neobrutalista.
+
+## Prompt 3: Configurar Tailwind, shadcn/ui e design system neobrutalista
+
+- Data aproximada: 20/06/2026.
+- Objetivo: configurar shadcn/ui, consolidar tokens visuais no Tailwind 4, criar componentes próprios de marca e aplicar uma camada visual inicial neobrutalista nas páginas placeholder.
+- Dependências instaladas:
+  - `@base-ui/react`
+  - `class-variance-authority`
+  - `clsx`
+  - `lucide-react`
+  - `shadcn`
+  - `tailwind-merge`
+  - `tw-animate-css`
+- Componentes shadcn/ui adicionados:
+  - `button`
+  - `card`
+  - `badge`
+  - `separator`
+- Componentes próprios criados:
+  - `src/components/brand/brutal-card.tsx`
+  - `src/components/brand/brutal-button.tsx`
+  - `src/components/brand/section-heading.tsx`
+  - `src/components/brand/mode-badge.tsx`
+- Arquivos principais criados ou alterados:
+  - `components.json`
+  - `src/app/globals.css`
+  - `src/lib/utils.ts`
+  - `src/components/ui/*`
+  - `src/components/brand/*`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/admin/page.tsx`
+  - `src/app/login/page.tsx`
+  - `docs/design-system.md`
+  - `docs/architecture.md`
+  - `docs/prompts-log.md`
+- Observações sobre Tailwind 4:
+  - A configuração moderna foi preservada.
+  - Não foi criado `tailwind.config.*`.
+  - Tokens e classes utilitárias foram centralizados em `src/app/globals.css`.
+- Próximo prompt recomendado: Prompt 4 — Criar layout global com Header, Footer e navegação entre modos.
+
+## Prompt 4: Criar layout global com Header, Footer e navegação entre modos
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar o layout global do site com Header, Footer, navegação principal, alternância visual entre Design e Dev, shell responsivo e configuração central do site.
+- Arquivos criados:
+  - `src/config/site.ts`
+  - `src/components/layout/container.tsx`
+  - `src/components/layout/mode-switcher.tsx`
+  - `src/components/layout/site-header.tsx`
+  - `src/components/layout/site-footer.tsx`
+  - `src/components/layout/site-shell.tsx`
+- Arquivos alterados:
+  - `src/app/layout.tsx`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/admin/page.tsx`
+  - `src/app/login/page.tsx`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/prompts-log.md`
+- Decisões tomadas:
+  - O layout global é aplicado por `SiteShell` em `src/app/layout.tsx`.
+  - As páginas não renderizam mais `<main>` próprio para evitar marcação aninhada.
+  - O modo ativo é definido por rota usando `usePathname`.
+  - O link Admin fica visível como placeholder, sem autenticação real.
+  - Dados pessoais e links externos não documentados continuam fora do projeto.
+- Próximo prompt recomendado: Prompt 5 — Criar Home completa.
+
+## Prompt 5: Criar Home completa
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar uma Home completa para apresentar a identidade híbrida Design + Desenvolvimento, destacar modos, projetos mockados, sobre, áreas de atuação e contato futuro.
+- Arquivos criados:
+  - `src/types/project.ts`
+  - `src/components/home/hero-section.tsx`
+  - `src/components/home/mode-cards-section.tsx`
+  - `src/components/home/featured-projects-section.tsx`
+  - `src/components/home/about-preview-section.tsx`
+  - `src/components/home/experience-preview-section.tsx`
+  - `src/components/home/contact-preview-section.tsx`
+- Arquivos alterados:
+  - `src/app/page.tsx`
+  - `src/data/mock-projects.ts`
+  - `src/components/brand/section-heading.tsx`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/prompts-log.md`
+- Decisões tomadas:
+  - A Home foi organizada em componentes específicos dentro de `src/components/home/`.
+  - `src/app/page.tsx` ficou responsável apenas por compor as seções.
+  - Projetos mockados passaram a ter `featured` para controlar destaques.
+  - Foi criado `src/types/project.ts` para centralizar o tipo de projeto.
+  - `SectionHeading` passou a aceitar `level` para preservar hierarquia de títulos.
+  - Nenhum link externo, contato real ou integração foi inventado.
+- Próximo prompt recomendado: Prompt 6 — Criar modo Design com dados mockados.
+
+## Prompt 6: Criar modo Design com dados mockados
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar a página completa do Modo Design em `/design`, usando dados mockados, identidade amarela e estética neobrutalista moderna.
+- Arquivos criados:
+  - `src/components/design/design-hero-section.tsx`
+  - `src/components/design/creative-areas-section.tsx`
+  - `src/components/design/design-projects-section.tsx`
+  - `src/components/design/creative-process-section.tsx`
+  - `src/components/design/behance-preview-section.tsx`
+  - `src/components/design/design-cta-section.tsx`
+- Arquivos alterados:
+  - `src/app/design/page.tsx`
+  - `src/data/mock-projects.ts`
+  - `src/types/project.ts`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/prompts-log.md`
+- Decisões tomadas:
+  - A página `/design` foi organizada em componentes específicos dentro de `src/components/design/`.
+  - `src/app/design/page.tsx` ficou responsável apenas por compor as seções.
+  - Projetos de design são exibidos filtrando `type: "design"`.
+  - O tipo `Project` passou a aceitar `status` e `cover` opcionais para preparar curadoria futura.
+  - A seção Behance foi criada como placeholder "Em breve", sem link falso ou integração.
+  - Nenhum cliente, métrica, imagem externa ou dado pessoal foi inventado.
+- Próximo prompt recomendado: Prompt 7 — Criar modo Dev com dados mockados.
+
+## Prompt 7: Criar modo Dev com dados mockados
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar a página completa do Modo Dev em `/dev`, usando dados mockados, identidade verde e estética neobrutalista moderna.
+- Arquivos criados:
+  - `src/components/dev/dev-hero-section.tsx`
+  - `src/components/dev/tech-stack-section.tsx`
+  - `src/components/dev/dev-projects-section.tsx`
+  - `src/components/dev/development-process-section.tsx`
+  - `src/components/dev/github-preview-section.tsx`
+  - `src/components/dev/dev-cta-section.tsx`
+- Arquivos alterados:
+  - `src/app/dev/page.tsx`
+  - `src/data/mock-projects.ts`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/prompts-log.md`
+- Decisões tomadas:
+  - A página `/dev` foi organizada em componentes específicos dentro de `src/components/dev/`.
+  - `src/app/dev/page.tsx` ficou responsável apenas por compor as seções.
+  - Projetos dev são exibidos filtrando `type: "dev"`.
+  - A seção GitHub foi criada como placeholder "Integração futura", sem API real, token ou link falso.
+  - Os mocks dev foram ampliados para representar sistemas, dashboard, catálogo, landing page e dados mockados.
+  - Nenhum repositório real, métrica, cliente, imagem externa ou dado pessoal foi inventado.
+- Próximo prompt recomendado: Prompt 8 — Integrar GitHub.
+
+## Prompt 8: Integrar GitHub
+
+- Data aproximada: 20/06/2026.
+- Objetivo: implementar integração inicial server-side com GitHub para exibir repositórios públicos no Modo Dev, com token opcional e fallback mockado.
+- Arquivos criados:
+  - `src/types/github.ts`
+  - `src/lib/github.ts`
+  - `src/data/mock-github-repositories.ts`
+  - `src/components/github/github-repository-card.tsx`
+  - `src/components/github/github-repositories-grid.tsx`
+  - `src/app/api/github/repositories/route.ts`
+- Arquivos alterados:
+  - `.env.example`
+  - `src/config/site.ts`
+  - `src/components/dev/github-preview-section.tsx`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/design-system.md`
+  - `docs/prompts-log.md`
+  - `README.md`
+- Decisões técnicas:
+  - A busca usa `fetch` server-side para a API pública do GitHub.
+  - `GITHUB_USERNAME` usa `gustavoponcell` como fallback seguro.
+  - `GITHUB_TOKEN` é opcional e enviado apenas no servidor quando configurado.
+  - A resposta é normalizada em `GitHubRepository`.
+  - Forks e repositórios arquivados são ignorados.
+  - Erros, rate limit ou falha de rede retornam fallback mockado.
+  - A seção `/dev` exibe mensagem quando a origem for fallback.
+- Observações de segurança:
+  - Não foi criado `NEXT_PUBLIC_GITHUB_TOKEN`.
+  - Token não é usado em componente client.
+  - A rota de diagnóstico não retorna token nem headers sensíveis.
+- Próximo prompt recomendado: Prompt 9 — Criar páginas individuais de projeto.
+
+## Prompt 9: Criar páginas individuais de projeto
+
+- Data aproximada: 20/06/2026.
+- Objetivo: criar páginas completas em `/projetos/[slug]` usando dados mockados, visual neobrutalista, suporte para Design/Dev, metadata dinâmica e estrutura preparada para Supabase/Admin.
+- Arquivos criados:
+  - `src/lib/projects.ts`
+  - `src/components/projects/project-hero-section.tsx`
+  - `src/components/projects/project-overview-section.tsx`
+  - `src/components/projects/project-details-sidebar.tsx`
+  - `src/components/projects/project-gallery-section.tsx`
+  - `src/components/projects/project-highlights-section.tsx`
+  - `src/components/projects/project-links-section.tsx`
+  - `src/components/projects/related-projects-section.tsx`
+  - `src/app/projetos/[slug]/not-found.tsx`
+- Arquivos alterados:
+  - `src/types/project.ts`
+  - `src/data/mock-projects.ts`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/components/home/featured-projects-section.tsx`
+  - `src/components/design/design-projects-section.tsx`
+  - `src/components/dev/dev-projects-section.tsx`
+  - `docs/architecture.md`
+  - `docs/design-system.md`
+  - `docs/requirements.md`
+  - `docs/prompts-log.md`
+  - `README.md`
+- Decisões técnicas:
+  - A rota dinâmica usa `getProjectBySlug`, `generateStaticParams`, `generateMetadata` e `notFound()`.
+  - `src/lib/projects.ts` centraliza consultas sobre mocks para facilitar a troca futura para Supabase.
+  - Galerias usam placeholders textuais quando não há imagem cadastrada.
+  - Links externos só são renderizados quando existem dados reais no projeto.
+  - Cards de Home, Design e Dev passaram a usar helpers de projeto sem refatoração ampla.
+  - Não foram implementados Supabase, admin funcional, CRUD, auth, upload, Behance real ou links falsos.
+- Próximo prompt recomendado: Prompt 10 — Planejar e implementar Supabase.
+
+## Prompt 16.6: Correcao do modo escuro e limpeza da interface admin
+
+- Data aproximada: 21/06/2026.
+- Objetivo: corrigir contraste e legibilidade do modo escuro em paginas publicas/admin e remover textos tecnicos crus da interface.
+- Arquivos principais alterados:
+  - `src/app/globals.css`
+  - `src/components/brand/*`
+  - `src/components/home/*`
+  - `src/components/design/*`
+  - `src/components/dev/*`
+  - `src/components/contact/contact-hero-section.tsx`
+  - `src/components/projects/*`
+  - `src/components/github/github-repository-card.tsx`
+  - `src/components/auth/*`
+  - `src/components/admin/*`
+  - `src/app/admin/*`
+  - `src/app/login/page.tsx`
+  - `src/lib/auth/actions.ts`
+  - `src/lib/admin/*`
+  - `src/app/admin/actions/media-actions.ts`
+- Decisoes tomadas:
+  - O modo escuro continua fixo, sem toggle, sem `localStorage` e sem preferencia do sistema.
+  - `ink-on-accent` garante texto preto em cards amarelos/verdes.
+  - `surface-on-accent` garante texto claro em blocos escuros dentro de cards de acento.
+  - Mensagens de login/admin foram reescritas para linguagem amigavel, sem expor nomes crus de variaveis de ambiente na UI.
+  - A protecao de rotas administrativas foi preservada.
+- Fora de escopo:
+  - Deploy, analytics, Behance real, formulario de contato real, CRUD estrutural, Auth/DB/Storage novos e refatoracao ampla.
+- Proximo prompt recomendado: Prompt 17 - Revisao visual manual com navegador e checklist de acessibilidade.

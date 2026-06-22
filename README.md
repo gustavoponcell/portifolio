@@ -1,5 +1,187 @@
 # Portifolio
 
+## Atualizacao Prompt 16.5: Modo escuro e nome publico
+
+O modo escuro agora e a aparencia padrao do portfolio. A identidade visual
+continua neobrutalista, com fundo preto, superficies escuras, bordas claras,
+sombras duras e acentos fortes:
+
+- amarelo para Design;
+- verde para Dev;
+- sem toggle de tema nesta etapa;
+- sem `localStorage` ou preferencia automatica do sistema;
+- nome publico atualizado para `Gustavo Poncell`.
+
+## Atualizacao Prompt 16: Contato, SEO e performance
+
+O site agora possui pagina publica de contato e base de SEO/performance.
+
+Funcionalidades:
+
+- `/contato` exibe apenas contatos reais cadastrados no perfil publico ou em `contact_links` visiveis.
+- Home, Header e Footer apontam para a pagina de contato.
+- Metadata global e por pagina com canonical, Open Graph e Twitter Card.
+- Metadata dinamica para `/projetos/[slug]`.
+- `/sitemap.xml`, `/robots.txt` e `/manifest.webmanifest`.
+- `/admin` e `/login` marcados como `noindex`.
+- Diagnostico publico seguro em `/api/site/health`.
+- Checklist criado em `docs/performance-checklist.md`.
+
+Configure `NEXT_PUBLIC_SITE_URL` antes do deploy:
+
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+Em producao, troque para a URL final do site. Nao foi criado formulario de envio, captcha, newsletter, analytics ou deploy nesta etapa.
+
+## Atualizacao Prompt 15: Upload de imagens
+
+O admin agora possui upload protegido de imagens usando Supabase Storage.
+
+Funcionalidades:
+
+- Upload de avatar em `/admin/perfil`.
+- Upload de capa de projeto Design em `/admin/projetos/design`.
+- Upload de imagens de galeria de projeto Design.
+- Validacao server-side de tipo e tamanho.
+- Preview de imagens no admin.
+- Exibicao publica usa imagem quando a URL existir e fallback neobrutalista quando nao houver.
+- Diagnostico seguro em `/api/admin/storage/health`.
+
+Bucket esperado:
+
+```text
+portfolio-media
+```
+
+Configure no Supabase Dashboard em Storage:
+
+1. Crie o bucket `portfolio-media`.
+2. Marque como publico para leitura.
+3. Mantenha escrita publica desativada.
+4. Use o app/admin para upload server-side.
+
+Tipos aceitos: JPEG, PNG, WebP e GIF. Limite atual: 5 MB por imagem. Upload de video, PDF, arquivos grandes/resumable e crop ficam fora desta etapa.
+
+## Atualizacao Prompt 14: Curadoria de projetos Dev
+
+O admin agora possui curadoria protegida de projetos Dev em `/admin/projetos/dev`.
+
+Funcionalidades:
+
+- Listar repositorios vindos da integracao GitHub server-side ou fallback local.
+- Salvar curadoria Supabase por `repository_name`.
+- Personalizar titulo, descricao, resumo, tags, ferramentas, status, ordem, visibilidade e destaque.
+- Ocultar/exibir repositorios no modo Dev publico.
+- Remover curadoria sem apagar ou alterar o repositorio real no GitHub.
+
+Para funcionar contra Supabase real, configure `.env.local` com:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+ADMIN_EMAIL=
+SUPABASE_SECRET_KEY=
+# ou
+SUPABASE_SERVICE_ROLE_KEY=
+GITHUB_USERNAME=gustavoponcell
+GITHUB_TOKEN=
+```
+
+`GITHUB_TOKEN` e opcional e fica somente no servidor. Sem Supabase ou sem curadoria visivel, `/dev` continua exibindo GitHub real ou fallback mockado para nao ficar vazio.
+
+## Atualizacao Prompt 13: CRUD de projetos Design
+
+O admin agora possui CRUD protegido para projetos Design em `/admin/projetos/design`.
+
+Funcionalidades:
+
+- Criar e editar projetos com titulo, slug, descricao, resumo, ano, papel, ordem e destaque.
+- Publicar, ocultar como rascunho, arquivar, destacar/remover destaque e excluir.
+- Cadastrar tags, ferramentas, destaques textuais e galeria placeholder textual.
+- Cadastrar URL textual de capa e link externo/Behance opcional.
+
+O CRUD usa Server Components, Server Actions e client admin do Supabase apenas no servidor, sempre depois de validar o administrador. A exibicao publica continua usando mocks nesta etapa; upload real, Storage, CRUD Dev, curadoria GitHub real e leitura publica Supabase ficam para prompts futuros.
+
+Para testar localmente contra Supabase real, configure `.env.local` com Supabase publico, `ADMIN_EMAIL` e `SUPABASE_SECRET_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`, entre em `/login` e acesse `/admin/projetos/design`.
+
+## Atualizacao Prompt 12: CRUD inicial do admin
+
+O admin agora possui CRUD funcional para:
+
+- `/admin/perfil`
+- `/admin/experiencias`
+- `/admin/cursos`
+
+Para funcionar contra Supabase real, configure no `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+ADMIN_EMAIL=
+SUPABASE_SECRET_KEY=
+# ou
+SUPABASE_SERVICE_ROLE_KEY=
+```
+
+O build continua funcionando sem `.env.local`, mas as operacoes de CRUD exigem Supabase publico, usuario admin autenticado e chave admin server-side. Avatar e certificado sao apenas URLs textuais nesta etapa; upload real ainda nao existe.
+
+## Atualizacao Prompt 11: Login e Admin
+
+O login funcional com Supabase Auth foi implementado para um unico administrador autorizado por `ADMIN_EMAIL`.
+
+Configuracao minima em `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+ADMIN_EMAIL=
+```
+
+Passos:
+
+1. Crie o usuario manualmente no Supabase em Authentication > Users.
+2. Use o mesmo e-mail em `ADMIN_EMAIL`.
+3. Rode o projeto e acesse `/login`.
+4. Depois do login, `/admin` renderiza o dashboard inicial protegido.
+
+Rotas novas:
+
+- `/login`: formulario de acesso restrito.
+- `/admin`: dashboard inicial protegido.
+- `/api/auth/status`: diagnostico seguro de auth sem tokens, cookies ou e-mail completo.
+
+Nao ha cadastro publico, recuperacao de senha, OAuth, CRUD ou upload nesta etapa.
+
+## Atualizacao Prompt 10: Supabase
+
+A fundacao Supabase foi preparada com `@supabase/supabase-js` e `@supabase/ssr`, clients browser/server/admin, proxy de sessao, health check seguro, schema SQL e seeds temporarios.
+
+Arquivos principais:
+
+- `src/lib/supabase/`: helpers de env, client browser, client server, client admin server-only e proxy de sessao.
+- `src/lib/data-source.ts`: ponto atual de origem dos dados publicos, mantendo fallback por mocks.
+- `src/app/api/supabase/health/route.ts`: diagnostico seguro sem retornar URL, keys ou tokens.
+- `supabase/schema.sql`: tabelas, constraints, indices, triggers e RLS planejado.
+- `supabase/seed.sql`: seeds temporarios sem dados pessoais reais.
+- `supabase/README.md`: instrucoes de aplicacao manual.
+
+Exemplo de `.env.local`:
+
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SECRET_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
+GITHUB_USERNAME=gustavoponcell
+GITHUB_TOKEN=
+```
+
+Nunca commite `.env.local`. `SUPABASE_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY` e `GITHUB_TOKEN` sao somente servidor. O health check fica em `/api/supabase/health` e funciona mesmo sem Supabase configurado.
+
 Site pessoal de portfólio, currículo e contato para apresentar a atuação híbrida de Gustavo Poncell como Designer e Desenvolvedor.
 
 ## Objetivo
@@ -12,16 +194,81 @@ Criar uma presença digital profissional, visualmente marcante e fácil de atual
 - TypeScript.
 - Tailwind CSS.
 - shadcn/ui.
-- Supabase para autenticação, banco e storage.
-- Vercel para deploy.
-- GitHub API para modo Dev.
+- Supabase para autenticação, banco e storage em etapa futura.
+- Vercel para deploy em etapa futura.
+- GitHub API para modo Dev em etapa futura.
 - Behance por curadoria manual no modo Design.
 
 ## Status atual
 
-Planejamento e documentação inicial.
+Base Next.js criada, design system inicial configurado, layout global implementado, Home completa estruturada, modos Design/Dev criados, integração GitHub server-side inicial configurada e páginas individuais de projeto implementadas.
 
-Nesta etapa ainda não há aplicação Next.js, dependências instaladas, banco de dados, autenticação ou deploy configurado.
+O projeto já possui App Router, TypeScript, Tailwind CSS 4, ESLint, shadcn/ui, estrutura com `src/`, dados mockados iniciais, componentes visuais neobrutalistas, Header, Footer, navegação entre modos, Home completa, página Design com espaço futuro para Behance, página Dev com stack, projetos mockados, processo técnico, repositórios do GitHub com fallback seguro e detalhes de projeto em `/projetos/[slug]`. Supabase e admin real ainda serão implementados em etapas futuras.
+
+## Como instalar
+
+```bash
+npm install
+```
+
+## Como rodar em desenvolvimento
+
+```bash
+npm run dev
+```
+
+Depois acesse `http://localhost:3000`.
+
+## Como rodar lint
+
+```bash
+npm run lint
+```
+
+## Como gerar build
+
+```bash
+npm run build
+```
+
+## Integração GitHub
+
+A seção GitHub do Modo Dev busca repositórios públicos no servidor. O site continua funcionando sem `.env.local`, usando dados temporários como fallback.
+
+Para configurar localmente, crie `.env.local` com:
+
+```env
+GITHUB_USERNAME=gustavoponcell
+GITHUB_TOKEN=
+```
+
+- `GITHUB_USERNAME`: usuário público do GitHub usado para buscar repositórios.
+- `GITHUB_TOKEN`: opcional, usado apenas no servidor para aumentar limite de requisições.
+- Nunca use `NEXT_PUBLIC_GITHUB_TOKEN`.
+- Nunca commite `.env.local`.
+
+Para testar:
+
+```bash
+npm run dev
+```
+
+Depois acesse `http://localhost:3000/dev`.
+
+## Projetos individuais
+
+As páginas em `/projetos/[slug]` são geradas a partir de `src/data/mock-projects.ts` por meio dos helpers de `src/lib/projects.ts`.
+
+Cada projeto pode exibir resumo, problema, solução, ferramentas, tags, destaques, galeria placeholder, links públicos quando existirem e projetos relacionados. A origem dos dados continua mockada por enquanto e foi organizada para ser substituída futuramente por Supabase/Admin.
+
+## Estrutura básica de rotas
+
+- `/`: Home com apresentação inicial.
+- `/design`: placeholder do modo Design.
+- `/dev`: placeholder do modo Dev.
+- `/projetos/[slug]`: página individual de projeto gerada a partir dos mocks atuais.
+- `/admin`: placeholder da futura área administrativa protegida.
+- `/login`: placeholder do futuro login com Supabase Auth.
 
 ## Roadmap resumido
 
@@ -52,3 +299,10 @@ Cada prompt deve manter escopo controlado e registrar decisões importantes na d
 
 [github.com/gustavoponcell/portifolio](https://github.com/gustavoponcell/portifolio)
 
+## Atualizacao Prompt 16.6: correcao visual do modo escuro
+
+- O modo escuro permanece fixo por padrao, sem toggle, `localStorage` ou preferencia do sistema.
+- Cards de acento amarelo e verde usam texto preto por padrao para manter contraste.
+- Blocos internos escuros dentro desses cards usam texto claro por meio de utilitarios especificos.
+- Login e admin nao exibem nomes crus de variaveis de ambiente, caminhos ou trechos com aparencia de codigo para visitantes ou administradores.
+- A protecao das rotas administrativas foi preservada.
