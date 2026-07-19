@@ -10,15 +10,15 @@ type ProjectLinksSectionProps = {
 export function ProjectLinksSection({ project }: ProjectLinksSectionProps) {
   const links = [
     project.externalUrl ? { href: project.externalUrl, label: "Abrir link externo" } : null,
-    project.repositoryUrl ? { href: project.repositoryUrl, label: "Ver repositorio" } : null,
-    project.liveUrl ? { href: project.liveUrl, label: "Ver deploy" } : null,
+    project.repositoryUrl ? { href: project.repositoryUrl, label: "Ver repositório" } : null,
+    project.liveUrl ? { href: project.liveUrl, label: "Ver site publicado" } : null,
   ].filter((link): link is { href: string; label: string } => Boolean(link));
 
   return (
     <section className="space-y-6">
       <SectionHeading
         eyebrow="Links"
-        title="Acessos publicos"
+        title="Acessos públicos"
         accent={project.type}
         level={2}
       />
@@ -40,8 +40,7 @@ export function ProjectLinksSection({ project }: ProjectLinksSectionProps) {
           </div>
         ) : (
           <p className="leading-7">
-            Links publicos serao adicionados futuramente quando houver curadoria,
-            repositorio ou deploy real para este projeto.
+            Links externos indisponíveis no momento.
           </p>
         )}
       </BrutalCard>

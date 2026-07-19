@@ -23,7 +23,7 @@ export function ProjectGallerySection({ project }: ProjectGallerySectionProps) {
       <SectionHeading
         eyebrow="Galeria"
         title="Materiais do case"
-        description="Imagens reais aparecem quando cadastradas; itens sem imagem mantem o placeholder textual."
+        description="Materiais visuais e registros do projeto organizados para apresentar contexto, linguagem e aplicação."
         accent={project.type}
         level={2}
       />
@@ -43,7 +43,7 @@ export function ProjectGallerySection({ project }: ProjectGallerySectionProps) {
               >
                 <div>
                   <p className="font-mono text-sm font-black uppercase tracking-[0.2em]">
-                    Placeholder {String(index + 1).padStart(2, "0")}
+                    Material {String(index + 1).padStart(2, "0")}
                   </p>
                   <p className="mt-3 text-3xl font-black leading-none">{item.title}</p>
                 </div>

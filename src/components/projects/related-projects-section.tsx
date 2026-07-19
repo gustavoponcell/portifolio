@@ -19,7 +19,7 @@ export function RelatedProjectsSection({ projects }: RelatedProjectsSectionProps
       <SectionHeading
         eyebrow="Relacionados"
         title="Outros projetos para explorar"
-        description="A selecao prioriza projetos do mesmo modo e evita repetir o case atual."
+        description="Projetos próximos em linguagem, tecnologia ou área de atuação."
         level={2}
       />
 
@@ -27,8 +27,8 @@ export function RelatedProjectsSection({ projects }: RelatedProjectsSectionProps
         {projects.map((project) => {
           const accentClass =
             project.type === "design"
-              ? "bg-design ink-on-accent border-[#111111]"
-              : "bg-dev ink-on-accent border-[#111111]";
+              ? "bg-design !text-[#111111] border-[#111111]"
+              : "bg-dev !text-[#111111] border-[#111111]";
 
           return (
             <BrutalCard key={project.id} className="flex flex-col gap-4">

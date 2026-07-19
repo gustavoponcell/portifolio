@@ -232,3 +232,13 @@ Nesta fase documental, estão fora de escopo:
 - Cards de acento amarelo/verde devem ter texto preto, exceto blocos internos escuros que devem usar texto claro.
 - A interface visivel nao deve expor nomes crus de variaveis de ambiente ou mensagens com aparencia de codigo.
 - Mensagens tecnicas detalhadas devem ficar restritas a documentacao, exemplos de ambiente, codigo servidor ou logs seguros.
+
+## Complemento Prompt 16.7
+
+- A comunicação pública deve ser finalista, profissional e externa, evitando linguagem de obra, teste ou implementação.
+- Áreas públicas não devem mencionar dados mockados, fallback, placeholders, cadastro futuro, admin futuro, Supabase, API futura, deploy, CRUD ou variáveis de ambiente.
+- A área protegida continua existindo, mas a navegação pública deve usar o rótulo "Área restrita".
+- Projetos de design e dev devem ser exibidos como seleção de portfólio, mesmo quando a fonte ainda for local ou editável.
+- O arquivo de dados público passa a ser `src/data/portfolio-projects.ts`.
+- Os repositórios de apoio passam a usar `src/data/portfolio-github-repositories.ts` quando não houver dados externos disponíveis.
+- O próximo passo recomendado é revisar o deploy de produção na Vercel e validar as variáveis de ambiente do ambiente Production.

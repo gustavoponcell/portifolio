@@ -1,4 +1,4 @@
-import { mockGitHubRepositories } from "@/data/mock-github-repositories";
+import { portfolioGitHubRepositories } from "@/data/portfolio-github-repositories";
 import { siteConfig } from "@/config/site";
 import type { GitHubRepository, GitHubRepositoryResult } from "@/types/github";
 
@@ -24,7 +24,7 @@ const REVALIDATE_SECONDS = 3600;
 
 function fallbackResult(error?: string): GitHubRepositoryResult {
   return {
-    repositories: mockGitHubRepositories,
+    repositories: portfolioGitHubRepositories,
     source: "fallback",
     error,
   };
@@ -54,7 +54,7 @@ export async function getGitHubRepositories(): Promise<GitHubRepositoryResult> {
   const token = process.env.GITHUB_TOKEN?.trim();
 
   if (!username) {
-    return fallbackResult("GITHUB_USERNAME nao configurado.");
+    return fallbackResult("GITHUB_USERNAME não configurado.");
   }
 
   const headers: HeadersInit = {
@@ -96,7 +96,7 @@ export async function getGitHubRepositories(): Promise<GitHubRepositoryResult> {
       .slice(0, MAX_REPOSITORIES);
 
     if (repositories.length === 0) {
-      return fallbackResult("Nenhum repositorio publico elegivel encontrado.");
+      return fallbackResult("Nenhum repositório público elegível encontrado.");
     }
 
     return {
@@ -104,6 +104,6 @@ export async function getGitHubRepositories(): Promise<GitHubRepositoryResult> {
       source: "github",
     };
   } catch {
-    return fallbackResult("Nao foi possivel carregar repositorios do GitHub.");
+    return fallbackResult("Não foi possível carregar repositórios do GitHub.");
   }
 }

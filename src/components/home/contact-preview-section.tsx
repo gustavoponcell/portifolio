@@ -19,8 +19,8 @@ export async function ContactPreviewSection() {
           title="Vamos construir algo?"
           description={
             hasLinks
-              ? "Os canais publicos ja estao organizados em uma pagina simples e direta."
-              : "A pagina de contato esta pronta e exibira apenas dados reais quando forem cadastrados."
+              ? "Tem um projeto, oportunidade ou ideia para tirar do papel? Entre em contato e conheça as frentes de atuação em design e desenvolvimento."
+              : "Os canais de contato ainda não foram publicados, mas a página já organiza as informações profissionais de Gustavo."
           }
           level={2}
           className="[&>h2]:text-foreground [&>p:last-child]:text-muted-foreground"

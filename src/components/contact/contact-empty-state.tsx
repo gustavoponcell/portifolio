@@ -6,18 +6,17 @@ export function ContactEmptyState() {
     <BrutalCard className="space-y-5 bg-muted">
       <div className="space-y-3">
         <p className="text-xs font-black uppercase tracking-[0.2em]">
-          Contatos pendentes
+          Canais de contato
         </p>
-        <h2 className="text-3xl font-black">Nenhum canal publico cadastrado.</h2>
+        <h2 className="text-3xl font-black">Os canais de contato ainda não foram publicados.</h2>
         <p className="max-w-3xl leading-7">
-          O site esta pronto para exibir e-mail, telefone, WhatsApp e redes
-          sociais, mas nao publica placeholders. Cadastre dados reais em
-          `/admin/perfil` para eles aparecerem aqui.
+          Enquanto isso, conheça os projetos e as frentes de atuação em design
+          e desenvolvimento.
         </p>
       </div>
 
-      <BrutalButton href="/admin/perfil" variant="outline">
-        Editar perfil
+      <BrutalButton href="/" variant="outline">
+        Voltar à Home
       </BrutalButton>
     </BrutalCard>
   );

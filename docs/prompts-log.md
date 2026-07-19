@@ -684,3 +684,34 @@ Este arquivo registra os prompts usados para evoluir o projeto e manter históri
 - Fora de escopo:
   - Deploy, analytics, Behance real, formulario de contato real, CRUD estrutural, Auth/DB/Storage novos e refatoracao ampla.
 - Proximo prompt recomendado: Prompt 17 - Revisao visual manual com navegador e checklist de acessibilidade.
+
+## Prompt 16.7 — Revisão de comunicação pública e acentuação
+
+- Data aproximada: 26/06/2026.
+- Objetivo: revisar textos públicos do portfólio para remover linguagem interna, corrigir acentuação em português do Brasil e deixar a comunicação adequada para recrutadores, clientes, parceiros e professores.
+- Arquivos principais alterados:
+  - `src/config/site.ts`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/contato/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/projetos/[slug]/not-found.tsx`
+  - `src/components/home/*`
+  - `src/components/design/*`
+  - `src/components/dev/*`
+  - `src/components/contact/*`
+  - `src/components/projects/*`
+  - `src/components/github/github-repository-card.tsx`
+  - `src/data/portfolio-projects.ts`
+  - `src/data/portfolio-github-repositories.ts`
+  - `src/lib/seo/metadata.ts`
+- Decisões tomadas:
+  - A interface pública não usa mais termos como mock, fallback, placeholder, Supabase, API futura, admin futuro, deploy, CRUD ou variáveis de ambiente.
+  - A rota protegida permanece disponível, mas o rótulo público passa a ser "Área restrita".
+  - Slugs deixam de aparecer como copy editorial nos cards públicos.
+  - Dados locais passam a ser tratados como seleção de portfólio, não como conteúdo temporário.
+  - Arquivos de dados foram renomeados para vocabulário público: `portfolio-projects.ts` e `portfolio-github-repositories.ts`.
+- Fora de escopo:
+  - Deploy, novas integrações, alteração de banco, autenticação, storage, CRUD, Behance Sync, tema e mudanças estruturais na área administrativa.
+- Próximo prompt recomendado: Prompt 17 — Deploy Vercel.

@@ -12,7 +12,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "Design",
   description:
-    "Projetos visuais, identidade, UI e experimentos graficos do portfolio de Gustavo Poncell.",
+    "Projetos visuais, identidade, UI e trabalhos gráficos do portfólio de Gustavo Poncell.",
   path: "/design",
 });
 

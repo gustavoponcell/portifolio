@@ -105,7 +105,7 @@ Regras importantes:
 - Todas as operacoes exigem admin antes de acessar o client administrativo.
 - A camada de dados sempre filtra `type = 'design'` em updates, deletes e listagens.
 - Projeto Dev, curadoria GitHub, upload/Storage e leitura publica Supabase nao foram implementados.
-- A exibicao publica segue usando `src/data/mock-projects.ts` via `src/lib/data-source.ts`.
+- A exibicao publica usa `src/data/portfolio-projects.ts` via `src/lib/data-source.ts`.
 - URLs de imagem/capa sao apenas texto; upload real fica para etapa futura.
 
 ## Atualizacao Prompt 12: CRUD inicial do admin
@@ -234,57 +234,57 @@ src/lib/
 - `src/components/github/`: componentes de apresentação de repositórios vindos da integração server-side com GitHub.
 - `src/components/projects/`: componentes das páginas individuais de projeto, como hero, visão geral, galeria, links, sidebar de detalhes e relacionados.
 - `src/config/site.ts`: configuração central com nome, descrição e links internos principais.
-- `src/data/mock-projects.ts`: dados temporários de projetos para Home, Design e Dev.
-- `src/data/mock-github-repositories.ts`: fallback local para a seção GitHub quando API/env falhar.
+- `src/data/portfolio-projects.ts`: seleção local de projetos para Home, Design e Dev.
+- `src/data/portfolio-github-repositories.ts`: seleção local de repositórios para apoio à seção GitHub.
 - `src/types/project.ts`: tipo compartilhado para projetos mockados e futuros dados curados.
 - `src/types/github.ts`: tipos normalizados da integração GitHub.
 - `src/lib/github.ts`: serviço server-side para buscar, normalizar e cachear repositórios públicos.
-- `src/lib/projects.ts`: camada local de leitura dos projetos mockados, preparando a troca futura para Supabase/Admin.
+- `src/lib/projects.ts`: camada local de leitura dos projetos, preparando evolução de fonte de dados.
 - `src/app/globals.css`: tokens globais, base do Tailwind 4, estilos shadcn/ui e classes utilitárias como `.brutal-card`, `.brutal-button` e `.accent-design`.
 
 Componentes de layout:
 
 - `Container`: centraliza conteúdo, aplica largura máxima e padding responsivo.
 - `ModeSwitcher`: navegação visual entre modo Design e modo Dev, com estado ativo definido pela rota.
-- `SiteHeader`: header global com marca, navegação principal, link para Admin e alternância entre modos.
-- `SiteFooter`: footer global com nome, posicionamento, links internos e aviso de contatos futuros.
+- `SiteHeader`: header global com marca, navegação principal, link para área restrita e alternância entre modos.
+- `SiteFooter`: footer global com nome, posicionamento e links internos principais.
 - `SiteShell`: organiza `SiteHeader`, área principal `main` e `SiteFooter` em todas as páginas.
 
 Componentes da Home:
 
 - `HeroSection`: apresentação principal de Gustavo e chamadas para Design, Dev e projetos.
 - `ModeCardsSection`: explica a identidade híbrida e cria portas de entrada para os modos.
-- `FeaturedProjectsSection`: exibe projetos mockados marcados como destaque.
+- `FeaturedProjectsSection`: exibe projetos marcados como destaque.
 - `AboutPreviewSection`: apresenta um resumo institucional sem dados inventados.
 - `ExperiencePreviewSection`: lista áreas de atuação sem criar timeline formal.
-- `ContactPreviewSection`: prepara chamada para contato futuro sem formulário funcional.
+- `ContactPreviewSection`: apresenta chamada para os canais de contato.
 
 Componentes do Modo Design:
 
 - `DesignHeroSection`: hero do modo Design com destaque amarelo e chamadas para projetos e modo Dev.
 - `CreativeAreasSection`: cards de áreas criativas como identidade visual, UI e social media.
-- `DesignProjectsSection`: galeria de projetos mockados filtrados por `type: "design"`.
+- `DesignProjectsSection`: galeria de projetos filtrados por `type: "design"`.
 - `CreativeProcessSection`: etapas simples do processo criativo.
-- `BehancePreviewSection`: espaço futuro para links curados do Behance e cases completos, sem integração real.
+- `BehancePreviewSection`: seção editorial para cases visuais e referências externas.
 - `DesignCtaSection`: chamada final para Home e Modo Dev.
 
 Componentes do Modo Dev:
 
 - `DevHeroSection`: hero do modo Dev com destaque verde, pseudo-terminal e chamadas para projetos e Design.
 - `TechStackSection`: cards de tecnologias e áreas técnicas planejadas.
-- `DevProjectsSection`: galeria de projetos mockados filtrados por `type: "dev"`.
+- `DevProjectsSection`: galeria de projetos filtrados por `type: "dev"`.
 - `DevelopmentProcessSection`: etapas simples do processo técnico.
-- `GithubPreviewSection`: espaço futuro para repositórios, tecnologias e links curados, sem GitHub API real.
+- `GithubPreviewSection`: seção de repositórios, tecnologias e links curados.
 - `DevCtaSection`: chamada final para Home e Modo Design.
 
 Componentes de páginas individuais de projeto:
 
-- `ProjectHeroSection`: apresenta badge Design/Dev, título, resumo, tags, ano, papel e bloco visual placeholder.
-- `ProjectOverviewSection`: organiza resumo, problema, solução e aviso discreto para conteúdo mockado.
+- `ProjectHeroSection`: apresenta badge Design/Dev, título, resumo, tags, ano, papel e bloco visual do projeto.
+- `ProjectOverviewSection`: organiza resumo, problema, solução e contexto do projeto.
 - `ProjectDetailsSidebar`: mostra ficha estruturada com tipo, ano, papel, status, ferramentas, tags e links disponíveis.
-- `ProjectGallerySection`: renderiza galeria responsiva com cards placeholder quando ainda não há imagens reais.
-- `ProjectHighlightsSection`: lista decisões, aprendizados e melhorias futuras cadastradas no mock.
-- `ProjectLinksSection`: exibe apenas links reais existentes ou uma mensagem de links futuros.
+- `ProjectGallerySection`: renderiza galeria responsiva com materiais visuais do projeto.
+- `ProjectHighlightsSection`: lista decisões, aprendizados e melhorias do projeto.
+- `ProjectLinksSection`: exibe apenas links reais existentes ou uma mensagem discreta quando não houver links.
 - `RelatedProjectsSection`: sugere até três projetos, priorizando o mesmo tipo e sem repetir o projeto atual.
 
 Integração GitHub inicial:
@@ -295,13 +295,13 @@ Integração GitHub inicial:
 - `GITHUB_TOKEN` é opcional, melhora limite de requisições e nunca deve ser exposto ao client.
 - O serviço ignora forks e repositórios arquivados por padrão.
 - O resultado é limitado e normalizado antes de chegar aos componentes.
-- Falhas de API, rate limit ou ausência de rede retornam fallback de `src/data/mock-github-repositories.ts`.
+- Falhas de busca externa retornam a seleção local de `src/data/portfolio-github-repositories.ts`.
 - A rota `src/app/api/github/repositories/route.ts` expõe apenas dados normalizados e nunca retorna token ou headers sensíveis.
 
 Páginas individuais de projeto:
 
-- A rota `src/app/projetos/[slug]/page.tsx` usa `getProjectBySlug` para buscar o projeto mockado.
-- `generateStaticParams` gera páginas estáticas para todos os slugs cadastrados em `src/data/mock-projects.ts`.
+- A rota `src/app/projetos/[slug]/page.tsx` usa `getProjectBySlug` para buscar o projeto.
+- `generateStaticParams` gera páginas estáticas para todos os slugs cadastrados em `src/data/portfolio-projects.ts`.
 - `generateMetadata` cria título e descrição básicos por projeto.
 - Slugs inexistentes usam `notFound()` e uma experiência neobrutalista em `src/app/projetos/[slug]/not-found.tsx`.
 - A camada `src/lib/projects.ts` centraliza consultas como destaques, filtros por tipo e relacionados para facilitar a futura troca por Supabase.

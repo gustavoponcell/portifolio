@@ -32,8 +32,8 @@ export async function generateMetadata({
 
   if (!project) {
     return createPageMetadata({
-      title: "Projeto nao encontrado",
-      description: "Projeto nao encontrado no portfolio.",
+      title: "Projeto não encontrado",
+      description: "Projeto não encontrado no portfólio.",
       path: `/projetos/${slug}`,
       noIndex: true,
     });

@@ -76,8 +76,8 @@ export function createProjectMetadata(project: Project): Metadata {
 }
 
 export const noIndexMetadata = createPageMetadata({
-  title: "Area restrita",
-  description: "Area administrativa restrita do portfolio.",
+  title: "Área restrita",
+  description: "Área restrita do portfólio.",
   path: "/login",
   noIndex: true,
 });

@@ -13,7 +13,7 @@ import { createPersonJsonLd } from "@/lib/seo/structured-data";
 export const metadata: Metadata = createPageMetadata({
   title: "Contato",
   description:
-    "Canais publicos de contato de Gustavo Poncell para oportunidades, projetos e conversas profissionais.",
+    "Canais públicos de contato de Gustavo Poncell para oportunidades, projetos e conversas profissionais.",
   path: "/contato",
 });
 

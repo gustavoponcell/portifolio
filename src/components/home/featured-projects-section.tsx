@@ -13,8 +13,8 @@ export function FeaturedProjectsSection() {
     <section id="projetos" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Projetos em destaque"
-        title="Mockados agora, curados de verdade depois"
-        description="Estes cards usam dados temporarios para preparar a futura curadoria manual de projetos Design e Dev."
+        title="Trabalhos que conectam visual, estratégia e tecnologia"
+        description="Uma seleção de projetos que mostram a atuação de Gustavo Poncell em identidade visual, interfaces e desenvolvimento web."
         level={2}
       />
 

@@ -13,9 +13,9 @@ export function DesignHeroSection() {
             Projetos visuais, identidade e interfaces com personalidade.
           </h1>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
-            Esta area reune trabalhos criativos, experimentos visuais, pecas
-            graficas, interfaces e cases preparados para uma futura curadoria
-            completa.
+            Trabalhos que exploram composição, marca, direção visual e
+            experiência digital para comunicar ideias com clareza, impacto e
+            consistência.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ export function DesignHeroSection() {
           </div>
           <div className="brutal-border border-[#111111] bg-design p-6 ink-on-accent shadow-[6px_6px_0_#f7f3e8]">
             <p className="max-w-sm text-4xl font-black leading-none">
-              Direcao visual, contraste e linguagem grafica.
+              Direção visual, contraste e linguagem gráfica.
             </p>
             <div className="mt-6 grid grid-cols-3 gap-3">
               <span className="h-16 brutal-border border-[#111111] bg-card" />

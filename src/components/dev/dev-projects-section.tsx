@@ -11,9 +11,9 @@ export function DevProjectsSection() {
   return (
     <section id="projetos-dev" className="brutal-section space-y-8">
       <SectionHeading
-        eyebrow="Projetos dev mockados"
-        title="Sistemas e interfaces em estrutura inicial"
-        description="Projetos temporarios para validar cards, tecnologias e futuras paginas individuais."
+        eyebrow="Projetos dev"
+        title="Sistemas, interfaces e produtos digitais"
+        description="Projetos que mostram prática em front-end, organização de informações, estrutura de interface e desenvolvimento web."
         accent="dev"
         level={2}
       />
@@ -31,8 +31,8 @@ export function DevProjectsSection() {
             </div>
 
             <div className="brutal-border bg-background p-4 font-mono text-sm text-dev">
-              <p>{">"} project.slug</p>
-              <p className="mt-2 break-words">{project.slug}</p>
+              <p>{">"} projeto selecionado</p>
+              <p className="mt-2 break-words">{project.title}</p>
             </div>
 
             <div>

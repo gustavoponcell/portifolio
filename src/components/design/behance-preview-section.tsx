@@ -6,9 +6,9 @@ export function BehancePreviewSection() {
     <section id="behance" className="brutal-section">
       <BrutalCard className="grid gap-8 bg-design brutal-card-accent ink-on-accent lg:grid-cols-[1fr_auto] lg:items-center">
         <SectionHeading
-          eyebrow="Curadoria futura"
-          title="Behance e cases completos"
-          description="Futuramente esta area podera reunir links selecionados do Behance e cases cadastrados pelo admin, sem depender de API obrigatoria."
+          eyebrow="Cases visuais"
+          title="Projetos completos e referências externas"
+          description="Alguns trabalhos completos também podem ser acessados por links externos quando disponíveis."
           accent="neutral"
           level={2}
         />
@@ -17,7 +17,7 @@ export function BehancePreviewSection() {
           aria-disabled="true"
           className="surface-on-accent inline-flex w-fit px-5 py-3 text-sm font-black uppercase tracking-wide"
         >
-          Em breve
+          Em atualização
         </span>
       </BrutalCard>
     </section>

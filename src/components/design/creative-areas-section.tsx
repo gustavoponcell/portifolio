@@ -4,27 +4,27 @@ import { SectionHeading } from "@/components/brand/section-heading";
 const creativeAreas = [
   {
     title: "Identidade visual",
-    description: "Sistemas de marca, linguagem grafica e consistencia visual.",
+    description: "Sistemas de marca, linguagem gráfica e consistência visual.",
   },
   {
-    title: "Pecas graficas",
-    description: "Composicoes para materiais digitais, editoriais e campanhas.",
+    title: "Peças gráficas",
+    description: "Composições para materiais digitais, editoriais e campanhas.",
   },
   {
     title: "Interfaces e UI",
-    description: "Telas, hierarquia visual e organizacao de componentes.",
+    description: "Telas, hierarquia visual e organização de experiências digitais.",
   },
   {
     title: "Social media",
-    description: "Layouts, formatos e linhas visuais para conteudo digital.",
+    description: "Layouts, formatos e linhas visuais para conteúdo digital.",
   },
   {
-    title: "Direcao visual",
-    description: "Referencias, paleta, ritmo e personalidade de projeto.",
+    title: "Direção visual",
+    description: "Referências, paleta, ritmo e personalidade de projeto.",
   },
   {
     title: "Materiais digitais",
-    description: "Apresentacoes, pecas institucionais e conteudos visuais.",
+    description: "Apresentações, peças institucionais e conteúdos visuais.",
   },
 ];
 
@@ -32,9 +32,9 @@ export function CreativeAreasSection() {
   return (
     <section id="areas-criativas" className="brutal-section space-y-8">
       <SectionHeading
-        eyebrow="Areas criativas"
-        title="O lado visual organizado em frentes claras"
-        description="Cada bloco prepara uma categoria futura para projetos cadastrados manualmente."
+        eyebrow="Áreas criativas"
+        title="Design aplicado para comunicar ideias com clareza"
+        description="Frentes de atuação que conectam identidade visual, composição, interfaces e comunicação digital."
         accent="design"
         level={2}
       />

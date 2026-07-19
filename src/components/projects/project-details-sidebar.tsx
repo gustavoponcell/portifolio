@@ -6,22 +6,22 @@ type ProjectDetailsSidebarProps = {
   project: Project;
 };
 
-const statusLabels = {
-  mock: "Mockado",
+const statusLabels: Partial<Record<NonNullable<Project["status"]>, string>> = {
   draft: "Rascunho",
   published: "Publicado",
   archived: "Arquivado",
 };
 
 export function ProjectDetailsSidebar({ project }: ProjectDetailsSidebarProps) {
+  const statusLabel = project.status ? statusLabels[project.status] : null;
   const accentClass =
     project.type === "design"
-      ? "bg-design ink-on-accent border-[#111111]"
-      : "bg-dev ink-on-accent border-[#111111]";
+      ? "bg-design !text-[#111111] border-[#111111]"
+      : "bg-dev !text-[#111111] border-[#111111]";
   const links = [
     project.externalUrl ? "Link externo" : null,
-    project.repositoryUrl ? "Repositorio" : null,
-    project.liveUrl ? "Deploy" : null,
+    project.repositoryUrl ? "Repositório" : null,
+    project.liveUrl ? "Site publicado" : null,
   ].filter(Boolean);
 
   return (
@@ -52,10 +52,10 @@ export function ProjectDetailsSidebar({ project }: ProjectDetailsSidebarProps) {
             </div>
           ) : null}
 
-          {project.status ? (
+          {statusLabel ? (
             <div>
               <dt className="text-xs font-black uppercase tracking-[0.18em]">Status</dt>
-              <dd className="mt-1 font-bold">{statusLabels[project.status]}</dd>
+              <dd className="mt-1 font-bold">{statusLabel}</dd>
             </div>
           ) : null}
 
@@ -103,7 +103,7 @@ export function ProjectDetailsSidebar({ project }: ProjectDetailsSidebarProps) {
               <Badge
                 key={tag}
                 variant="outline"
-                className="border-2 border-foreground bg-muted font-bold"
+                className={`border-2 ${accentClass} font-bold`}
               >
                 {tag}
               </Badge>

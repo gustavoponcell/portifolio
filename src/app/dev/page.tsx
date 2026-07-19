@@ -11,7 +11,7 @@ import { createPageMetadata } from "@/lib/seo/metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "Dev",
   description:
-    "Projetos de desenvolvimento, interfaces, sistemas e repositorios curados do portfolio de Gustavo Poncell.",
+    "Projetos de desenvolvimento, interfaces, sistemas e repositórios selecionados do portfólio de Gustavo Poncell.",
   path: "/dev",
 });
 

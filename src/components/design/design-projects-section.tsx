@@ -12,9 +12,9 @@ export function DesignProjectsSection() {
   return (
     <section id="projetos-design" className="brutal-section space-y-8">
       <SectionHeading
-        eyebrow="Projetos mockados"
-        title="Galeria inicial de cases visuais"
-        description="Projetos temporarios para validar a apresentacao de cards, tags, destaques e paginas individuais."
+        eyebrow="Projetos visuais"
+        title="Cases de design, identidade e interface"
+        description="Trabalhos que destacam direção visual, composição, hierarquia e soluções gráficas para diferentes contextos."
         accent="design"
         level={2}
       />
@@ -48,7 +48,7 @@ export function DesignProjectsSection() {
 
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.2em]">
-                  {project.slug}
+                  Projeto visual
                 </p>
                 <h3 className="mt-2 text-2xl font-black">{project.title}</h3>
                 <p className="mt-3 leading-7">{project.description}</p>

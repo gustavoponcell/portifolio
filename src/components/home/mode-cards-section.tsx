@@ -10,10 +10,10 @@ const identityColumns = [
     className: "bg-design",
     items: [
       "Identidade visual",
-      "Pecas graficas",
+      "Peças gráficas",
       "Interfaces",
       "Projetos visuais",
-      "Cases e Behance futuramente",
+      "Campanhas e materiais digitais",
     ],
   },
   {
@@ -23,8 +23,8 @@ const identityColumns = [
     items: [
       "Desenvolvimento web",
       "Projetos em Next.js/TypeScript",
-      "Integracoes",
-      "GitHub futuramente",
+      "Integrações",
+      "Repositórios selecionados",
       "Sistemas e produtos digitais",
     ],
   },
@@ -38,8 +38,8 @@ const modeCards = [
     buttonLabel: "Entrar no Design",
     className: "bg-design",
     description:
-      "Uma entrada para trabalhos visuais, direcao criativa, interfaces e projetos com curadoria manual.",
-    items: ["Artes e pecas visuais", "Projetos em destaque", "Links para Behance no futuro"],
+      "Trabalhos visuais, direção criativa, interfaces e projetos com foco em clareza, consistência e personalidade.",
+    items: ["Artes e peças visuais", "Projetos em destaque", "Identidade e comunicação"],
   },
   {
     title: "Modo Dev",
@@ -48,8 +48,8 @@ const modeCards = [
     buttonLabel: "Entrar no Dev",
     className: "bg-dev",
     description:
-      "Uma entrada para projetos de programacao, tecnologias, sistemas web e futura curadoria do GitHub.",
-    items: ["Projetos web", "Tecnologias usadas", "Repositorios curados no futuro"],
+      "Projetos de programação, tecnologias, sistemas web e soluções digitais organizadas para uso real.",
+    items: ["Projetos web", "Tecnologias usadas", "Repositórios selecionados"],
   },
 ];
 
@@ -57,9 +57,9 @@ export function ModeCardsSection() {
   return (
     <section id="modos" className="brutal-section space-y-10">
       <SectionHeading
-        eyebrow="Modos do portfolio"
+        eyebrow="Modos do portfólio"
         title="Design + Desenvolvimento"
-        description="A Home apresenta as duas frentes do portfolio sem separar a identidade em dois sites diferentes."
+        description="Conheça as duas frentes de atuação de Gustavo Poncell: design visual e desenvolvimento de soluções digitais."
         level={2}
       />
 

@@ -36,7 +36,7 @@ export function SiteHeader() {
         </div>
 
         <nav
-          aria-label="Navegacao principal"
+          aria-label="Navegação principal"
           className="flex flex-wrap items-center gap-2"
         >
           {siteConfig.mainNav.map((item) => {
@@ -58,15 +58,15 @@ export function SiteHeader() {
           })}
 
           <Link
-            href={siteConfig.adminNav.href}
-            aria-current={isActive(pathname, siteConfig.adminNav.href) ? "page" : undefined}
+            href={siteConfig.restrictedNav.href}
+            aria-current={isActive(pathname, siteConfig.restrictedNav.href) ? "page" : undefined}
             className={cn(
               "brutal-border bg-foreground px-3 py-2 text-sm font-black text-background no-underline transition-transform hover:-translate-y-0.5",
-              isActive(pathname, siteConfig.adminNav.href) &&
+              isActive(pathname, siteConfig.restrictedNav.href) &&
                 "bg-card text-foreground shadow-[3px_3px_0_var(--color-border)]"
             )}
           >
-            {siteConfig.adminNav.title}
+            {siteConfig.restrictedNav.title}
           </Link>
         </nav>
       </Container>

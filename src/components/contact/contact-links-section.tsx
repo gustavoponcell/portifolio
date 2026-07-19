@@ -11,7 +11,7 @@ export function ContactLinksSection({ links }: ContactLinksSectionProps) {
     <section className="brutal-section space-y-6">
       <div className="flex flex-col gap-2">
         <p className="text-sm font-black uppercase tracking-[0.2em]">
-          Canais disponiveis
+          Canais disponíveis
         </p>
         <h2 className="text-3xl font-black sm:text-5xl">
           Escolha o melhor caminho.
@@ -20,9 +20,9 @@ export function ContactLinksSection({ links }: ContactLinksSectionProps) {
 
       {links.length > 0 ? (
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {links.map((link) => (
+          {links.map((link, index) => (
             <ContactLinkCard
-              key={`${link.kind}-${link.href}-${link.label}`}
+              key={`${link.kind}-${link.href}-${index}`}
               link={link}
             />
           ))}

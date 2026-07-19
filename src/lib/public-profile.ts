@@ -116,6 +116,25 @@ function mapContactLink(row: SupabaseContactLinkRow): PublicContactLink | null {
   return createLink(row.label, row.url, row.url, row.type);
 }
 
+function contactLinkKey(link: PublicContactLink) {
+  return `${link.kind.toLowerCase()}::${link.href.toLowerCase()}`;
+}
+
+function uniqueContactLinks(links: PublicContactLink[]) {
+  const seen = new Set<string>();
+
+  return links.filter((link) => {
+    const key = contactLinkKey(link);
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
 export async function getPublicProfile(): Promise<PublicProfile> {
   if (!hasSupabasePublicEnv()) {
     return fallbackProfile;
@@ -144,7 +163,7 @@ export async function getPublicContactLinks(profile: PublicProfile) {
   const links = profileLinks(profile);
 
   if (!hasSupabasePublicEnv()) {
-    return links;
+    return uniqueContactLinks(links);
   }
 
   try {
@@ -157,15 +176,15 @@ export async function getPublicContactLinks(profile: PublicProfile) {
       .order("created_at", { ascending: true });
 
     if (error || !data) {
-      return links;
+      return uniqueContactLinks(links);
     }
 
     const extraLinks = data
       .map(mapContactLink)
       .filter((link): link is PublicContactLink => Boolean(link));
 
-    return [...links, ...extraLinks];
+    return uniqueContactLinks([...links, ...extraLinks]);
   } catch {
-    return links;
+    return uniqueContactLinks(links);
   }
 }

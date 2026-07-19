@@ -7,16 +7,16 @@ export function DesignCtaSection() {
     <section className="brutal-section">
       <BrutalCard className="grid gap-8 bg-card text-foreground lg:grid-cols-[1fr_auto] lg:items-center">
         <SectionHeading
-          eyebrow="Proximo caminho"
+          eyebrow="Próximo caminho"
           title="Design e desenvolvimento caminham juntos por aqui."
-          description="Continue pela Home ou conheca o lado Dev do portfolio."
+          description="Continue pela Home ou conheça o lado Dev do portfólio."
           level={2}
           className="[&>h2]:text-foreground [&>p:last-child]:text-muted-foreground"
         />
 
         <div className="flex flex-wrap gap-4 lg:justify-end">
           <BrutalButton href="/" variant="outline">
-            Voltar a Home
+            Voltar à Home
           </BrutalButton>
           <BrutalButton href="/dev" variant="dev">
             Ver Modo Dev

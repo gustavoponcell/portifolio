@@ -210,7 +210,7 @@
   }
 
   .ink-on-accent {
-    color: var(--color-ink);
+    color: var(--color-ink) !important;
   }
 
   .surface-on-accent {

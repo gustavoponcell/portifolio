@@ -11,8 +11,8 @@ type ProjectHeroSectionProps = {
 export function ProjectHeroSection({ project }: ProjectHeroSectionProps) {
   const isDesign = project.type === "design";
   const accentClass = isDesign
-    ? "bg-design ink-on-accent border-[#111111]"
-    : "bg-dev ink-on-accent border-[#111111]";
+    ? "bg-design !text-[#111111] border-[#111111]"
+    : "bg-dev !text-[#111111] border-[#111111]";
   const buttonVariant = isDesign ? "design" : "dev";
   const modeHref = isDesign ? "/design" : "/dev";
   const modeLabel = isDesign ? "Voltar para Design" : "Voltar para Dev";
@@ -78,7 +78,7 @@ export function ProjectHeroSection({ project }: ProjectHeroSectionProps) {
               {project.title}
             </p>
             <p className="mx-auto max-w-sm font-bold">
-              Bloco visual temporario aguardando imagens cadastradas pelo admin.
+              Recorte visual do projeto com foco em contraste, composição e identidade.
             </p>
           </div>
         )}

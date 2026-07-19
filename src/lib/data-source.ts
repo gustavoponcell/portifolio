@@ -1,4 +1,4 @@
-import { mockProjects } from "@/data/mock-projects";
+import { portfolioProjects } from "@/data/portfolio-projects";
 
 export type PublicDataSource = "mock" | "supabase";
 
@@ -8,5 +8,5 @@ export function getPublicDataSource(): PublicDataSource {
 }
 
 export function getPublicProjectsData() {
-  return mockProjects;
+  return portfolioProjects;
 }

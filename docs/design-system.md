@@ -240,9 +240,9 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - A página deve ter aparência de cartaz, peça gráfica ou composição editorial, sem depender de imagens reais.
 - O Hero do Design deve ter apenas um `h1`; seções internas usam `h2`.
 - Cards de áreas criativas usam bordas grossas, sombra dura e marcadores visuais.
-- Projetos de design são exibidos a partir de `src/data/mock-projects.ts`, filtrados por `type: "design"`.
+- Projetos de design são exibidos a partir de `src/data/portfolio-projects.ts`, filtrados por `type: "design"`.
 - Cards de projeto devem mostrar badge Design, título, descrição, tags e link interno para `/projetos/[slug]`.
-- A seção Behance futura deve comunicar "Em breve" sem link falso, API ou integração real.
+- A seção de cases visuais deve usar linguagem pública e não prometer integração externa.
 - Não inventar clientes, métricas, empresas, imagens externas ou links de Behance.
 
 ## Modo Dev
@@ -252,9 +252,9 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - A página deve parecer técnica e de produto digital, usando blocos, grids, badges, pseudo-terminal e cards estruturados.
 - O Hero do Dev deve ter apenas um `h1`; seções internas usam `h2`.
 - Cards de stack e tecnologias usam borda grossa, sombra dura, badges e descrição curta.
-- Projetos dev são exibidos a partir de `src/data/mock-projects.ts`, filtrados por `type: "dev"`.
+- Projetos dev são exibidos a partir de `src/data/portfolio-projects.ts`, filtrados por `type: "dev"`.
 - Cards de projeto devem mostrar badge Dev, título, descrição, tags e link interno para `/projetos/[slug]`.
-- A seção GitHub futura deve comunicar "Integração futura" sem token, API, busca real ou link falso.
+- A seção de repositórios deve mostrar dados públicos ou uma seleção organizada, sem expor detalhes internos.
 - Não inventar repositórios, métricas, clientes, imagens externas ou URLs de GitHub.
 - Design e Dev devem manter a mesma base estrutural; a diferença visual vem de acento de cor e vocabulário.
 
@@ -287,3 +287,12 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - A interface nao deve depender de regra global que force texto preto em todo filho de `bg-design` ou `bg-dev`, pois isso quebra terminais, blocos tecnicos e mensagens internas.
 - Mensagens de login/admin devem ser amigaveis: nao exibir nomes crus de variaveis, caminhos de ambiente ou strings com aparencia de codigo.
 - Nomes tecnicos continuam permitidos em documentacao, `.env.example`, rotas internas e codigo servidor, mas nao como copy visivel da interface.
+
+## Prompt 16.7: comunicação pública e acentuação
+
+- A interface pública deve falar com recrutadores, clientes, professores e parceiros, usando linguagem profissional e clara.
+- Textos públicos não devem expor termos internos como mock, fallback, placeholder, deploy, CRUD, variáveis de ambiente, Supabase, API futura ou administração futura.
+- A navegação pública pode apontar para a rota protegida como "Área restrita", sem usar "Admin" como rótulo visível.
+- Slugs e identificadores técnicos não devem aparecer como texto editorial em cards, seções ou páginas de projeto.
+- Acentuação em português do Brasil deve ser preservada em títulos, descrições, botões, badges e metadados visíveis.
+- Dados provisórios devem ser apresentados como seleção de portfólio, projeto em refinamento ou conteúdo indisponível no momento, sem linguagem de implementação.

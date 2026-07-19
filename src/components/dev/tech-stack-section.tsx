@@ -24,49 +24,49 @@ const stackItems: StackItem[] = [
   {
     name: "HTML, CSS e JavaScript",
     category: "Base web",
-    context: "Estrutura, estilos, interacao e construcao de paginas responsivas.",
+    context: "Estrutura, estilos, interação e construção de páginas responsivas.",
     icon: Code2,
   },
   {
     name: "TypeScript",
-    category: "Codigo",
-    context: "Tipagem, contratos de dados e componentes mais previsiveis.",
+    category: "Código",
+    context: "Tipagem, contratos de dados e interfaces mais previsíveis.",
     icon: Braces,
   },
   {
     name: "React",
     category: "Interface",
-    context: "Componentizacao, estados, composicao de telas e UI reutilizavel.",
+    context: "Organização de telas, estados e experiências reutilizáveis.",
     icon: Globe2,
   },
   {
     name: "Next.js",
     category: "Front-end",
-    context: "Rotas, layouts, metadata, build e renderizacao do portfolio.",
+    context: "Estrutura de páginas, performance, SEO e renderização do portfólio.",
     icon: Terminal,
   },
   {
     name: "Tailwind CSS",
     category: "Estilo",
-    context: "Tokens visuais, responsividade e sistema neobrutalista do site.",
+    context: "Tokens visuais, responsividade e consistência da interface.",
     icon: Wind,
   },
   {
-    name: "Supabase",
+    name: "Banco e autenticação",
     category: "Back-end",
-    context: "Auth, banco, policies, storage e dados administraveis.",
+    context: "Estrutura para login, armazenamento de imagens e dados do portfólio.",
     icon: Database,
   },
   {
     name: "Git e GitHub",
     category: "Versionamento",
-    context: "Historico de codigo, repositorios, integracao e curadoria dev.",
+    context: "Histórico de código, repositórios e evolução dos projetos.",
     icon: GitBranch,
   },
   {
-    name: "APIs e servidor",
-    category: "Integracoes",
-    context: "Rotas server-side, health checks e consumo seguro de servicos.",
+    name: "Serviços e servidor",
+    category: "Conexões",
+    context: "Consumo de serviços, regras de negócio e conexões entre sistemas.",
     icon: Server,
   },
 ];
@@ -76,8 +76,8 @@ export function TechStackSection() {
     <section id="stack" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Stack e tecnologias"
-        title="Tecnologias que ja usei para construir interfaces e sistemas"
-        description="Cada card mostra a tecnologia e o contexto em que ela entra no meu fluxo de desenvolvimento."
+        title="Tecnologias usadas para construir interfaces e sistemas"
+        description="Ferramentas e práticas presentes em projetos web, produtos digitais e organização de código."
         accent="dev"
         level={2}
       />

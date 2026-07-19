@@ -1,6 +1,6 @@
 function cleanSiteUrl(value: string | undefined) {
-  const fallback = "http://localhost:3000";
-  const url = value?.trim() || fallback;
+  const defaultUrl = "http://localhost:3000";
+  const url = value?.trim() || defaultUrl;
 
   return url.replace(/\/+$/, "");
 }
@@ -13,9 +13,9 @@ export const siteConfig = {
   title: "Gustavo Poncell | Design + Desenvolvimento",
   shortTitle: "Design + Desenvolvimento",
   description:
-    "Portfolio pessoal de Gustavo Poncell reunindo projetos de design, desenvolvimento, curriculo e contato.",
+    "Portfólio de Gustavo Poncell reunindo design gráfico, interfaces, desenvolvimento web, experiências e contato profissional.",
   keywords: [
-    "portfolio",
+    "portfólio",
     "design",
     "desenvolvimento",
     "frontend",
@@ -26,12 +26,12 @@ export const siteConfig = {
   url: siteUrl,
   ogImage: `${siteUrl}/window.svg`,
   mainNav: [
-    { title: "Inicio", href: "/" },
+    { title: "Início", href: "/" },
     { title: "Design", href: "/design" },
     { title: "Dev", href: "/dev" },
     { title: "Contato", href: "/contato" },
   ],
-  adminNav: { title: "Admin", href: "/admin" },
+  restrictedNav: { title: "Área restrita", href: "/admin" },
   publicRoutes: ["/", "/design", "/dev", "/contato"],
   noIndexRoutes: ["/admin", "/login", "/api"],
   githubUsername: "gustavoponcell",

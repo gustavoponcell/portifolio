@@ -11,7 +11,7 @@ function formatDate(value: string) {
   const date = new Date(value);
 
   if (Number.isNaN(date.getTime())) {
-    return "Data indisponivel";
+    return "Data indisponível";
   }
 
   return new Intl.DateTimeFormat("pt-BR", {
@@ -34,7 +34,7 @@ export function GitHubRepositoryCard({
   const displayDescription =
     "displayDescription" in repository
       ? repository.displayDescription
-      : repository.description ?? "Repositorio sem descricao publica.";
+      : repository.description ?? "Repositório em desenvolvimento.";
   const displayTags =
     "displayTags" in repository ? repository.displayTags : repository.topics;
   const featured = "featured" in repository ? repository.featured : false;
@@ -46,7 +46,7 @@ export function GitHubRepositoryCard({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em]">
-            Repositorio
+            Repositório
           </p>
           <h3 className="mt-2 break-words text-2xl font-black">
             {displayTitle}
@@ -56,7 +56,7 @@ export function GitHubRepositoryCard({
           {repository.language ? (
             <Badge
               variant="outline"
-              className="border-2 border-[#111111] bg-dev font-bold ink-on-accent"
+              className="border-2 border-[#111111] bg-dev font-bold !text-[#111111]"
             >
               {repository.language}
             </Badge>
@@ -64,7 +64,7 @@ export function GitHubRepositoryCard({
           {featured ? (
             <Badge
               variant="outline"
-              className="border-2 border-[#111111] bg-design font-bold ink-on-accent"
+              className="border-2 border-[#111111] bg-design font-bold !text-[#111111]"
             >
               Destaque
             </Badge>
@@ -90,7 +90,11 @@ export function GitHubRepositoryCard({
       {topics.length > 0 ? (
         <div className="flex flex-wrap gap-2">
           {topics.map((topic) => (
-            <Badge key={topic} variant="outline" className="border-2 font-bold">
+            <Badge
+              key={topic}
+              variant="outline"
+              className="border-2 border-[#111111] bg-dev font-bold !text-[#111111]"
+            >
               {topic}
             </Badge>
           ))}
@@ -105,11 +109,11 @@ export function GitHubRepositoryCard({
           target="_blank"
           rel="noreferrer"
         >
-          Ver repositorio
+          Ver repositório
         </BrutalButton>
       ) : (
         <span className="brutal-border mt-auto inline-flex w-fit bg-muted px-3 py-2 text-sm font-black uppercase tracking-wide">
-          Link real indisponivel
+          Link indisponível no momento
         </span>
       )}
     </BrutalCard>

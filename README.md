@@ -257,17 +257,17 @@ Depois acesse `http://localhost:3000/dev`.
 
 ## Projetos individuais
 
-As páginas em `/projetos/[slug]` são geradas a partir de `src/data/mock-projects.ts` por meio dos helpers de `src/lib/projects.ts`.
+As páginas em `/projetos/[slug]` são geradas a partir de `src/data/portfolio-projects.ts` por meio dos helpers de `src/lib/projects.ts`.
 
-Cada projeto pode exibir resumo, problema, solução, ferramentas, tags, destaques, galeria placeholder, links públicos quando existirem e projetos relacionados. A origem dos dados continua mockada por enquanto e foi organizada para ser substituída futuramente por Supabase/Admin.
+Cada projeto pode exibir resumo, problema, solução, ferramentas, tags, destaques, materiais visuais, links públicos quando existirem e projetos relacionados. A origem dos dados foi organizada para evoluir sem expor linguagem interna na interface pública.
 
 ## Estrutura básica de rotas
 
 - `/`: Home com apresentação inicial.
-- `/design`: placeholder do modo Design.
-- `/dev`: placeholder do modo Dev.
-- `/projetos/[slug]`: página individual de projeto gerada a partir dos mocks atuais.
-- `/admin`: placeholder da futura área administrativa protegida.
+- `/design`: modo Design.
+- `/dev`: modo Dev.
+- `/projetos/[slug]`: página individual de projeto gerada a partir da seleção atual.
+- `/admin`: área restrita protegida.
 - `/login`: placeholder do futuro login com Supabase Auth.
 
 ## Roadmap resumido
@@ -306,3 +306,11 @@ Cada prompt deve manter escopo controlado e registrar decisões importantes na d
 - Blocos internos escuros dentro desses cards usam texto claro por meio de utilitarios especificos.
 - Login e admin nao exibem nomes crus de variaveis de ambiente, caminhos ou trechos com aparencia de codigo para visitantes ou administradores.
 - A protecao das rotas administrativas foi preservada.
+
+## Atualização Prompt 16.7: comunicação pública
+
+- A interface pública foi revisada para linguagem profissional, sem termos internos de implementação.
+- Textos públicos não devem mencionar mock, fallback, placeholder, Supabase, API futura, deploy, CRUD, admin futuro ou variáveis de ambiente.
+- A rota protegida continua existindo, mas o rótulo visível passou a ser "Área restrita".
+- Os dados públicos locais agora ficam em `src/data/portfolio-projects.ts` e `src/data/portfolio-github-repositories.ts`.
+- Próximo passo recomendado: Prompt 17 — Deploy Vercel.

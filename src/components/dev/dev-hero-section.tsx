@@ -10,11 +10,11 @@ export function DevHeroSection() {
 
         <div className="space-y-5">
           <h1 className="max-w-5xl text-balance text-5xl font-black leading-none tracking-tight sm:text-7xl">
-            Sistemas, interfaces e experiencias digitais construidas com codigo.
+            Sistemas, interfaces e experiências digitais construídas com código.
           </h1>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
-            Esta area reune projetos de programacao, aplicacoes web, sistemas,
-            experimentos tecnicos e futuras integracoes com GitHub.
+            Projetos que exploram front-end, organização de dados, integrações
+            e produtos digitais com atenção à experiência de uso.
           </p>
         </div>
 
@@ -32,13 +32,13 @@ export function DevHeroSection() {
         <div className="absolute -right-10 -top-10 h-28 w-28 brutal-border bg-dev" />
         <div className="relative space-y-5">
           <p className="brutal-border inline-flex border-[#111111] bg-dev px-3 py-1 text-xs font-black uppercase tracking-[0.2em] !text-[#111111]">
-            Pseudo-terminal
+            Fluxo de trabalho
           </p>
           <div className="brutal-border bg-background p-5 font-mono text-sm text-dev">
-            <p>$ npm run build</p>
-            <p className="mt-3">OK Rotas, componentes e dados mockados</p>
+            <p>$ planejar interface</p>
+            <p className="mt-3">OK Estrutura, conteúdo e navegação</p>
             <p>OK Design system neobrutalista</p>
-            <p>OK GitHub API em etapa futura</p>
+            <p>OK Código organizado e revisável</p>
           </div>
           <div className="grid grid-cols-4 gap-3" aria-hidden="true">
             <span className="h-12 brutal-border border-[#111111] bg-card" />

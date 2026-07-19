@@ -10,7 +10,7 @@ export function ProjectOverviewSection({ project }: ProjectOverviewSectionProps)
   return (
     <section className="space-y-6">
       <SectionHeading
-        eyebrow="Visao geral"
+        eyebrow="Visão geral"
         title="Contexto do projeto"
         description={project.summary ?? project.description}
         accent={project.type}
@@ -27,18 +27,11 @@ export function ProjectOverviewSection({ project }: ProjectOverviewSectionProps)
 
         {project.solution ? (
           <BrutalCard className="space-y-3">
-            <h3 className="text-2xl font-black">Solucao</h3>
+            <h3 className="text-2xl font-black">Solução</h3>
             <p className="leading-7">{project.solution}</p>
           </BrutalCard>
         ) : null}
       </div>
-
-      {project.status === "mock" ? (
-        <p className="brutal-border bg-muted px-4 py-3 text-sm font-bold">
-          Conteudo temporario: este case usa dados mockados e sera substituido por
-          conteudo curado quando o admin e o Supabase forem implementados.
-        </p>
-      ) : null}
     </section>
   );
 }

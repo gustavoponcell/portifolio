@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { siteConfig } from "@/config/site";
 
-const footerLinks = [...siteConfig.mainNav, siteConfig.adminNav];
+const footerLinks = [...siteConfig.mainNav, siteConfig.restrictedNav];
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
@@ -15,14 +15,14 @@ export function SiteFooter() {
           <p className="text-2xl font-black">{siteConfig.name}</p>
           <p className="font-bold">{siteConfig.shortTitle}</p>
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            Contato publico disponivel em pagina propria, exibindo apenas dados
-            cadastrados sem placeholders pessoais.
+            Design gráfico, interfaces e desenvolvimento web em uma presença
+            digital direta, criativa e funcional.
           </p>
         </div>
 
-        <nav aria-label="Links do rodape" className="space-y-3">
+        <nav aria-label="Links do rodapé" className="space-y-3">
           <p className="text-sm font-black uppercase tracking-[0.2em]">
-            Navegacao
+            Navegação
           </p>
           <div className="flex flex-wrap gap-2">
             {footerLinks.map((link) => (
@@ -39,11 +39,11 @@ export function SiteFooter() {
 
         <div className="space-y-3 md:text-right">
           <p className="text-sm font-black uppercase tracking-[0.2em]">
-            Status
+            Portfólio
           </p>
           <p className="text-sm leading-6 text-muted-foreground">
-            Portfolio com admin protegido, upload seguro, contato publico e SEO
-            base preparados para deploy.
+            Projetos, experiências e canais de contato para oportunidades,
+            parcerias e conversas profissionais.
           </p>
           <p className="text-sm font-bold">&copy; {currentYear}</p>
         </div>

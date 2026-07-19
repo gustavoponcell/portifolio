@@ -3,9 +3,9 @@ import { SectionHeading } from "@/components/brand/section-heading";
 
 const processSteps = [
   "Entender o problema",
-  "Organizar referencias",
-  "Criar direcao visual",
-  "Prototipar ou montar pecas",
+  "Organizar referências",
+  "Criar direção visual",
+  "Prototipar ou montar peças",
   "Refinar e entregar",
 ];
 
@@ -14,8 +14,8 @@ export function CreativeProcessSection() {
     <section id="processo-criativo" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Processo criativo"
-        title="Do problema ao visual com intencao"
-        description="Uma visao simples de como os projetos de design serao organizados e apresentados."
+        title="Do problema ao visual com intenção"
+        description="Um processo direto para transformar objetivos, referências e ideias em peças visuais consistentes."
         accent="design"
         level={2}
       />

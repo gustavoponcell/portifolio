@@ -20,32 +20,32 @@ type DesignTool = {
 const designTools: DesignTool[] = [
   {
     name: "Figma",
-    category: "UI e prototipo",
-    context: "Interfaces, componentes, fluxos e organizacao visual de telas.",
+    category: "UI e protótipo",
+    context: "Interfaces, fluxos e organização visual de telas.",
     icon: LayoutTemplate,
   },
   {
     name: "Photoshop",
     category: "Imagem",
-    context: "Tratamento, composicao, recortes e pecas visuais digitais.",
+    context: "Tratamento, composição, recortes e peças visuais digitais.",
     icon: FileImage,
   },
   {
     name: "Illustrator",
     category: "Vetor",
-    context: "Marcas, icones, lettering, formas vetoriais e identidade visual.",
+    context: "Marcas, ícones, lettering, formas vetoriais e identidade visual.",
     icon: PenTool,
   },
   {
     name: "Canva",
-    category: "Pecas rapidas",
-    context: "Posts, apresentacoes e variacoes graficas para comunicacao.",
+    category: "Peças rápidas",
+    context: "Posts, apresentações e variações gráficas para comunicação.",
     icon: Brush,
   },
   {
-    name: "Direcao visual",
+    name: "Direção visual",
     category: "Processo",
-    context: "Paleta, contraste, hierarquia, moodboard e linguagem grafica.",
+    context: "Paleta, contraste, hierarquia, moodboard e linguagem gráfica.",
     icon: Palette,
   },
 ];
@@ -55,8 +55,8 @@ export function DesignToolsSection() {
     <section id="ferramentas-design" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Ferramentas de design"
-        title="Programas e praticas que ja usei"
-        description="Uma leitura clara das ferramentas que entram no lado visual: interface, imagem, vetor, composicao e direcao criativa."
+        title="Programas e práticas presentes no processo visual"
+        description="Ferramentas usadas para criar interfaces, imagens, vetores, composições e direções criativas."
         accent="design"
         level={2}
       />
