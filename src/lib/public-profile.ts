@@ -106,7 +106,7 @@ function profileLinks(profile: PublicProfile) {
     ),
     createLink("WhatsApp", "Abrir conversa", profile.whatsappUrl, "whatsapp"),
     createLink("GitHub", "Ver perfil", profile.githubUrl, "github"),
-    createLink("Behance", "Ver portfolio", profile.behanceUrl, "behance"),
+    createLink("Behance", "Ver portfólio", profile.behanceUrl, "behance"),
     createLink("LinkedIn", "Ver perfil", profile.linkedinUrl, "linkedin"),
     createLink("Instagram", "Ver perfil", profile.instagramUrl, "instagram"),
   ].filter((link): link is PublicContactLink => Boolean(link));

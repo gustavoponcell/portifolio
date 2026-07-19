@@ -1,10 +1,10 @@
 import { BrutalCard } from "@/components/brand/brutal-card";
 
 const nextSteps = [
-  "Conectar exibicao publica dos projetos Design ao Supabase quando a curadoria estiver pronta.",
+  "Conectar a exibição pública dos projetos Design ao Supabase quando a curadoria estiver pronta.",
   "Criar curadoria manual de links Behance, sem API real.",
   "Revisar SEO, performance e acessibilidade antes do deploy.",
-  "Preparar contato publico funcional com validacao e anti-spam.",
+  "Preparar contato público funcional com validação e anti-spam.",
 ];
 
 export function AdminNextSteps() {
@@ -12,7 +12,7 @@ export function AdminNextSteps() {
     <BrutalCard className="space-y-5">
       <div>
         <p className="text-xs font-black uppercase tracking-[0.18em]">
-          Proximas etapas
+          Próximas etapas
         </p>
         <h2 className="mt-2 text-3xl font-black">O que vem depois</h2>
       </div>

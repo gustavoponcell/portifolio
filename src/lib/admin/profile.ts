@@ -35,7 +35,7 @@ async function ensureAdminDatabase() {
   if (!admin.isAdmin) {
     return {
       ok: false,
-      message: "Acesso negado. Entre com o usuario administrador.",
+      message: "Acesso negado. Entre com o usuário administrador.",
     };
   }
 
@@ -43,7 +43,7 @@ async function ensureAdminDatabase() {
     return {
       ok: false,
       message:
-        "A conexao administrativa com o Supabase ainda nao esta configurada no servidor.",
+        "A conexão administrativa com o Supabase ainda não está configurada no servidor.",
     };
   }
 
@@ -62,7 +62,7 @@ export async function getProfile(): Promise<AdminCrudResult<Profile | null>> {
   if (!user) {
     return {
       ok: false,
-      message: "Usuario autenticado nao encontrado.",
+      message: "Usuário autenticado não encontrado.",
     };
   }
 
@@ -77,7 +77,7 @@ export async function getProfile(): Promise<AdminCrudResult<Profile | null>> {
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar o perfil.",
+        message: "Não foi possível carregar o perfil.",
       };
     }
 
@@ -89,7 +89,7 @@ export async function getProfile(): Promise<AdminCrudResult<Profile | null>> {
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -108,7 +108,7 @@ export async function upsertProfile(
   if (!user) {
     return {
       ok: false,
-      message: "Usuario autenticado nao encontrado.",
+      message: "Usuário autenticado não encontrado.",
     };
   }
 
@@ -137,7 +137,7 @@ export async function upsertProfile(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel salvar o perfil.",
+        message: "Não foi possível salvar o perfil.",
       };
     }
 
@@ -149,7 +149,62 @@ export async function upsertProfile(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
+    };
+  }
+}
+
+export async function updateProfileAvatar(
+  avatarUrl: string
+): Promise<AdminCrudResult<Profile>> {
+  const guard = await ensureAdminDatabase();
+
+  if (!guard.ok) {
+    return guard;
+  }
+
+  const user = await getCurrentUser();
+
+  if (!user) {
+    return {
+      ok: false,
+      message: "Usuário autenticado não encontrado.",
+    };
+  }
+
+  const nextAvatarUrl = avatarUrl.trim();
+
+  if (!nextAvatarUrl) {
+    return {
+      ok: false,
+      message: "URL pública do avatar não encontrada.",
+    };
+  }
+
+  try {
+    const supabase = createAdminClient();
+    const { data, error } = await supabase
+      .from("profiles")
+      .upsert({ id: user.id, avatar_url: nextAvatarUrl })
+      .select("*")
+      .single();
+
+    if (error) {
+      return {
+        ok: false,
+        message: "Imagem enviada, mas não foi possível atualizar o perfil.",
+      };
+    }
+
+    return {
+      ok: true,
+      message: "Avatar atualizado com sucesso.",
+      data: mapProfile(data),
+    };
+  } catch {
+    return {
+      ok: false,
+      message: "Imagem enviada, mas não foi possível conectar ao perfil.",
     };
   }
 }

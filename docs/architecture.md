@@ -1,5 +1,27 @@
 # Arquitetura Inicial
 
+## Atualização Prompt 16.9: fontes reais de projetos públicos
+
+A leitura pública de projetos foi separada das referências locais:
+
+- `src/lib/design-projects.ts` usa um client Supabase público e server-side para
+  carregar apenas projetos `design` com status `published`, incluindo relações
+  de tags, ferramentas, galeria e destaques;
+- `src/lib/dev-repositories.ts` descarta a fonte local quando a API do GitHub
+  falha e, com Supabase configurado, retorna apenas curadorias visíveis e
+  publicadas associadas a repositórios reais;
+- Home recebe somente projetos Design destacados e curadorias Dev destacadas;
+- `/projetos/[slug]` e o sitemap consultam exclusivamente projetos Design
+  publicados;
+- ausência ou falha de configuração externa resulta em listas vazias e estados
+  editoriais profissionais, sem quebrar o build;
+- `src/data/portfolio-projects.ts` e
+  `src/data/portfolio-github-repositories.ts` permanecem como referência interna
+  e apoio ao painel, sem alimentar visitantes.
+
+O client público não usa secret ou service role. Auth, Storage e operações do
+admin não foram alterados.
+
 ## Atualizacao Prompt 16.5: Modo escuro padrao
 
 O tema escuro agora e implementado como padrao global por tokens CSS em
@@ -61,11 +83,22 @@ Estrategia:
 - Escrita feita somente no servidor com client admin, apos `requireAdmin()`.
 - Arquivos aceitos: JPEG, PNG, WebP e GIF.
 - Limite: 5 MB.
-- Paths usam slug/timestamp/UUID parcial e nao usam nome original puro.
-- Upload de avatar atualiza `profiles.avatar_url`.
+- Paths preservam apenas contexto seguro de pasta/slug e nao usam o nome
+  original puro.
+- Cada upload usa timestamp e UUID completo para nunca sobrescrever o mesmo
+  path.
+- Upload de avatar atualiza `profiles.avatar_url` com a nova URL publica e o
+  query param de versao `v`.
 - Upload de capa Design atualiza `projects.cover_url`.
 - Upload de galeria cria linha em `project_gallery` com `image_url`.
 - Componentes publicos exibem imagem quando existe URL e mantem fallback neobrutalista quando nao existe.
+
+No fluxo de avatar, a mudanca do path invalida o cache do Supabase CDN e o
+query param de versao invalida caches intermediarios e do navegador. Depois da
+persistencia, o servidor revalida `/`, `/contato`, `/admin/perfil` e `/admin`.
+Trocar manualmente o arquivo no Storage mantendo o mesmo path nao e um fluxo
+suportado para atualizacao imediata: o CDN pode conservar a imagem anterior.
+Uma troca manual deve criar outro path e atualizar `profiles.avatar_url`.
 
 ## Atualizacao Prompt 14: Curadoria de projetos Dev
 

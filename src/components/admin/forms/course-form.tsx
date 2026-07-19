@@ -49,7 +49,7 @@ export function CourseForm({ course, title = "Novo curso" }: CourseFormProps) {
         {course ? <input name="id" type="hidden" value={course.id} /> : null}
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Titulo" name="title" defaultValue={course?.title} required />
+          <Field label="Título" name="title" defaultValue={course?.title} required />
           <Field label="Instituicao" name="institution" defaultValue={course?.institution} />
         </div>
 
@@ -58,7 +58,7 @@ export function CourseForm({ course, title = "Novo curso" }: CourseFormProps) {
             className="text-sm font-black uppercase tracking-[0.18em]"
             htmlFor={`course-description-${course?.id ?? "new"}`}
           >
-            Descricao
+            Descrição
           </label>
           <textarea
             className="brutal-border min-h-28 w-full bg-card px-4 py-3 font-bold leading-7 outline-none focus-visible:ring-4 focus-visible:ring-dev"
@@ -90,7 +90,7 @@ export function CourseForm({ course, title = "Novo curso" }: CourseFormProps) {
             name="visible"
             type="checkbox"
           />
-          Visivel
+          Visível
         </label>
 
         <BrutalButton type="submit" variant={course ? "outline" : "dev"}>

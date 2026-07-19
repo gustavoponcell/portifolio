@@ -22,7 +22,7 @@ export function StorageStatusCard({ configured }: StorageStatusCardProps) {
         Bucket esperado: <span className="font-black">{MEDIA_BUCKET}</span>.{" "}
         {configured
           ? "Uploads usam client admin somente no servidor."
-          : "Configure Supabase publico e chave admin server-side para habilitar upload."}
+          : "Configure o Supabase público e a chave admin server-side para habilitar o upload."}
       </p>
     </BrutalCard>
   );

@@ -1,5 +1,26 @@
 # Checklist de SEO, performance e acessibilidade
 
+## Prompt 16.10
+
+Validações automatizadas concluídas:
+
+- `npm run lint`: aprovado.
+- `npm run build`: aprovado, incluindo TypeScript e geração das páginas de projetos reais.
+- Home, Design, Dev, Contato, Login, sitemap, robots, manifest e projeto real: HTTP 200.
+- `/admin` sem sessão: redirecionamento HTTP 307 para `/login`.
+- Rota inexistente: HTTP 404.
+- Sitemap sem `/admin`, `/login` ou `/api` e com projeto real publicado.
+- Robots bloqueando `/admin`, `/login` e `/api`.
+- Manifest com nome público `Gustavo Poncell`.
+- `npm audit`: duas vulnerabilidades moderadas no PostCSS distribuído internamente pelo Next; a correção sugerida exige downgrade incompatível e não foi aplicada.
+
+Pendências para o deploy:
+
+- configurar as variáveis de ambiente no projeto da Vercel;
+- confirmar `NEXT_PUBLIC_SITE_URL` com a URL definitiva;
+- executar Lighthouse em mobile após a publicação;
+- revisar a imagem final de Open Graph no domínio de produção.
+
 ## Prompt 16.6
 
 Status atual:

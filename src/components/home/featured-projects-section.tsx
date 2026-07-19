@@ -2,44 +2,51 @@ import { BrutalButton } from "@/components/brand/brutal-button";
 import { BrutalCard } from "@/components/brand/brutal-card";
 import { ModeBadge } from "@/components/brand/mode-badge";
 import { SectionHeading } from "@/components/brand/section-heading";
+import { GitHubRepositoryCard } from "@/components/github/github-repository-card";
 import { ResponsiveImage } from "@/components/media/responsive-image";
+import { EmptyProjectsState } from "@/components/projects/empty-projects-state";
 import { Badge } from "@/components/ui/badge";
-import { getFeaturedProjects } from "@/lib/projects";
+import type { GitHubRepositoryWithCuration } from "@/types/github";
+import type { Project } from "@/types/project";
 
-const featuredProjects = getFeaturedProjects().slice(0, 4);
+type FeaturedProjectsSectionProps = {
+  designProjects: Project[];
+  devRepositories: GitHubRepositoryWithCuration[];
+};
 
-export function FeaturedProjectsSection() {
+export function FeaturedProjectsSection({
+  designProjects,
+  devRepositories,
+}: FeaturedProjectsSectionProps) {
+  const projects = designProjects.slice(0, 4);
+  const repositories = devRepositories.slice(0, Math.max(0, 4 - projects.length));
+  const hasProjects = projects.length > 0 || repositories.length > 0;
+
   return (
     <section id="projetos" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Projetos em destaque"
-        title="Trabalhos que conectam visual, estratégia e tecnologia"
-        description="Uma seleção de projetos que mostram a atuação de Gustavo Poncell em identidade visual, interfaces e desenvolvimento web."
+        title="Projetos que mostram meu jeito de criar"
+        description="Aqui reúno trabalhos publicados que representam como conecto visual, estratégia e tecnologia."
         level={2}
       />
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {featuredProjects.map((project) => {
-          const accentClass =
-            project.type === "design"
-              ? "bg-design !text-[#111111] border-[#111111]"
-              : "bg-dev !text-[#111111] border-[#111111]";
-          const coverUrl = project.cover ?? project.coverUrl;
-
-          return (
+      {hasProjects ? (
+        <div className="grid gap-6 md:grid-cols-2">
+          {projects.map((project) => (
             <BrutalCard key={project.id} className="flex flex-col gap-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <ModeBadge mode={project.type} />
+                <ModeBadge mode="design" />
                 <span className="brutal-border bg-muted px-2 py-1 text-xs font-black uppercase tracking-wide">
                   Destaque
                 </span>
               </div>
 
-              {coverUrl ? (
+              {project.coverUrl ? (
                 <ResponsiveImage
                   alt={`Capa do projeto ${project.title}`}
                   className="brutal-border h-40 w-full object-cover"
-                  src={coverUrl}
+                  src={project.coverUrl}
                 />
               ) : null}
 
@@ -53,7 +60,7 @@ export function FeaturedProjectsSection() {
                   <Badge
                     key={tag}
                     variant="outline"
-                    className={`border-2 ${accentClass} font-bold`}
+                    className="border-2 border-[#111111] bg-design font-bold !text-[#111111]"
                   >
                     {tag}
                   </Badge>
@@ -68,9 +75,20 @@ export function FeaturedProjectsSection() {
                 Ver projeto
               </BrutalButton>
             </BrutalCard>
-          );
-        })}
-      </div>
+          ))}
+
+          {repositories.map((repository) => (
+            <GitHubRepositoryCard key={repository.id} repository={repository} />
+          ))}
+        </div>
+      ) : (
+        <EmptyProjectsState
+          title="Ainda estou organizando os projetos que quero destacar por aqui."
+          description="Enquanto preparo essa seleção, você pode conhecer minhas frentes de atuação em Design e Dev."
+          href="/design"
+          actionLabel="Conhecer meu trabalho"
+        />
+      )}
     </section>
   );
 }

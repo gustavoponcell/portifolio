@@ -3,13 +3,21 @@ import {
   mapGitHubCurationRow,
 } from "@/lib/github-curation";
 import { getGitHubRepositories } from "@/lib/github";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { hasSupabasePublicEnv } from "@/lib/supabase/env";
 import type { SupabaseGitHubRepositoryCurationRow } from "@/lib/supabase/types";
 import type { GitHubRepositoryCurationResult } from "@/types/github";
 
 export async function getPublicDevRepositories(): Promise<GitHubRepositoryCurationResult> {
   const githubResult = await getGitHubRepositories();
+
+  if (githubResult.source !== "github") {
+    return {
+      repositories: [],
+      source: "fallback",
+      error: githubResult.error,
+    };
+  }
 
   if (!hasSupabasePublicEnv()) {
     return {
@@ -22,21 +30,27 @@ export async function getPublicDevRepositories(): Promise<GitHubRepositoryCurati
   }
 
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
+
+    if (!supabase) {
+      return {
+        repositories: [],
+        source: "fallback",
+      };
+    }
+
     const { data, error } = await supabase
       .from("github_repository_curations")
       .select("*")
       .eq("visible", true)
-      .in("custom_status", ["published", "mock"])
+      .eq("custom_status", "published")
       .order("sort_order", { ascending: true });
 
     if (error || !data?.length) {
       return {
-        repositories: githubResult.repositories.map((repository) =>
-          combineRepositoryWithCuration(repository, githubResult.source)
-        ),
-        source: githubResult.source,
-        error: githubResult.error,
+        repositories: [],
+        source: error ? "fallback" : "curated",
+        error: error ? "Não foi possível carregar os projetos selecionados." : undefined,
       };
     }
 
@@ -64,30 +78,15 @@ export async function getPublicDevRepositories(): Promise<GitHubRepositoryCurati
         return a.name.localeCompare(b.name);
       });
 
-    if (!repositories.length) {
-      return {
-        repositories: githubResult.repositories.map((repository) =>
-          combineRepositoryWithCuration(repository, githubResult.source)
-        ),
-        source: githubResult.source,
-        error: githubResult.error,
-      };
-    }
-
     return {
       repositories,
-      source: githubResult.source === "fallback" ? "curated-fallback" : "curated",
-      error: githubResult.error,
+      source: "curated",
     };
   } catch {
     return {
-      repositories: githubResult.repositories.map((repository) =>
-        combineRepositoryWithCuration(repository, githubResult.source)
-      ),
-      source: githubResult.source,
-      error:
-        githubResult.error ??
-        "Nao foi possivel carregar curadoria publica; exibindo GitHub ou fallback.",
+      repositories: [],
+      source: "fallback",
+      error: "Não foi possível carregar os projetos selecionados.",
     };
   }
 }

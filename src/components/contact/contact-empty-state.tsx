@@ -8,10 +8,10 @@ export function ContactEmptyState() {
         <p className="text-xs font-black uppercase tracking-[0.2em]">
           Canais de contato
         </p>
-        <h2 className="text-3xl font-black">Os canais de contato ainda não foram publicados.</h2>
+        <h2 className="text-3xl font-black">Meus canais de contato ainda não foram publicados por aqui.</h2>
         <p className="max-w-3xl leading-7">
-          Enquanto isso, conheça os projetos e as frentes de atuação em design
-          e desenvolvimento.
+          Enquanto isso, você pode conhecer melhor meu trabalho nas áreas de
+          Design e Dev.
         </p>
       </div>
 

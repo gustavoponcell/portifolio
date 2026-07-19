@@ -8,13 +8,13 @@ export function AuthStatusCard() {
 
   const statusItems = [
     {
-      label: "Conexao Supabase",
-      value: supabaseConfigured ? "sim" : "nao",
+      label: "Conexão Supabase",
+      value: supabaseConfigured ? "sim" : "não",
       tone: supabaseConfigured ? "bg-dev ink-on-accent border-[#111111]" : "bg-design ink-on-accent border-[#111111]",
     },
     {
       label: "Admin autorizado",
-      value: adminEmailConfigured ? "sim" : "nao",
+      value: adminEmailConfigured ? "sim" : "não",
       tone: adminEmailConfigured ? "bg-dev ink-on-accent border-[#111111]" : "bg-design ink-on-accent border-[#111111]",
     },
   ];
@@ -22,7 +22,7 @@ export function AuthStatusCard() {
   return (
     <BrutalCard className="space-y-5">
       <div>
-        <h2 className="text-2xl font-black">Status da autenticacao</h2>
+        <h2 className="text-2xl font-black">Status da autenticação</h2>
         <p className="mt-2 leading-7">
           Este card mostra apenas se o ambiente esta pronto para login. Nenhuma
           chave, token, cookie ou e-mail autorizado aparece na interface.
@@ -44,9 +44,9 @@ export function AuthStatusCard() {
 
       {!supabaseConfigured || !adminEmailConfigured ? (
         <div className="technical-note px-4 py-3">
-          <p className="font-black">Configuracao pendente</p>
+          <p className="font-black">Configuração pendente</p>
           <p className="mt-2 leading-7">
-            Configure as variaveis publicas do Supabase e o e-mail do
+            Configure as variáveis públicas do Supabase e o e-mail do
             administrador no arquivo de ambiente local para habilitar o login.
           </p>
         </div>

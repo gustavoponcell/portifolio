@@ -18,8 +18,8 @@ export function RelatedProjectsSection({ projects }: RelatedProjectsSectionProps
     <section className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Relacionados"
-        title="Outros projetos para explorar"
-        description="Projetos próximos em linguagem, tecnologia ou área de atuação."
+        title="Outros projetos que você pode conhecer"
+        description="Separei trabalhos que se aproximam deste em linguagem, tecnologia ou área de atuação."
         level={2}
       />
 

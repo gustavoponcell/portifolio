@@ -1,24 +1,27 @@
 import { BrutalCard } from "@/components/brand/brutal-card";
 import { SectionHeading } from "@/components/brand/section-heading";
-import { GitHubRepositoriesGrid } from "@/components/github/github-repositories-grid";
-import { getPublicDevRepositories } from "@/lib/dev-repositories";
+import { DevProjectsSection } from "@/components/dev/dev-projects-section";
+import type { GitHubRepositoryWithCuration } from "@/types/github";
 
-export async function GithubPreviewSection() {
-  const result = await getPublicDevRepositories();
+type GithubPreviewSectionProps = {
+  repositories: GitHubRepositoryWithCuration[];
+};
+
+export function GithubPreviewSection({ repositories }: GithubPreviewSectionProps) {
 
   return (
     <section id="github" className="brutal-section space-y-8">
       <BrutalCard className="bg-dev brutal-card-accent ink-on-accent">
         <SectionHeading
           eyebrow="Repositórios"
-          title="Projetos e estudos em desenvolvimento"
-          description="Uma seleção de repositórios que mostram prática em desenvolvimento web, organização de código e construção de interfaces."
+          title="Onde registro meus estudos e projetos em desenvolvimento"
+          description="Meu GitHub reúne parte do que venho construindo, estudando e organizando como desenvolvedor, com foco em estrutura, interface e código claro."
           accent="neutral"
           level={2}
         />
       </BrutalCard>
 
-      <GitHubRepositoriesGrid repositories={result.repositories} />
+      <DevProjectsSection repositories={repositories} />
     </section>
   );
 }

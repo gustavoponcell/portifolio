@@ -1,5 +1,54 @@
 # Portifolio
 
+## Revisão final antes do deploy
+
+O Prompt 16.10 concluiu a revisão técnica local e a preparação do repositório:
+
+- lint, TypeScript e build de produção validados;
+- rotas públicas, login, redirecionamento do admin, 404, sitemap, robots e manifest testados localmente;
+- projetos públicos confirmados como dados reais publicados;
+- arquivos de ambiente locais, temporários, dumps e chaves privadas protegidos pelo `.gitignore`;
+- `.env.example` mantido somente com placeholders;
+- busca por secrets e referências sensíveis no client sem ocorrências reais;
+- `npm audit` registrou duas vulnerabilidades moderadas no PostCSS interno do Next, sem correção segura disponível sem downgrade incompatível.
+
+O próximo passo recomendado é o **Prompt 17 — Deploy Vercel**, com configuração das variáveis de ambiente diretamente no ambiente de produção.
+
+## Atualização Prompt 16.9: somente projetos reais no site público
+
+A interface pública não usa mais as seleções locais de projetos como conteúdo
+do portfólio. As fontes públicas agora seguem estas regras:
+
+- Design vem do Supabase pelo client público e inclui somente projetos do tipo
+  `design` com status `published`;
+- Dev vem de repositórios reais do GitHub e, quando o Supabase está configurado,
+  respeita a curadoria visível com status `published`;
+- a Home reúne somente projetos reais marcados como destaque;
+- páginas individuais e sitemap incluem somente projetos Design publicados;
+- quando nenhuma fonte real entrega conteúdo, a página mostra um estado vazio
+  profissional, sem inventar projetos.
+
+`src/data/portfolio-projects.ts` e
+`src/data/portfolio-github-repositories.ts` permanecem apenas como referências
+internas para histórico, testes e apoio ao painel. Eles não alimentam a
+interface pública.
+
+## Tom de voz público
+
+Os textos públicos são escritos preferencialmente em primeira pessoa, como se
+Gustavo Poncell estivesse conversando diretamente com quem visita o portfólio.
+A voz combina leveza e profissionalismo: é jovem, direta, natural e evita tanto
+o excesso de informalidade quanto frases genéricas de apresentação profissional.
+
+Princípios principais:
+
+- apresentar Design e Desenvolvimento como duas partes do mesmo trabalho;
+- usar `eu`, `meu` e `minha` quando isso aproxima a conversa, sem repetição excessiva;
+- explicar decisões visuais e técnicas em linguagem clara;
+- não inventar clientes, resultados, cargos ou experiências;
+- não expor termos internos de implementação na interface pública;
+- manter a comunicação administrativa objetiva e operacional.
+
 ## Atualizacao Prompt 16.5: Modo escuro e nome publico
 
 O modo escuro agora e a aparencia padrao do portfolio. A identidade visual
@@ -49,6 +98,18 @@ Funcionalidades:
 - Exibicao publica usa imagem quando a URL existir e fallback neobrutalista quando nao houver.
 - Diagnostico seguro em `/api/admin/storage/health`.
 
+Cada novo upload de avatar cria um arquivo em um path exclusivo, composto por
+timestamp e UUID, e salva em `profiles.avatar_url` uma URL publica com versao.
+Isso evita reutilizar a resposta antiga no navegador, no CDN do Supabase, no
+cache do Next.js ou no deploy da Vercel. As rotas `/`, `/contato` e
+`/admin/perfil` sao revalidadas depois da atualizacao.
+
+Nao substitua manualmente o conteudo de um arquivo existente no mesmo path do
+Storage. O CDN pode continuar entregando a versao anterior durante o periodo de
+cache. Para trocar o avatar, use o upload do admin, que cria um novo path e uma
+nova URL; se uma alteracao manual for inevitavel, use outro nome/path e atualize
+`profiles.avatar_url`.
+
 Bucket esperado:
 
 ```text
@@ -89,7 +150,10 @@ GITHUB_USERNAME=gustavoponcell
 GITHUB_TOKEN=
 ```
 
-`GITHUB_TOKEN` e opcional e fica somente no servidor. Sem Supabase ou sem curadoria visivel, `/dev` continua exibindo GitHub real ou fallback mockado para nao ficar vazio.
+`GITHUB_TOKEN` é opcional e fica somente no servidor. Sem Supabase, `/dev`
+exibe repositórios públicos reais do GitHub. Com Supabase configurado, a página
+exibe somente a curadoria visível e publicada. Se nenhuma fonte real estiver
+disponível, apresenta um estado vazio.
 
 ## Atualizacao Prompt 13: CRUD de projetos Design
 
@@ -201,9 +265,9 @@ Criar uma presença digital profissional, visualmente marcante e fácil de atual
 
 ## Status atual
 
-Base Next.js criada, design system inicial configurado, layout global implementado, Home completa estruturada, modos Design/Dev criados, integração GitHub server-side inicial configurada e páginas individuais de projeto implementadas.
+Base Next.js criada, design system inicial configurado, layout global implementado, Home completa estruturada, modos Design/Dev criados, integração GitHub server-side configurada e páginas individuais de projetos Design publicados implementadas.
 
-O projeto já possui App Router, TypeScript, Tailwind CSS 4, ESLint, shadcn/ui, estrutura com `src/`, dados mockados iniciais, componentes visuais neobrutalistas, Header, Footer, navegação entre modos, Home completa, página Design com espaço futuro para Behance, página Dev com stack, projetos mockados, processo técnico, repositórios do GitHub com fallback seguro e detalhes de projeto em `/projetos/[slug]`. Supabase e admin real ainda serão implementados em etapas futuras.
+O projeto já possui App Router, TypeScript, Tailwind CSS 4, ESLint, shadcn/ui, estrutura com `src/`, componentes visuais neobrutalistas, Header, Footer, navegação entre modos, Home completa, página Design com projetos publicados no Supabase, página Dev com repositórios reais e curadoria, processo técnico e detalhes de projeto em `/projetos/[slug]`.
 
 ## Como instalar
 
@@ -233,7 +297,7 @@ npm run build
 
 ## Integração GitHub
 
-A seção GitHub do Modo Dev busca repositórios públicos no servidor. O site continua funcionando sem `.env.local`, usando dados temporários como fallback.
+A seção GitHub do Modo Dev busca repositórios públicos no servidor. O site continua funcionando sem `.env.local`; quando a fonte real não está disponível, a seção apresenta um estado vazio.
 
 Para configurar localmente, crie `.env.local` com:
 
@@ -257,7 +321,7 @@ Depois acesse `http://localhost:3000/dev`.
 
 ## Projetos individuais
 
-As páginas em `/projetos/[slug]` são geradas a partir de `src/data/portfolio-projects.ts` por meio dos helpers de `src/lib/projects.ts`.
+As páginas em `/projetos/[slug]` são geradas somente para projetos Design publicados, consultados por `src/lib/design-projects.ts`.
 
 Cada projeto pode exibir resumo, problema, solução, ferramentas, tags, destaques, materiais visuais, links públicos quando existirem e projetos relacionados. A origem dos dados foi organizada para evoluir sem expor linguagem interna na interface pública.
 

@@ -14,7 +14,7 @@ export function AdminUserCard({ email }: AdminUserCardProps) {
         </p>
         <h2 className="mt-2 text-3xl font-black">Bem-vindo ao admin</h2>
         <p className="mt-2 leading-7">
-          Usuario autenticado: <strong>{email ?? "e-mail nao disponivel"}</strong>
+          Usuário autenticado: <strong>{email ?? "e-mail não disponível"}</strong>
         </p>
       </div>
       <LogoutButton />

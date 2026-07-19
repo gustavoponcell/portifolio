@@ -6,13 +6,13 @@ const adminSections = [
     title: "Perfil",
     status: "Funcional",
     href: "/admin/perfil",
-    description: "Editar dados publicos, links textuais e avatar por upload.",
+    description: "Editar dados públicos, links textuais e avatar por upload.",
   },
   {
-    title: "Experiencias",
+    title: "Experiências",
     status: "Funcional",
     href: "/admin/experiencias",
-    description: "Criar, editar, ocultar e excluir experiencias.",
+    description: "Criar, editar, ocultar e excluir experiências.",
   },
   {
     title: "Cursos e certificados",
@@ -30,18 +30,18 @@ const adminSections = [
     title: "Projetos Dev",
     status: "Funcional",
     href: "/admin/projetos/dev",
-    description: "Curadoria GitHub para ocultar, destacar e personalizar repositorios.",
+    description: "Curadoria GitHub para ocultar, destacar e personalizar repositórios.",
   },
   {
     title: "Upload de imagens",
     status: "Funcional",
     href: "/api/admin/storage/health",
-    description: "Diagnostico seguro do bucket portfolio-media no Supabase Storage.",
+    description: "Diagnóstico seguro do bucket portfolio-media no Supabase Storage.",
   },
   {
     title: "Behance real",
     status: "Pendente",
-    description: "Integracao real nao existe; Design usa links curados manualmente.",
+    description: "Integração real não existe; Design usa links curados manualmente.",
   },
 ];
 
@@ -67,7 +67,7 @@ export function AdminOverviewCards() {
           <p className="leading-7">{section.description}</p>
           {section.href ? (
             <BrutalButton href={section.href} variant="outline" className="mt-auto self-start">
-              Abrir area
+              Abrir área
             </BrutalButton>
           ) : null}
         </BrutalCard>

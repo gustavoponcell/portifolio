@@ -64,7 +64,7 @@ function readCourse(formData: FormData): CourseInput {
 
 function validateCourse(input: CourseInput) {
   if (!input.title) {
-    return "Titulo e obrigatorio.";
+    return "Título é obrigatório.";
   }
 
   if (!isUrl(input.certificateUrl)) {
@@ -99,7 +99,7 @@ export async function updateCourseAction(formData: FormData) {
   const id = value(formData, "id");
 
   if (!id) {
-    go("Curso nao encontrado.", "error");
+    go("Curso não encontrado.", "error");
   }
 
   const input = readCourse(formData);
@@ -119,7 +119,7 @@ export async function deleteCourseAction(formData: FormData) {
   const id = value(formData, "id");
 
   if (!id) {
-    go("Curso nao encontrado.", "error");
+    go("Curso não encontrado.", "error");
   }
 
   const result = await deleteCourse(id);
@@ -133,7 +133,7 @@ export async function toggleCourseVisibilityAction(formData: FormData) {
   const visible = value(formData, "visible") === "true";
 
   if (!id) {
-    go("Curso nao encontrado.", "error");
+    go("Curso não encontrado.", "error");
   }
 
   const result = await toggleCourseVisibility(id, visible);

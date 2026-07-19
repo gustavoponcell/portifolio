@@ -12,8 +12,8 @@ export function AdminDashboardShell({ email }: AdminDashboardShellProps) {
     <div className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Admin"
-        title="Painel inicial do portfolio"
-        description="Acesso protegido com Supabase Auth. Perfil, experiencias, cursos, projetos Design, curadoria Dev e upload de imagens ja podem ser gerenciados; Behance real fica para proximas etapas."
+        title="Painel inicial do portfólio"
+        description="Acesso protegido com Supabase Auth. Perfil, experiências, cursos, projetos Design, curadoria Dev e upload de imagens já podem ser gerenciados; Behance real fica para próximas etapas."
       />
 
       <AdminUserCard email={email} />

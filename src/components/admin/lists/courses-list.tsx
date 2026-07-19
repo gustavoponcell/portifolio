@@ -34,7 +34,7 @@ export function CoursesList({ courses }: CoursesListProps) {
                 course.visible ? "bg-dev ink-on-accent border-[#111111]" : "bg-muted"
               }`}
             >
-              {course.visible ? "Visivel" : "Oculto"}
+              {course.visible ? "Visível" : "Oculto"}
             </span>
           </div>
 

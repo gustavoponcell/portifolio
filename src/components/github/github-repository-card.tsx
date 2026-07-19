@@ -34,7 +34,7 @@ export function GitHubRepositoryCard({
   const displayDescription =
     "displayDescription" in repository
       ? repository.displayDescription
-      : repository.description ?? "Repositório em desenvolvimento.";
+      : repository.description ?? "Ainda estou documentando este repositório.";
   const displayTags =
     "displayTags" in repository ? repository.displayTags : repository.topics;
   const featured = "featured" in repository ? repository.featured : false;

@@ -53,11 +53,11 @@ function readExperience(formData: FormData): ExperienceInput {
 
 function validateExperience(input: ExperienceInput) {
   if (!input.title) {
-    return "Titulo e obrigatorio.";
+    return "Título é obrigatório.";
   }
 
   if (input.startDate && input.endDate && !input.isCurrent && input.endDate < input.startDate) {
-    return "Data de fim nao pode ser anterior a data de inicio.";
+    return "A data de fim não pode ser anterior à data de início.";
   }
 
   return null;
@@ -88,7 +88,7 @@ export async function updateExperienceAction(formData: FormData) {
   const id = value(formData, "id");
 
   if (!id) {
-    go("Experiencia nao encontrada.", "error");
+    go("Experiência não encontrada.", "error");
   }
 
   const input = readExperience(formData);
@@ -108,7 +108,7 @@ export async function deleteExperienceAction(formData: FormData) {
   const id = value(formData, "id");
 
   if (!id) {
-    go("Experiencia nao encontrada.", "error");
+    go("Experiência não encontrada.", "error");
   }
 
   const result = await deleteExperience(id);
@@ -122,7 +122,7 @@ export async function toggleExperienceVisibilityAction(formData: FormData) {
   const visible = value(formData, "visible") === "true";
 
   if (!id) {
-    go("Experiencia nao encontrada.", "error");
+    go("Experiência não encontrada.", "error");
   }
 
   const result = await toggleExperienceVisibility(id, visible);

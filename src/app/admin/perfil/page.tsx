@@ -34,8 +34,8 @@ export default async function AdminProfilePage({ searchParams }: AdminProfilePag
     <div className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Admin / Perfil"
-        title="Editar perfil publico"
-        description="Gerencie as informacoes base do portfolio. O avatar pode ser URL textual ou imagem enviada ao Supabase Storage."
+        title="Editar perfil público"
+        description="Gerencie as informações base do portfólio. O avatar pode ser uma URL textual ou uma imagem enviada ao Supabase Storage."
       />
 
       <div className="flex flex-wrap gap-3">
@@ -60,7 +60,7 @@ export default async function AdminProfilePage({ searchParams }: AdminProfilePag
 
       {!profileResult.ok ? (
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Configuracao pendente</h2>
+          <h2 className="text-2xl font-black">Configuração pendente</h2>
           <p className="leading-7">{profileResult.message}</p>
         </BrutalCard>
       ) : (

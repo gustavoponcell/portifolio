@@ -102,12 +102,12 @@ export function DesignProjectForm({
         ) : null}
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Titulo" name="title" defaultValue={project?.title} required />
+          <Field label="Título" name="title" defaultValue={project?.title} required />
           <Field label="Slug" name="slug" defaultValue={project?.slug} />
         </div>
 
         <TextArea
-          label="Descricao"
+          label="Descrição"
           name="description"
           defaultValue={project?.description}
           required
@@ -176,7 +176,7 @@ export function DesignProjectForm({
           label="Galeria placeholder"
           name="gallery"
           defaultValue={galleryValue(project)}
-          hint="Um item por linha no formato: Titulo | Descricao | URL opcional. Upload real fica para depois."
+          hint="Um item por linha no formato: Título | Descrição | URL opcional."
         />
 
         <label className="brutal-border inline-flex bg-card px-4 py-3 font-bold">
@@ -224,8 +224,8 @@ export function DesignProjectForm({
             <form action={uploadDesignProjectGalleryImageAction} className="space-y-4">
               <input name="projectId" type="hidden" value={project.id} />
               <input name="projectSlug" type="hidden" value={project.slug} />
-              <Field label="Titulo da imagem" name="galleryTitle" required />
-              <TextArea label="Descricao da imagem" name="galleryDescription" />
+              <Field label="Título da imagem" name="galleryTitle" required />
+              <TextArea label="Descrição da imagem" name="galleryDescription" />
               <ImageUploadField
                 helpText="Cria um novo item de galeria com URL publica do Storage."
                 label="Imagem da galeria"

@@ -46,7 +46,7 @@ export default async function AdminDesignProjectsPage({
           Voltar ao admin
         </BrutalButton>
         <BrutalButton href="/design" variant="design">
-          Ver modo Design publico
+          Ver modo Design público
         </BrutalButton>
       </div>
 
@@ -66,7 +66,7 @@ export default async function AdminDesignProjectsPage({
 
       {!projectsResult.ok ? (
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Configuracao pendente</h2>
+          <h2 className="text-2xl font-black">Configuração pendente</h2>
           <p className="leading-7">{projectsResult.message}</p>
         </BrutalCard>
       ) : (

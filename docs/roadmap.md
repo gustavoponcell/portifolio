@@ -1,5 +1,25 @@
 # Roadmap
 
+## Atualização Prompt 16.10
+
+- Revisão final de segurança, conteúdo público, fontes de projetos e arquivos versionáveis concluída.
+- Lint, TypeScript e build de produção passaram.
+- Rotas principais, redirecionamento do admin, 404, sitemap, robots e manifest foram testados localmente.
+- `.env.example` foi restaurado com placeholders e temporários passaram a ser ignorados.
+- O audit mantém duas vulnerabilidades moderadas herdadas do PostCSS interno do Next; não foi aplicado downgrade nem `npm audit fix --force`.
+- Próximo prompt recomendado: Prompt 17 — Deploy Vercel.
+
+## Atualização Prompt 16.9
+
+- Projetos fictícios deixaram de alimentar a interface pública.
+- Design público agora lê somente projetos publicados no Supabase.
+- Dev público agora exibe somente GitHub real ou curadoria visível e publicada.
+- Home, detalhes e sitemap usam apenas fontes reais.
+- Estados vazios profissionais substituem preenchimentos inventados.
+- As seleções locais permanecem apenas como referência interna e apoio a testes
+  ou ao painel.
+- Próximo prompt recomendado: Prompt 17 — Deploy Vercel.
+
 ## Atualizacao Prompt 16.5
 
 - O modo escuro passou a ser a aparencia padrao do portfolio.

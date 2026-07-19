@@ -38,7 +38,7 @@ const modeCards = [
     buttonLabel: "Entrar no Design",
     className: "bg-design",
     description:
-      "Trabalhos visuais, direção criativa, interfaces e projetos com foco em clareza, consistência e personalidade.",
+      "No Design, eu exploro direção visual, composição, interfaces e projetos com clareza, consistência e personalidade.",
     items: ["Artes e peças visuais", "Projetos em destaque", "Identidade e comunicação"],
   },
   {
@@ -48,7 +48,7 @@ const modeCards = [
     buttonLabel: "Entrar no Dev",
     className: "bg-dev",
     description:
-      "Projetos de programação, tecnologias, sistemas web e soluções digitais organizadas para uso real.",
+      "No Dev, eu construo interfaces, sistemas web e soluções digitais com estrutura, organização e foco no uso real.",
     items: ["Projetos web", "Tecnologias usadas", "Repositórios selecionados"],
   },
 ];
@@ -57,9 +57,9 @@ export function ModeCardsSection() {
   return (
     <section id="modos" className="brutal-section space-y-10">
       <SectionHeading
-        eyebrow="Modos do portfólio"
-        title="Design + Desenvolvimento"
-        description="Conheça as duas frentes de atuação de Gustavo Poncell: design visual e desenvolvimento de soluções digitais."
+        eyebrow="Design + Desenvolvimento"
+        title="Do visual ao código"
+        description="Meu trabalho caminha entre duas frentes que se completam: no design, eu penso em identidade, composição e comunicação; no desenvolvimento, transformo estrutura, lógica e interface em produto digital."
         level={2}
       />
 

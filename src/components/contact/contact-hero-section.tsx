@@ -11,8 +11,8 @@ export function ContactHeroSection({ profile }: ContactHeroSectionProps) {
     <section className="brutal-section grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
       <SectionHeading
         eyebrow="Contato"
-        title="Vamos conversar com clareza."
-        description="Tem um projeto, oportunidade ou ideia para tirar do papel? Entre em contato e conheça as frentes de atuação em design e desenvolvimento."
+        title="Vamos conversar?"
+        description="Se você tem uma oportunidade, projeto, parceria ou ideia que combina com design e desenvolvimento, pode me chamar por um dos canais disponíveis."
         accent="dev"
       />
 

@@ -3,27 +3,28 @@ import { BrutalCard } from "@/components/brand/brutal-card";
 import { ModeBadge } from "@/components/brand/mode-badge";
 import { SectionHeading } from "@/components/brand/section-heading";
 import { ResponsiveImage } from "@/components/media/responsive-image";
+import { EmptyProjectsState } from "@/components/projects/empty-projects-state";
 import { Badge } from "@/components/ui/badge";
-import { getProjectsByType } from "@/lib/projects";
+import type { Project } from "@/types/project";
 
-const designProjects = getProjectsByType("design");
+type DesignProjectsSectionProps = {
+  projects: Project[];
+};
 
-export function DesignProjectsSection() {
+export function DesignProjectsSection({ projects }: DesignProjectsSectionProps) {
   return (
     <section id="projetos-design" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Projetos visuais"
-        title="Cases de design, identidade e interface"
-        description="Trabalhos que destacam direção visual, composição, hierarquia e soluções gráficas para diferentes contextos."
+        title="Projetos que mostram minha forma de pensar visualmente"
+        description="Reuni trabalhos publicados em que exploro marca, linguagem, composição, hierarquia e apresentação."
         accent="design"
         level={2}
       />
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {designProjects.map((project) => {
-          const coverUrl = project.cover ?? project.coverUrl;
-
-          return (
+      {projects.length ? (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {projects.map((project) => (
             <BrutalCard key={project.id} className="flex flex-col gap-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <ModeBadge mode="design" />
@@ -34,11 +35,11 @@ export function DesignProjectsSection() {
                 ) : null}
               </div>
 
-              {coverUrl ? (
+              {project.coverUrl ? (
                 <ResponsiveImage
                   alt={`Capa do projeto ${project.title}`}
                   className="brutal-border h-36 w-full object-cover"
-                  src={coverUrl}
+                  src={project.coverUrl}
                 />
               ) : (
                 <div className="brutal-border grid h-36 place-items-center border-[#111111] bg-design p-4 text-center ink-on-accent">
@@ -74,9 +75,16 @@ export function DesignProjectsSection() {
                 Ver projeto
               </BrutalButton>
             </BrutalCard>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <EmptyProjectsState
+          title="Ainda não publiquei projetos de design por aqui."
+          description="Estou selecionando os trabalhos que melhor representam meu processo. Em breve, esta área vai reunir identidades visuais, interfaces e peças gráficas reais."
+          href="/dev"
+          actionLabel="Conhecer meu lado Dev"
+        />
+      )}
     </section>
   );
 }

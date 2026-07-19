@@ -10,21 +10,21 @@ export function DesignHeroSection() {
 
         <div className="space-y-5">
           <h1 className="max-w-5xl text-balance text-5xl font-black leading-none tracking-tight sm:text-7xl">
-            Projetos visuais, identidade e interfaces com personalidade.
+            Eu uso design para dar forma visual a ideias, marcas e experiências digitais.
           </h1>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
-            Trabalhos que exploram composição, marca, direção visual e
-            experiência digital para comunicar ideias com clareza, impacto e
-            consistência.
+            Nesta parte do portfólio, reúno projetos e estudos que mostram meu
+            olhar para identidade visual, composição, peças gráficas, interfaces
+            e direção criativa.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-4">
           <BrutalButton href="#projetos-design" variant="design">
-            Ver projetos de design
+            Ver meus projetos de Design
           </BrutalButton>
           <BrutalButton href="/dev" variant="outline">
-            Conhecer lado Dev
+            Conhecer meu lado Dev
           </BrutalButton>
         </div>
       </div>
@@ -42,7 +42,7 @@ export function DesignHeroSection() {
           </div>
           <div className="brutal-border border-[#111111] bg-design p-6 ink-on-accent shadow-[6px_6px_0_#f7f3e8]">
             <p className="max-w-sm text-4xl font-black leading-none">
-              Direção visual, contraste e linguagem gráfica.
+              Meu olhar para direção visual, contraste e linguagem gráfica.
             </p>
             <div className="mt-6 grid grid-cols-3 gap-3">
               <span className="h-16 brutal-border border-[#111111] bg-card" />

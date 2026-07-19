@@ -20,7 +20,7 @@ async function ensureWritableAdmin() {
   if (!admin.isAdmin) {
     return {
       ok: false,
-      message: "Acesso negado. Entre com o usuario administrador.",
+      message: "Acesso negado. Entre com o usuário administrador.",
     };
   }
 
@@ -28,7 +28,7 @@ async function ensureWritableAdmin() {
     return {
       ok: false,
       message:
-        "A conexao administrativa com o Supabase ainda nao esta configurada no servidor.",
+        "A conexão administrativa com o Supabase ainda não está configurada no servidor.",
     };
   }
 
@@ -55,7 +55,7 @@ export async function getDevRepositoryCurations(): Promise<
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar curadorias Dev.",
+        message: "Não foi possível carregar curadorias Dev.",
       };
     }
 
@@ -69,7 +69,7 @@ export async function getDevRepositoryCurations(): Promise<
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -94,7 +94,7 @@ export async function getDevRepositoryCurationByName(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar a curadoria Dev.",
+        message: "Não foi possível carregar a curadoria Dev.",
       };
     }
 
@@ -106,7 +106,7 @@ export async function getDevRepositoryCurationByName(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -146,7 +146,7 @@ export async function upsertDevRepositoryCuration(
     if (error || !data) {
       return {
         ok: false,
-        message: "Nao foi possivel salvar a curadoria Dev.",
+        message: "Não foi possível salvar a curadoria Dev.",
       };
     }
 
@@ -158,7 +158,7 @@ export async function upsertDevRepositoryCuration(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -182,18 +182,18 @@ export async function deleteDevRepositoryCuration(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel remover a curadoria Dev.",
+        message: "Não foi possível remover a curadoria Dev.",
       };
     }
 
     return {
       ok: true,
-      message: "Curadoria removida. O repositorio no GitHub nao foi alterado.",
+      message: "Curadoria removida. O repositório no GitHub não foi alterado.",
     };
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }

@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { hasSupabasePublicEnv } from "@/lib/supabase/env";
 
 const invalidCredentialsMessage =
-  "Nao foi possivel entrar. Confira e-mail, senha e permissao de admin.";
+  "Não foi possível entrar. Confira o e-mail, a senha e sua permissão de acesso.";
 
 export async function signInWithPasswordAction(
   _previousState: LoginActionState,
@@ -20,15 +20,14 @@ export async function signInWithPasswordAction(
   if (!email || !password) {
     return {
       status: "error",
-      message: "Informe e-mail e senha para acessar o admin.",
+      message: "Informe e-mail e senha para acessar a área restrita.",
     };
   }
 
   if (!hasSupabasePublicEnv()) {
     return {
       status: "error",
-      message:
-        "A conexao publica com o Supabase ainda nao esta configurada no ambiente local.",
+      message: "O acesso restrito está temporariamente indisponível.",
     };
   }
 
@@ -37,8 +36,7 @@ export async function signInWithPasswordAction(
   if (!adminEmail) {
     return {
       status: "error",
-      message:
-        "O e-mail administrador ainda nao foi configurado no ambiente local.",
+      message: "O acesso restrito está temporariamente indisponível.",
     };
   }
 
@@ -62,7 +60,7 @@ export async function signInWithPasswordAction(
 
     return {
       status: "error",
-      message: "Este usuario nao tem permissao para acessar o painel.",
+      message: "Este usuário não tem permissão para acessar o painel.",
     };
   }
 

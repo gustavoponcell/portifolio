@@ -10,20 +10,21 @@ export function DevHeroSection() {
 
         <div className="space-y-5">
           <h1 className="max-w-5xl text-balance text-5xl font-black leading-none tracking-tight sm:text-7xl">
-            Sistemas, interfaces e experiências digitais construídas com código.
+            Eu uso código para transformar ideias em interfaces, sistemas e experiências digitais.
           </h1>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
-            Projetos que exploram front-end, organização de dados, integrações
-            e produtos digitais com atenção à experiência de uso.
+            Nesta parte do portfólio, reúno projetos, estudos e aplicações que
+            mostram meu caminho no desenvolvimento web, com foco em organização,
+            interface e funcionalidade.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-4">
           <BrutalButton href="#projetos-dev" variant="dev">
-            Ver projetos dev
+            Ver meus projetos Dev
           </BrutalButton>
           <BrutalButton href="/design" variant="outline">
-            Conhecer lado Design
+            Conhecer meu lado Design
           </BrutalButton>
         </div>
       </div>

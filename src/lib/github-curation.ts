@@ -43,7 +43,7 @@ export function combineRepositoryWithCuration(
   const displayDescription =
     curation?.customDescription ||
     repository.description ||
-    "Repositorio sem descricao publica.";
+    "Repositório sem descrição pública.";
   const displayTags = curation?.customTags.length
     ? curation.customTags
     : repository.topics;

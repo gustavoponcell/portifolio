@@ -11,7 +11,7 @@ export function ProjectOverviewSection({ project }: ProjectOverviewSectionProps)
     <section className="space-y-6">
       <SectionHeading
         eyebrow="Visão geral"
-        title="Contexto do projeto"
+        title="Como pensei este projeto"
         description={project.summary ?? project.description}
         accent={project.type}
         level={2}
@@ -20,14 +20,14 @@ export function ProjectOverviewSection({ project }: ProjectOverviewSectionProps)
       <div className="grid gap-5 md:grid-cols-2">
         {project.problem ? (
           <BrutalCard className="space-y-3">
-            <h3 className="text-2xl font-black">Problema</h3>
+            <h3 className="text-2xl font-black">O que eu quis resolver</h3>
             <p className="leading-7">{project.problem}</p>
           </BrutalCard>
         ) : null}
 
         {project.solution ? (
           <BrutalCard className="space-y-3">
-            <h3 className="text-2xl font-black">Solução</h3>
+            <h3 className="text-2xl font-black">Como eu resolvi</h3>
             <p className="leading-7">{project.solution}</p>
           </BrutalCard>
         ) : null}

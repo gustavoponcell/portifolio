@@ -4,9 +4,9 @@ import {
   Database,
   GitBranch,
   Globe2,
+  Package,
   Server,
   Terminal,
-  Wind,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,40 +22,40 @@ type StackItem = {
 
 const stackItems: StackItem[] = [
   {
-    name: "HTML, CSS e JavaScript",
-    category: "Base web",
-    context: "Estrutura, estilos, interação e construção de páginas responsivas.",
-    icon: Code2,
-  },
-  {
-    name: "TypeScript",
-    category: "Código",
-    context: "Tipagem, contratos de dados e interfaces mais previsíveis.",
-    icon: Braces,
-  },
-  {
-    name: "React",
-    category: "Interface",
-    context: "Organização de telas, estados e experiências reutilizáveis.",
-    icon: Globe2,
-  },
-  {
-    name: "Next.js",
-    category: "Front-end",
-    context: "Estrutura de páginas, performance, SEO e renderização do portfólio.",
+    name: "Python",
+    category: "Linguagem",
+    context: "Aplicações desktop e web, regras de negócio, automações e geração de documentos.",
     icon: Terminal,
   },
   {
-    name: "Tailwind CSS",
-    category: "Estilo",
-    context: "Tokens visuais, responsividade e consistência da interface.",
-    icon: Wind,
+    name: "Java e C++",
+    category: "Linguagens",
+    context: "Modelagem de domínio, estruturas de dados e desenvolvimento orientado a objetos.",
+    icon: Braces,
   },
   {
-    name: "Banco e autenticação",
-    category: "Back-end",
-    context: "Estrutura para login, armazenamento de imagens e dados do portfólio.",
+    name: "PySide6",
+    category: "Desktop",
+    context: "Construção de interfaces e fluxos operacionais para aplicações desktop em Python.",
+    icon: Globe2,
+  },
+  {
+    name: "Django, HTML, CSS e JavaScript",
+    category: "Web",
+    context: "Desenvolvimento de aplicações e páginas web com backend, estrutura, estilos e interação.",
+    icon: Code2,
+  },
+  {
+    name: "SQLite e JSON",
+    category: "Dados",
+    context: "Persistência local, versionamento de schema, backup e troca estruturada de dados.",
     icon: Database,
+  },
+  {
+    name: "POO, arquitetura e padrões",
+    category: "Fundamentos",
+    context: "Estruturas de dados, Design Patterns, arquitetura em camadas e documentação técnica.",
+    icon: Server,
   },
   {
     name: "Git e GitHub",
@@ -64,10 +64,10 @@ const stackItems: StackItem[] = [
     icon: GitBranch,
   },
   {
-    name: "Serviços e servidor",
-    category: "Conexões",
-    context: "Consumo de serviços, regras de negócio e conexões entre sistemas.",
-    icon: Server,
+    name: "Maven e PyInstaller",
+    category: "Build e entrega",
+    context: "Organização de projetos Java e empacotamento de aplicações Python para Windows.",
+    icon: Package,
   },
 ];
 
@@ -76,8 +76,8 @@ export function TechStackSection() {
     <section id="stack" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Stack e tecnologias"
-        title="Tecnologias usadas para construir interfaces e sistemas"
-        description="Ferramentas e práticas presentes em projetos web, produtos digitais e organização de código."
+        title="Ferramentas que uso para construir minhas ideias"
+        description="Estas tecnologias fazem parte da minha experiência prática com aplicações desktop e web, persistência de dados, arquitetura em camadas e organização de código."
         accent="dev"
         level={2}
       />

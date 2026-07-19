@@ -1,5 +1,27 @@
 # Design System Inicial
 
+## Prompt 16.8: tom de voz em primeira pessoa
+
+A copy pública deve soar como uma apresentação direta de Gustavo Poncell.
+Sempre que fizer sentido, títulos, descrições, chamadas e textos de projeto usam
+primeira pessoa do singular para aproximar a conversa de visitantes,
+recrutadores, clientes, professores e possíveis parceiros.
+
+Diretrizes:
+
+- voz jovem, direta, leve e profissional;
+- frases naturais, claras e sem linguagem publicitária exagerada;
+- Design e Dev apresentados como frentes complementares da mesma identidade;
+- equilíbrio entre olhar visual, organização, funcionalidade e raciocínio técnico;
+- uso de `eu`, `meu`, `minha` e `meus projetos` sem repetição mecânica;
+- nenhuma invenção de clientes, cargos, resultados, certificados ou experiências;
+- nenhuma linguagem interna de sistema na interface pública;
+- acentuação e português do Brasil preservados em toda copy visível.
+
+A área administrativa pode manter linguagem técnica e impessoal quando isso
+melhorar a clareza operacional. A primeira pessoa é uma regra editorial para a
+experiência pública, não para mensagens de sistema, formulários ou diagnósticos.
+
 ## Atualizacao Prompt 16.5: Dark mode padrao
 
 O modo escuro agora e a identidade principal do portfolio.
@@ -229,7 +251,7 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - Cards de modo funcionam como portas de entrada para Design e Dev.
 - O modo Design deve usar amarelo em badges, botões e blocos de destaque.
 - O modo Dev deve usar verde em badges, botões e blocos de destaque.
-- Projetos em destaque usam cards brancos com borda grossa, sombra dura, badge de tipo, tags e link interno para `/projetos/[slug]`.
+- Projetos em destaque usam apenas dados reais publicados; Design pode usar link interno para `/projetos/[slug]` e Dev aponta para o repositório real.
 - Seções de sobre, áreas de atuação e contato futuro devem ser claras sem inventar dados pessoais.
 - O contato da Home é apenas uma chamada visual até que dados reais sejam cadastrados.
 
@@ -240,7 +262,7 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - A página deve ter aparência de cartaz, peça gráfica ou composição editorial, sem depender de imagens reais.
 - O Hero do Design deve ter apenas um `h1`; seções internas usam `h2`.
 - Cards de áreas criativas usam bordas grossas, sombra dura e marcadores visuais.
-- Projetos de design são exibidos a partir de `src/data/portfolio-projects.ts`, filtrados por `type: "design"`.
+- Projetos de design são exibidos a partir do Supabase, filtrados por `type: "design"` e status `published`.
 - Cards de projeto devem mostrar badge Design, título, descrição, tags e link interno para `/projetos/[slug]`.
 - A seção de cases visuais deve usar linguagem pública e não prometer integração externa.
 - Não inventar clientes, métricas, empresas, imagens externas ou links de Behance.
@@ -252,8 +274,8 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - A página deve parecer técnica e de produto digital, usando blocos, grids, badges, pseudo-terminal e cards estruturados.
 - O Hero do Dev deve ter apenas um `h1`; seções internas usam `h2`.
 - Cards de stack e tecnologias usam borda grossa, sombra dura, badges e descrição curta.
-- Projetos dev são exibidos a partir de `src/data/portfolio-projects.ts`, filtrados por `type: "dev"`.
-- Cards de projeto devem mostrar badge Dev, título, descrição, tags e link interno para `/projetos/[slug]`.
+- Projetos Dev são exibidos a partir de repositórios reais do GitHub e da curadoria pública quando configurada.
+- Cards de projeto devem mostrar título, descrição, tags e link para o repositório real.
 - A seção de repositórios deve mostrar dados públicos ou uma seleção organizada, sem expor detalhes internos.
 - Não inventar repositórios, métricas, clientes, imagens externas ou URLs de GitHub.
 - Design e Dev devem manter a mesma base estrutural; a diferença visual vem de acento de cor e vocabulário.
@@ -264,7 +286,7 @@ Design e Dev devem parecer partes de um único portfólio. A estrutura, bordas, 
 - Devem manter verde como destaque principal em linguagem, badges e metadados.
 - Devem exibir nome, descrição, linguagem, tópicos, estrelas, forks e atualização.
 - Links externos só aparecem quando a URL real começa com `https://github.com/`.
-- Quando a origem for fallback, a interface deve avisar que os dados são temporários.
+- Quando o GitHub ou a curadoria não entregarem dados reais, a interface deve mostrar um estado vazio profissional.
 - Nunca exibir token, headers sensíveis ou detalhes internos da requisição.
 
 ## Páginas individuais de projeto

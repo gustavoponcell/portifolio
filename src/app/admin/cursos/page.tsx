@@ -57,7 +57,7 @@ export default async function AdminCoursesPage({ searchParams }: AdminCoursesPag
 
       {!coursesResult.ok ? (
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Configuracao pendente</h2>
+          <h2 className="text-2xl font-black">Configuração pendente</h2>
           <p className="leading-7">{coursesResult.message}</p>
         </BrutalCard>
       ) : (

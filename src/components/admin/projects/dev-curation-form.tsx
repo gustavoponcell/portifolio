@@ -63,11 +63,11 @@ function TextArea({
 export function DevCurationForm({ repository }: DevCurationFormProps) {
   return (
     <form action={upsertDevRepositoryCurationAction} className="space-y-5">
-      <Field label="Repositorio" name="repositoryName" defaultValue={repository.name} readonly />
+      <Field label="Repositório" name="repositoryName" defaultValue={repository.name} readonly />
 
       <div className="grid gap-4 md:grid-cols-2">
         <Field
-          label="Titulo customizado"
+          label="Título customizado"
           name="customTitle"
           defaultValue={repository.curation?.customTitle}
         />
@@ -80,7 +80,7 @@ export function DevCurationForm({ repository }: DevCurationFormProps) {
       </div>
 
       <TextArea
-        label="Descricao customizada"
+        label="Descrição customizada"
         name="customDescription"
         defaultValue={repository.curation?.customDescription}
       />
@@ -131,7 +131,7 @@ export function DevCurationForm({ repository }: DevCurationFormProps) {
             name="visible"
             type="checkbox"
           />
-          Visivel no site
+          Visível no site
         </label>
 
         <label className="brutal-border bg-card px-4 py-3 font-bold">

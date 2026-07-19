@@ -7,8 +7,8 @@ const extensionByMimeType: Record<string, string> = {
   "image/gif": "gif",
 };
 
-function randomId() {
-  return crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+function uniqueUploadId() {
+  return `${Date.now()}-${crypto.randomUUID()}`;
 }
 
 function slugify(value: string) {
@@ -29,7 +29,7 @@ export function createSafeFileName(fileName: string, contentType?: string) {
   const baseName = fileName.replace(/\.[^.]+$/, "");
   const safeBase = slugify(baseName).slice(0, 48) || "imagem";
 
-  return `${safeBase}-${Date.now()}-${randomId()}.${extension}`;
+  return `${safeBase}-${uniqueUploadId()}.${extension}`;
 }
 
 export function createProfileAvatarPath(fileName: string, contentType?: string) {

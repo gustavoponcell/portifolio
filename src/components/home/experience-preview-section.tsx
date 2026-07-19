@@ -42,13 +42,13 @@ export function ExperiencePreviewSection({
         eyebrow={hasExperiences ? "Experiências" : "Áreas de atuação"}
         title={
           hasExperiences
-            ? "Experiência prática em design, comunicação e projetos digitais"
-            : "Frentes de atuação em design e desenvolvimento"
+            ? "Experiências que construíram meu repertório"
+            : "Áreas que fazem parte do meu trabalho"
         }
         description={
           hasExperiences
-            ? "Atuações que mostram a evolução de Gustavo em criação visual, organização de demandas, comunicação e desenvolvimento de soluções digitais."
-            : "Áreas que resumem a atuação de Gustavo em criação visual, interfaces, sistemas e organização de projetos digitais."
+            ? "Passei por experiências que me aproximaram de criação visual, organização de demandas, comunicação e projetos digitais. Cada uma ajudou a formar meu jeito de trabalhar: visual, prático e atento aos detalhes."
+            : "Estas frentes resumem como eu conecto criação visual, interfaces, sistemas e organização de projetos digitais."
         }
         level={2}
       />

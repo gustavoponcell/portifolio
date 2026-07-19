@@ -26,7 +26,7 @@ async function ensureWritableAdmin() {
   if (!admin.isAdmin) {
     return {
       ok: false,
-      message: "Acesso negado. Entre com o usuario administrador.",
+      message: "Acesso negado. Entre com o usuário administrador.",
     };
   }
 
@@ -34,7 +34,7 @@ async function ensureWritableAdmin() {
     return {
       ok: false,
       message:
-        "A conexao administrativa com o Supabase ainda nao esta configurada no servidor.",
+        "A conexão administrativa com o Supabase ainda não está configurada no servidor.",
     };
   }
 
@@ -235,7 +235,7 @@ export async function getDesignProjects(): Promise<
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar projetos Design.",
+        message: "Não foi possível carregar projetos Design.",
       };
     }
 
@@ -245,7 +245,7 @@ export async function getDesignProjects(): Promise<
     if (relations.error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar dados relacionados dos projetos.",
+        message: "Não foi possível carregar dados relacionados dos projetos.",
       };
     }
 
@@ -270,7 +270,7 @@ export async function getDesignProjects(): Promise<
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -295,7 +295,7 @@ export async function createDesignProject(
     if (error || !data) {
       return {
         ok: false,
-        message: "Nao foi possivel criar o projeto Design.",
+        message: "Não foi possível criar o projeto Design.",
       };
     }
 
@@ -304,7 +304,7 @@ export async function createDesignProject(
     if (relationError) {
       return {
         ok: false,
-        message: "Projeto criado, mas os dados relacionados nao foram salvos.",
+        message: "Projeto criado, mas os dados relacionados não foram salvos.",
       };
     }
 
@@ -316,7 +316,7 @@ export async function createDesignProject(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -344,7 +344,7 @@ export async function updateDesignProject(
     if (error || !data) {
       return {
         ok: false,
-        message: "Nao foi possivel atualizar o projeto Design.",
+        message: "Não foi possível atualizar o projeto Design.",
       };
     }
 
@@ -353,7 +353,7 @@ export async function updateDesignProject(
     if (relationError) {
       return {
         ok: false,
-        message: "Projeto atualizado, mas os dados relacionados nao foram salvos.",
+        message: "Projeto atualizado, mas os dados relacionados não foram salvos.",
       };
     }
 
@@ -365,7 +365,7 @@ export async function updateDesignProject(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -388,7 +388,7 @@ export async function deleteDesignProject(id: string): Promise<AdminCrudResult> 
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel excluir o projeto Design.",
+        message: "Não foi possível excluir o projeto Design.",
       };
     }
 
@@ -399,7 +399,7 @@ export async function deleteDesignProject(id: string): Promise<AdminCrudResult> 
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -425,7 +425,7 @@ export async function updateDesignProjectStatus(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel alterar o status do projeto Design.",
+        message: "Não foi possível alterar o status do projeto Design.",
       };
     }
 
@@ -436,7 +436,7 @@ export async function updateDesignProjectStatus(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -462,7 +462,7 @@ export async function toggleDesignProjectFeatured(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel alterar o destaque do projeto Design.",
+        message: "Não foi possível alterar o destaque do projeto Design.",
       };
     }
 
@@ -473,7 +473,7 @@ export async function toggleDesignProjectFeatured(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }

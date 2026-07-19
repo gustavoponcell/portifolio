@@ -1,5 +1,113 @@
 # Registro de Prompts
 
+## Prompt 16.10 — Revisão final e push para GitHub
+
+- Data: 19/07/2026.
+- Objetivo: concluir a revisão técnica e editorial do portfólio, impedir o versionamento de dados sensíveis, validar o build e preparar um único commit para a branch `main` do repositório `gustavoponcell/portifolio`.
+- Validações executadas:
+  - conferência de branch, remoto e histórico do Git;
+  - busca por nomes de variáveis sensíveis e formatos reais de tokens, JWTs e chaves privadas;
+  - confirmação de que arquivos client não referenciam secrets nem o client administrativo;
+  - busca por linguagem interna e projetos fictícios na interface pública;
+  - `npm run lint`, `npm run build` e `npm audit`;
+  - testes HTTP de Home, Design, Dev, Contato, Login, Admin, sitemap, robots, manifest, projeto real e rota 404.
+- Correções feitas:
+  - `.env.example` restaurado somente com placeholders;
+  - `.gitignore` ampliado para cobrir variações de `.env`, cache do pnpm, temporários, dumps, backups e formatos comuns de chave privada;
+  - arquivo residual de configuração do pnpm removido, mantendo npm como gerenciador oficial;
+  - textos técnicos remanescentes no login reescritos para linguagem pública e amigável;
+  - documentação de revisão, segurança, audit e testes locais atualizada.
+- Decisões importantes:
+  - `.env` e `.env.local` permanecem fora do Git;
+  - arquivos em `tmp/` e `.pnpm-store/` não entram no commit;
+  - os termos de mock/fallback restantes pertencem apenas ao painel protegido ou ao histórico documental e não alimentam visitantes;
+  - as duas vulnerabilidades moderadas do PostCSS interno do Next foram registradas, sem `npm audit fix --force` ou downgrade incompatível.
+- Pendências para deploy:
+  - configurar variáveis de ambiente na Vercel;
+  - definir a URL pública definitiva;
+  - executar Lighthouse e revisar Open Graph em produção.
+- Próximo prompt recomendado: `Prompt 17 — Deploy Vercel`.
+
+## Prompt 16.9 — Remover projetos fictícios da interface pública
+
+- Data aproximada: 19/07/2026.
+- Objetivo: garantir que Home, Design, Dev, páginas individuais, metadata e
+  sitemap exibam somente projetos reais vindos do Supabase publicado ou do
+  GitHub/curadoria.
+- Arquivos criados:
+  - `src/lib/supabase/public.ts`
+  - `src/lib/design-projects.ts`
+  - `src/components/projects/empty-projects-state.tsx`
+- Arquivos alterados:
+  - `src/lib/data-source.ts`
+  - `src/lib/projects.ts`
+  - `src/lib/dev-repositories.ts`
+  - `src/lib/github-curation.ts`
+  - `src/app/page.tsx`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/sitemap.ts`
+  - `src/app/api/github/repositories/route.ts`
+  - `src/app/api/site/health/route.ts`
+  - `src/components/home/featured-projects-section.tsx`
+  - `src/components/design/design-projects-section.tsx`
+  - `src/components/dev/dev-projects-section.tsx`
+  - `src/components/dev/github-preview-section.tsx`
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/prompts-log.md`
+- Decisões técnicas:
+  - a leitura Design usa somente a chave pública, RLS e status publicado;
+  - a leitura Dev nunca entrega a seleção local ao visitante;
+  - com Supabase Dev configurado, somente curadorias visíveis e publicadas são
+    retornadas;
+  - referências locais foram preservadas para histórico, testes e painel;
+  - ausência de dados externos gera estado vazio e não interrompe o build;
+  - detalhes e sitemap não geram mais rotas a partir de projetos locais.
+- Fora de escopo: deploy, Behance Sync, Auth, login, Storage, upload e novos CRUDs.
+- Próximo prompt recomendado: Prompt 17 — Deploy Vercel.
+
+## Prompt 16.8 — Reescrita em primeira pessoa e ajuste de tom de voz
+
+- Data aproximada: 19/07/2026.
+- Objetivo: reescrever toda a comunicação pública para primeira pessoa, com uma
+  voz jovem, direta e profissional que apresente Gustavo Poncell como designer e
+  desenvolvedor em formação.
+- Arquivos alterados:
+  - `README.md`
+  - `docs/design-system.md`
+  - `docs/requirements.md`
+  - `docs/prompts-log.md`
+  - `src/config/site.ts`
+  - `src/app/design/page.tsx`
+  - `src/app/dev/page.tsx`
+  - `src/app/contato/page.tsx`
+  - `src/app/projetos/[slug]/page.tsx`
+  - `src/app/projetos/[slug]/not-found.tsx`
+  - `src/components/layout/site-footer.tsx`
+  - `src/components/home/*`
+  - `src/components/design/*`
+  - `src/components/dev/*`
+  - `src/components/contact/*`
+  - `src/components/projects/*`
+  - `src/components/github/github-repository-card.tsx`
+  - `src/data/portfolio-projects.ts`
+  - `src/data/portfolio-github-repositories.ts`
+  - `src/lib/public-profile.ts`
+- Decisões de copywriting:
+  - Home, Design, Dev, Contato e detalhes de projeto falam diretamente com o visitante.
+  - Design e Desenvolvimento são apresentados como frentes complementares.
+  - A voz evita clichês de LinkedIn, promessas exageradas e linguagem de sistema.
+  - Projetos são narrados a partir do que Gustavo pensou, organizou, criou ou desenvolveu.
+  - Metadata permanece objetiva e pode usar terceira pessoa para favorecer SEO.
+  - A área administrativa conserva linguagem operacional e não adota primeira pessoa à força.
+- Fora de escopo:
+  - Layout, design system visual, tema, rotas, banco, Auth, Storage, CRUD, novas integrações e deploy.
+- Próximo prompt recomendado: Prompt 17 — Deploy Vercel.
+
 ## Prompt 16.5: Modo escuro padrao e nome publico
 
 - Data aproximada: 21/06/2026.

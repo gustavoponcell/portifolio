@@ -18,7 +18,7 @@ export function ProjectLinksSection({ project }: ProjectLinksSectionProps) {
     <section className="space-y-6">
       <SectionHeading
         eyebrow="Links"
-        title="Acessos públicos"
+        title="Onde você pode conhecer mais"
         accent={project.type}
         level={2}
       />
@@ -40,7 +40,7 @@ export function ProjectLinksSection({ project }: ProjectLinksSectionProps) {
           </div>
         ) : (
           <p className="leading-7">
-            Links externos indisponíveis no momento.
+            Os links externos deste projeto ainda não estão disponíveis.
           </p>
         )}
       </BrutalCard>

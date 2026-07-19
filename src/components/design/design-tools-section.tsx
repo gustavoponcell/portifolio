@@ -1,6 +1,9 @@
 import {
+  BookOpenText,
   Brush,
+  Clapperboard,
   FileImage,
+  Film,
   LayoutTemplate,
   Palette,
   PenTool,
@@ -43,6 +46,24 @@ const designTools: DesignTool[] = [
     icon: Brush,
   },
   {
+    name: "Adobe Premiere",
+    category: "Edição de vídeo",
+    context: "Montagem, ritmo, cortes e finalização de conteúdo audiovisual.",
+    icon: Clapperboard,
+  },
+  {
+    name: "DaVinci Resolve",
+    category: "Vídeo e cor",
+    context: "Edição, tratamento de cor e acabamento de projetos audiovisuais.",
+    icon: Film,
+  },
+  {
+    name: "Adobe InDesign",
+    category: "Editorial",
+    context: "Diagramação, organização de páginas e produção de materiais editoriais.",
+    icon: BookOpenText,
+  },
+  {
     name: "Direção visual",
     category: "Processo",
     context: "Paleta, contraste, hierarquia, moodboard e linguagem gráfica.",
@@ -55,8 +76,8 @@ export function DesignToolsSection() {
     <section id="ferramentas-design" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Ferramentas de design"
-        title="Programas e práticas presentes no processo visual"
-        description="Ferramentas usadas para criar interfaces, imagens, vetores, composições e direções criativas."
+        title="Ferramentas que uso para construir ideias visuais"
+        description="Uso estes programas e práticas para criar interfaces, imagens, vetores, vídeos, materiais editoriais e direções criativas."
         accent="design"
         level={2}
       />

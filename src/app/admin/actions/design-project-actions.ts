@@ -144,11 +144,11 @@ function readDesignProject(formData: FormData): AdminDesignProjectInput {
 
 function validateProject(input: AdminDesignProjectInput) {
   if (!input.title) {
-    return "Titulo e obrigatorio.";
+    return "Título é obrigatório.";
   }
 
   if (!input.slug) {
-    return "Slug e obrigatorio.";
+    return "Slug é obrigatório.";
   }
 
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input.slug)) {
@@ -213,7 +213,7 @@ export async function updateDesignProjectAction(formData: FormData) {
   const previousSlug = value(formData, "previousSlug");
 
   if (!id) {
-    go("Projeto Design nao encontrado.", "error");
+    go("Projeto Design não encontrado.", "error");
   }
 
   const input = readDesignProject(formData);
@@ -234,7 +234,7 @@ export async function deleteDesignProjectAction(formData: FormData) {
   const slug = value(formData, "slug");
 
   if (!id) {
-    go("Projeto Design nao encontrado.", "error");
+    go("Projeto Design não encontrado.", "error");
   }
 
   const result = await deleteDesignProject(id);
@@ -249,7 +249,7 @@ export async function updateDesignProjectStatusAction(formData: FormData) {
   const status = readStatus(formData);
 
   if (!id) {
-    go("Projeto Design nao encontrado.", "error");
+    go("Projeto Design não encontrado.", "error");
   }
 
   const result = await updateDesignProjectStatus(id, status);
@@ -264,7 +264,7 @@ export async function toggleDesignProjectFeaturedAction(formData: FormData) {
   const featured = value(formData, "featured") === "true";
 
   if (!id) {
-    go("Projeto Design nao encontrado.", "error");
+    go("Projeto Design não encontrado.", "error");
   }
 
   const result = await toggleDesignProjectFeatured(id, featured);

@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
-import { getAllProjects } from "@/lib/projects";
+import { getPublicDesignProjects } from "@/lib/design-projects";
 import { absoluteUrl } from "@/lib/seo/urls";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const projectRoutes = getAllProjects().map((project) => ({
+  const projects = await getPublicDesignProjects();
+  const projectRoutes = projects.map((project) => ({
     url: absoluteUrl(`/projetos/${project.slug}`),
     lastModified: now,
     changeFrequency: "monthly" as const,

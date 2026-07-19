@@ -19,8 +19,8 @@ export async function ContactPreviewSection() {
           title="Vamos construir algo?"
           description={
             hasLinks
-              ? "Tem um projeto, oportunidade ou ideia para tirar do papel? Entre em contato e conheça as frentes de atuação em design e desenvolvimento."
-              : "Os canais de contato ainda não foram publicados, mas a página já organiza as informações profissionais de Gustavo."
+              ? "Se você tem uma oportunidade, projeto ou ideia que combina com design e desenvolvimento, eu vou gostar de conversar."
+              : "Meus canais de contato ainda não foram publicados por aqui. Enquanto isso, você pode conhecer melhor meu trabalho em Design e Dev."
           }
           level={2}
           className="[&>h2]:text-foreground [&>p:last-child]:text-muted-foreground"
@@ -28,7 +28,7 @@ export async function ContactPreviewSection() {
 
         <div className="flex flex-wrap gap-4 lg:justify-end">
           <BrutalButton href="/contato" variant="outline">
-            Abrir contato
+            Falar comigo
           </BrutalButton>
           <BrutalButton href="/design" variant="design">
             Ver Design

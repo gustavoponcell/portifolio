@@ -15,7 +15,7 @@ export function ExperiencesList({ experiences }: ExperiencesListProps) {
   if (!experiences.length) {
     return (
       <BrutalCard>
-        <p className="text-lg font-bold">Nenhuma experiencia cadastrada ainda.</p>
+        <p className="text-lg font-bold">Nenhuma experiência cadastrada ainda.</p>
       </BrutalCard>
     );
   }
@@ -27,7 +27,7 @@ export function ExperiencesList({ experiences }: ExperiencesListProps) {
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <h2 className="text-2xl font-black">{experience.title}</h2>
-              <p className="mt-1 font-bold">{experience.organization || "Sem organizacao"}</p>
+              <p className="mt-1 font-bold">{experience.organization || "Sem organização"}</p>
             </div>
             <span
               className={`brutal-border px-3 py-1 text-xs font-black uppercase tracking-wide ${
@@ -36,7 +36,7 @@ export function ExperiencesList({ experiences }: ExperiencesListProps) {
                   : "bg-muted"
               }`}
             >
-              {experience.visible ? "Visivel" : "Oculta"}
+              {experience.visible ? "Visível" : "Oculta"}
             </span>
           </div>
 
@@ -61,7 +61,7 @@ export function ExperiencesList({ experiences }: ExperiencesListProps) {
             </form>
           </div>
 
-          <ExperienceForm experience={experience} title="Editar experiencia" />
+          <ExperienceForm experience={experience} title="Editar experiência" />
         </BrutalCard>
       ))}
     </section>

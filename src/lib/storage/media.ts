@@ -6,19 +6,32 @@ import { hasSupabaseAdminEnv } from "@/lib/supabase/env";
 import { validateImageFile } from "@/lib/storage/validation";
 import type { MediaAsset, MediaUploadResult } from "@/types/media";
 
+type ImageUploadOptions = {
+  cacheVersion?: string | number;
+};
+
 export function isStorageConfigured() {
   return hasSupabaseAdminEnv();
 }
 
-export function getPublicImageUrl(path: string) {
+export function getPublicImageUrl(path: string, cacheVersion?: string | number) {
   const supabase = createAdminClient();
   const { data } = supabase.storage.from(MEDIA_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+
+  if (cacheVersion === undefined) {
+    return data.publicUrl;
+  }
+
+  const publicUrl = new URL(data.publicUrl);
+  publicUrl.searchParams.set("v", String(cacheVersion));
+
+  return publicUrl.toString();
 }
 
 export async function uploadImageToStorage(
   file: File,
-  path: string
+  path: string,
+  options: ImageUploadOptions = {}
 ): Promise<MediaUploadResult> {
   if (!isStorageConfigured()) {
     return {
@@ -56,7 +69,7 @@ export async function uploadImageToStorage(
       };
     }
 
-    const publicUrl = getPublicImageUrl(path);
+    const publicUrl = getPublicImageUrl(path, options.cacheVersion);
     const asset: MediaAsset = {
       path,
       publicUrl,

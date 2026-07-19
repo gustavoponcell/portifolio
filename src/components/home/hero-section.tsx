@@ -32,21 +32,21 @@ export function HeroSection({ profile }: HeroSectionProps) {
             {siteConfig.shortTitle}
           </p>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
-            Um portfólio que une criação visual, identidade, interfaces,
-            projetos digitais e desenvolvimento web em uma experiência direta,
-            expressiva e funcional.
+            Eu crio projetos digitais que misturam identidade visual,
+            interfaces e desenvolvimento web. Meu foco é construir coisas
+            bonitas, organizadas e funcionais, conectando estética com propósito.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-4">
           <BrutalButton href="/design" variant="design">
-            Ver modo Design
+            Ver meu lado Design
           </BrutalButton>
           <BrutalButton href="/dev" variant="dev">
-            Ver modo Dev
+            Ver meu lado Dev
           </BrutalButton>
           <BrutalButton href="#projetos" variant="outline">
-            Projetos em destaque
+            Ver projetos em destaque
           </BrutalButton>
         </div>
       </div>
@@ -67,19 +67,19 @@ export function HeroSection({ profile }: HeroSectionProps) {
             Identidade híbrida
           </p>
           <h2 className="max-w-sm text-3xl font-black leading-none">
-            Dois modos, uma identidade
+            Duas frentes, uma identidade
           </h2>
           <div className="grid gap-4">
             <div className="brutal-border border-[#111111] bg-design p-4 ink-on-accent">
               <p className="text-2xl font-black">Design</p>
               <p className="mt-2 font-medium">
-                Visual, marca, interfaces e apresentação.
+                Eu penso em identidade, composição, interfaces e comunicação.
               </p>
             </div>
             <div className="brutal-border border-[#111111] bg-dev p-4 ink-on-accent">
               <p className="text-2xl font-black">Dev</p>
               <p className="mt-2 font-medium">
-                Código, web, sistemas e produtos digitais.
+                Eu transformo estrutura, lógica e interface em produto digital.
               </p>
             </div>
           </div>

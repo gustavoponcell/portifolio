@@ -55,7 +55,7 @@ export function ProjectHeroSection({ project }: ProjectHeroSectionProps) {
             {modeLabel}
           </BrutalButton>
           {project.role ? (
-            <span className="font-bold">Papel: {project.role}</span>
+            <span className="font-bold">Minha atuação: {project.role}</span>
           ) : null}
         </div>
       </div>
@@ -78,7 +78,7 @@ export function ProjectHeroSection({ project }: ProjectHeroSectionProps) {
               {project.title}
             </p>
             <p className="mx-auto max-w-sm font-bold">
-              Recorte visual do projeto com foco em contraste, composição e identidade.
+              Um recorte do projeto para apresentar contraste, composição e identidade.
             </p>
           </div>
         )}

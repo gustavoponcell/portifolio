@@ -21,7 +21,7 @@ export function DevCurationList({ repositories, source }: DevCurationListProps) 
   if (!repositories.length) {
     return (
       <BrutalCard>
-        <p className="text-lg font-bold">Nenhum repositorio encontrado para curadoria.</p>
+        <p className="text-lg font-bold">Nenhum repositório encontrado para curadoria.</p>
       </BrutalCard>
     );
   }
@@ -30,8 +30,8 @@ export function DevCurationList({ repositories, source }: DevCurationListProps) 
     <section className="space-y-5">
       <BrutalCard className="bg-dev brutal-card-accent ink-on-accent">
         <p className="font-black">
-          Origem da listagem: {source}. Repositorios sem curadoria aparecem aqui
-          como nao configurados; publicamente a visibilidade deve ser controlada
+          Origem da listagem: {source}. Repositórios sem curadoria aparecem aqui
+          como não configurados; publicamente a visibilidade deve ser controlada
           pela curadoria salva.
         </p>
       </BrutalCard>

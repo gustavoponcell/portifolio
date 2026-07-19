@@ -33,8 +33,8 @@ export function CreativeAreasSection() {
     <section id="areas-criativas" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Áreas criativas"
-        title="Design aplicado para comunicar ideias com clareza"
-        description="Frentes de atuação que conectam identidade visual, composição, interfaces e comunicação digital."
+        title="As frentes que fazem parte do meu olhar visual"
+        description="Estas são algumas áreas em que costumo trabalhar identidade visual, composição, interfaces e comunicação digital."
         accent="design"
         level={2}
       />

@@ -34,9 +34,9 @@ export default async function AdminExperiencesPage({
   return (
     <div className="brutal-section space-y-8">
       <SectionHeading
-        eyebrow="Admin / Experiencias"
-        title="Gerenciar experiencias"
-        description="Crie, edite, oculte ou remova experiencias. Use apenas registros reais quando for publicar."
+        eyebrow="Admin / Experiências"
+        title="Gerenciar experiências"
+        description="Crie, edite, oculte ou remova experiências. Use apenas registros reais quando for publicar."
       />
 
       <div className="flex flex-wrap gap-3">
@@ -59,7 +59,7 @@ export default async function AdminExperiencesPage({
 
       {!experiencesResult.ok ? (
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Configuracao pendente</h2>
+          <h2 className="text-2xl font-black">Configuração pendente</h2>
           <p className="leading-7">{experiencesResult.message}</p>
         </BrutalCard>
       ) : (

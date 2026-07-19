@@ -13,7 +13,7 @@ export const siteConfig = {
   title: "Gustavo Poncell | Design + Desenvolvimento",
   shortTitle: "Design + Desenvolvimento",
   description:
-    "Portfólio de Gustavo Poncell reunindo design gráfico, interfaces, desenvolvimento web, experiências e contato profissional.",
+    "Portfólio de Gustavo Poncell, designer e desenvolvedor em formação, com projetos de identidade visual, interfaces, desenvolvimento web e experiências digitais.",
   keywords: [
     "portfólio",
     "design",

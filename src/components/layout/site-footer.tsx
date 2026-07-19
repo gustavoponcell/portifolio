@@ -15,8 +15,8 @@ export function SiteFooter() {
           <p className="text-2xl font-black">{siteConfig.name}</p>
           <p className="font-bold">{siteConfig.shortTitle}</p>
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
-            Design gráfico, interfaces e desenvolvimento web em uma presença
-            digital direta, criativa e funcional.
+            Eu conecto design gráfico, interfaces e desenvolvimento web para
+            criar projetos digitais com identidade, clareza e função.
           </p>
         </div>
 
@@ -42,8 +42,8 @@ export function SiteFooter() {
             Portfólio
           </p>
           <p className="text-sm leading-6 text-muted-foreground">
-            Projetos, experiências e canais de contato para oportunidades,
-            parcerias e conversas profissionais.
+            Aqui eu reúno meus projetos, experiências e caminhos para a gente
+            conversar sobre oportunidades, parcerias e novas ideias.
           </p>
           <p className="text-sm font-bold">&copy; {currentYear}</p>
         </div>

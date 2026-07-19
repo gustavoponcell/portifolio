@@ -21,7 +21,7 @@ export function ProjectHighlightsSection({ project }: ProjectHighlightsSectionPr
     <section className="space-y-6">
       <SectionHeading
         eyebrow="Destaques"
-        title="Decisões e aprendizados"
+        title="Decisões e aprendizados que levo comigo"
         accent={project.type}
         level={2}
       />

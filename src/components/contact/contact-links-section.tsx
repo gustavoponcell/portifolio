@@ -14,7 +14,7 @@ export function ContactLinksSection({ links }: ContactLinksSectionProps) {
           Canais disponíveis
         </p>
         <h2 className="text-3xl font-black sm:text-5xl">
-          Escolha o melhor caminho.
+          Escolha como prefere falar comigo.
         </h2>
       </div>
 

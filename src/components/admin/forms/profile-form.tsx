@@ -44,7 +44,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
   return (
     <BrutalCard className="space-y-6">
       <div>
-        <h2 className="text-3xl font-black">Perfil publico</h2>
+        <h2 className="text-3xl font-black">Perfil público</h2>
         <p className="mt-2 leading-7">
           Edite os dados base do perfil. O avatar pode ser uma URL manual ou uma
           imagem enviada ao Supabase Storage.
@@ -61,7 +61,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         <div className="brutal-border space-y-4 bg-card p-4">
           <h3 className="text-2xl font-black">Enviar novo avatar</h3>
           <p className="leading-7">
-            O upload salva a imagem no Supabase Storage e preenche a URL publica
+            O upload salva a imagem no Supabase Storage e preenche a URL pública
             no perfil.
           </p>
           <form action={uploadProfileAvatarAction} className="space-y-4">
@@ -105,13 +105,13 @@ export function ProfileForm({ profile }: ProfileFormProps) {
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Avatar URL" name="avatarUrl" defaultValue={profile?.avatarUrl} />
           <Field
-            label="E-mail publico"
+            label="E-mail público"
             name="emailPublic"
             type="email"
             defaultValue={profile?.emailPublic}
           />
           <Field
-            label="Telefone publico"
+            label="Telefone público"
             name="phonePublic"
             defaultValue={profile?.phonePublic}
           />

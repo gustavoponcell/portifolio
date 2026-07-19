@@ -25,10 +25,10 @@ export function LoginForm({ disabled = false }: LoginFormProps) {
   return (
     <BrutalCard className="space-y-5">
       <div>
-        <h2 className="text-2xl font-black">Entrar no admin</h2>
+        <h2 className="text-2xl font-black">Entrar na área restrita</h2>
         <p className="mt-2 leading-7">
-          Use o e-mail autorizado para o painel e a senha criada no Supabase
-          Auth. Esta tela nao oferece cadastro publico.
+          Use o e-mail e a senha autorizados para gerenciar o portfólio. Esta
+          tela não oferece cadastro público.
         </p>
       </div>
 
@@ -76,7 +76,7 @@ export function LoginForm({ disabled = false }: LoginFormProps) {
         ) : null}
 
         <BrutalButton disabled={disabled || pending} type="submit" variant="dev">
-          {pending ? "Entrando..." : "Entrar no admin"}
+          {pending ? "Entrando..." : "Entrar na área restrita"}
         </BrutalButton>
       </form>
     </BrutalCard>

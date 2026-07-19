@@ -35,7 +35,7 @@ export default async function AdminDevProjectsPage({
       <SectionHeading
         eyebrow="Admin / Projetos / Dev"
         title="Curadoria de projetos Dev"
-        description="Controle quais repositorios aparecem no modo Dev, personalize textos, tags, ferramentas, ordem, visibilidade e destaque. Nada aqui altera o GitHub real."
+        description="Controle quais repositórios aparecem no modo Dev, personalize textos, tags, ferramentas, ordem, visibilidade e destaque. Nada aqui altera o GitHub real."
       />
 
       <div className="flex flex-wrap gap-3">
@@ -43,7 +43,7 @@ export default async function AdminDevProjectsPage({
           Voltar ao admin
         </BrutalButton>
         <BrutalButton href="/dev" variant="dev">
-          Ver modo Dev publico
+          Ver modo Dev público
         </BrutalButton>
       </div>
 
@@ -61,14 +61,14 @@ export default async function AdminDevProjectsPage({
 
       {!repositoriesResult.ok ? (
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Configuracao pendente</h2>
+          <h2 className="text-2xl font-black">Configuração pendente</h2>
           <p className="leading-7">{repositoriesResult.message}</p>
         </BrutalCard>
       ) : (
         <>
           {repositoriesResult.data?.error ? (
             <BrutalCard className="bg-muted">
-              <p className="font-bold">Observacao: {repositoriesResult.data.error}</p>
+              <p className="font-bold">Observação: {repositoriesResult.data.error}</p>
             </BrutalCard>
           ) : null}
 

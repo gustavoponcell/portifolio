@@ -1,5 +1,35 @@
 # Requisitos do Projeto
 
+## Atualização Prompt 16.9: projetos públicos reais
+
+- Home, Design, Dev, páginas individuais, metadata e sitemap não podem usar
+  projetos locais fictícios.
+- Design público deve vir do Supabase, com `type = "design"` e
+  `status = "published"`.
+- Dev público deve vir de repositórios reais do GitHub; quando houver Supabase,
+  somente curadorias visíveis e publicadas podem aparecer.
+- Status `mock`, `draft` e `archived` nunca podem aparecer para visitantes.
+- Falhas de GitHub ou Supabase devem produzir lista vazia, não dados inventados.
+- Seções sem projetos reais devem mostrar um estado vazio profissional.
+- Slugs presentes apenas na referência local devem responder com 404.
+- O sitemap deve listar somente rotas fixas e projetos Design publicados.
+- Clients públicos não podem usar chave administrativa nem expor secrets.
+
+## Atualização Prompt 16.8: primeira pessoa e tom de voz
+
+Requisitos adicionados:
+
+- Escrever a comunicação pública preferencialmente em primeira pessoa.
+- Apresentar Gustavo Poncell como designer e desenvolvedor em formação.
+- Usar linguagem jovem, direta, natural e profissional.
+- Conectar estética, identidade, organização, estrutura e funcionalidade.
+- Evitar clichês profissionais, exageros publicitários e repetição excessiva de `eu`.
+- Não inventar clientes, cargos, métricas, certificados, experiências ou resultados.
+- Não expor linguagem interna de implementação na interface pública.
+- Manter metadata objetiva em terceira pessoa quando isso favorecer SEO.
+- Diferenciar copy pública de textos operacionais da área administrativa.
+- Preservar português do Brasil e acentuação em todos os textos visíveis.
+
 ## Atualizacao Prompt 16.5: Modo escuro e nome publico
 
 Requisitos adicionados:
@@ -148,7 +178,7 @@ Criar uma presença digital profissional, memorável e fácil de atualizar, reun
 - Permitir cadastro e edição de projetos de design.
 - Permitir cadastro e edição de projetos dev.
 - Permitir definição manual de projetos em destaque.
-- Exibir uma página individual para cada projeto cadastrado ou mockado.
+- Exibir uma página individual para cada projeto Design real, publicado e cadastrado.
 - Exibir detalhes de projeto com resumo, problema, solução, tags, ferramentas, galeria e links quando existirem.
 - Gerar metadados básicos por página individual de projeto.
 - Permitir ocultar repositórios ou projetos do modo Dev.
@@ -194,7 +224,7 @@ O MVP deve conter:
 
 - Home pública.
 - Modo Design com projetos cadastrados manualmente.
-- Modo Dev com projetos cadastrados manualmente ou mockados antes da integração.
+- Modo Dev com projetos reais vindos do GitHub e da curadoria.
 - Projetos em destaque.
 - Sobre mim.
 - Contatos.

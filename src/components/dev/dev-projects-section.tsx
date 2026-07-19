@@ -1,67 +1,22 @@
-import { BrutalButton } from "@/components/brand/brutal-button";
-import { BrutalCard } from "@/components/brand/brutal-card";
-import { ModeBadge } from "@/components/brand/mode-badge";
-import { SectionHeading } from "@/components/brand/section-heading";
-import { Badge } from "@/components/ui/badge";
-import { getProjectsByType } from "@/lib/projects";
+import { GitHubRepositoriesGrid } from "@/components/github/github-repositories-grid";
+import { EmptyProjectsState } from "@/components/projects/empty-projects-state";
+import type { GitHubRepositoryWithCuration } from "@/types/github";
 
-const devProjects = getProjectsByType("dev");
+type DevProjectsSectionProps = {
+  repositories: GitHubRepositoryWithCuration[];
+};
 
-export function DevProjectsSection() {
-  return (
-    <section id="projetos-dev" className="brutal-section space-y-8">
-      <SectionHeading
-        eyebrow="Projetos dev"
-        title="Sistemas, interfaces e produtos digitais"
-        description="Projetos que mostram prática em front-end, organização de informações, estrutura de interface e desenvolvimento web."
-        accent="dev"
-        level={2}
+export function DevProjectsSection({ repositories }: DevProjectsSectionProps) {
+  if (!repositories.length) {
+    return (
+      <EmptyProjectsState
+        title="Meus repositórios não estão disponíveis agora."
+        description="Você pode tentar novamente em alguns instantes. Assim que a conexão for restabelecida, meus projetos publicados voltam a aparecer por aqui."
+        href="/contato"
+        actionLabel="Falar comigo"
       />
+    );
+  }
 
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {devProjects.map((project) => (
-          <BrutalCard key={project.id} className="flex flex-col gap-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <ModeBadge mode="dev" />
-              {project.featured ? (
-                <span className="brutal-border border-[#111111] bg-dev px-2 py-1 text-xs font-black uppercase tracking-wide ink-on-accent">
-                  Destaque
-                </span>
-              ) : null}
-            </div>
-
-            <div className="brutal-border bg-background p-4 font-mono text-sm text-dev">
-              <p>{">"} projeto selecionado</p>
-              <p className="mt-2 break-words">{project.title}</p>
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-black">{project.title}</h3>
-              <p className="mt-3 leading-7">{project.description}</p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  className="border-2 border-[#111111] bg-dev font-bold !text-[#111111]"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-
-            <BrutalButton
-              href={`/projetos/${project.slug}`}
-              variant="outline"
-              className="mt-auto self-start"
-            >
-              Ver projeto
-            </BrutalButton>
-          </BrutalCard>
-        ))}
-      </div>
-    </section>
-  );
+  return <GitHubRepositoriesGrid repositories={repositories} />;
 }

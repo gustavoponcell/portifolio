@@ -7,9 +7,9 @@ export const portfolioProjects: Project[] = [
     title: "Identidade visual experimental",
     type: "design",
     description:
-      "Estudo visual focado em marca, composição visual e linguagem editorial.",
+      "Neste estudo, exploro marca, composição visual e linguagem editorial com uma identidade forte.",
     summary:
-      "Identidade visual experimental com linguagem gráfica forte, modular e preparada para aplicações digitais.",
+      "Criei uma identidade visual experimental com linguagem gráfica forte, modular e pensada para aplicações digitais.",
     tags: ["Branding", "Editorial", "Visual"],
     featured: true,
     status: "published",
@@ -17,9 +17,9 @@ export const portfolioProjects: Project[] = [
     role: "Direção visual e composição",
     tools: ["Figma", "Illustrator", "Grid editorial"],
     problem:
-      "Organizar uma identidade conceitual com personalidade marcante, ritmo visual e aplicação digital.",
+      "Eu queria organizar uma identidade conceitual com personalidade marcante, ritmo visual e aplicação digital.",
     solution:
-      "Criar um sistema de formas, contraste, tipografia pesada e regras de composição para orientar a linguagem da marca.",
+      "Criei um sistema de formas, contraste, tipografia pesada e regras de composição para orientar a linguagem da marca.",
     highlights: [
       "Exploração de hierarquia visual com alto contraste.",
       "Sistema flexível para cartazes, capas e peças digitais.",
@@ -46,9 +46,9 @@ export const portfolioProjects: Project[] = [
     title: "Sistema visual para evento",
     type: "design",
     description:
-      "Sistema visual para materiais de evento, composição gráfica e consistência entre peças.",
+      "Desenvolvi um sistema visual para organizar materiais de evento e manter consistência entre diferentes peças.",
     summary:
-      "Sistema visual de evento com desdobramentos para peças impressas e digitais.",
+      "Neste projeto, construí uma linguagem de evento com desdobramentos para peças impressas e digitais.",
     tags: ["Evento", "Sistema visual", "Gráfico"],
     featured: false,
     status: "published",
@@ -56,11 +56,11 @@ export const portfolioProjects: Project[] = [
     role: "Design gráfico e sistema visual",
     tools: ["Figma", "Illustrator", "Layout system"],
     problem:
-      "Construir uma família de peças coerente para evento, mantendo leitura rápida e unidade visual.",
+      "Meu desafio foi construir uma família de peças coerente, mantendo leitura rápida e unidade visual.",
     solution:
-      "Definir uma estrutura repetível de títulos, marcadores, blocos de agenda e áreas para chamada visual.",
+      "Defini uma estrutura repetível de títulos, marcadores, blocos de agenda e áreas de chamada visual.",
     highlights: [
-      "Consistencia entre formatos diferentes.",
+      "Consistência entre formatos diferentes.",
       "Aplicação de cor de destaque para guiar a leitura.",
       "Organização clara entre chamada principal, informações e apoios visuais.",
     ],
@@ -85,9 +85,9 @@ export const portfolioProjects: Project[] = [
     title: "Campanha gráfica conceitual",
     type: "design",
     description:
-      "Campanha conceitual para apresentar linguagem visual, direção criativa e peças de comunicação.",
+      "Criei esta campanha conceitual para explorar linguagem visual, direção criativa e peças de comunicação.",
     summary:
-      "Campanha conceitual para experimentar narrativa visual, variações de layout e chamadas curtas de impacto.",
+      "Usei a campanha para experimentar narrativa visual, variações de layout e chamadas curtas de impacto.",
     tags: ["Campanha", "Direção visual", "Social media"],
     featured: true,
     status: "published",
@@ -95,9 +95,9 @@ export const portfolioProjects: Project[] = [
     role: "Direção criativa e layouts",
     tools: ["Figma", "Photoshop", "Composição"],
     problem:
-      "Criar uma campanha com narrativa visual consistente e peças adaptáveis para diferentes formatos.",
+      "Eu precisava manter uma narrativa visual consistente em peças adaptáveis para diferentes formatos.",
     solution:
-      "Usar ritmo visual, contraste e chamadas diretas para estruturar uma campanha completa.",
+      "Organizei a campanha com ritmo visual, contraste e chamadas diretas para conectar todas as peças.",
     highlights: [
       "Variações de layout para redes sociais.",
       "Uso de contraste para criar ritmo de leitura.",
@@ -124,9 +124,9 @@ export const portfolioProjects: Project[] = [
     title: "Interface visual para produto digital",
     type: "design",
     description:
-      "Estudo de interface para organizar telas, hierarquia visual e experiência de produto digital.",
+      "Neste estudo de interface, organizei telas, hierarquia visual e componentes para um produto digital.",
     summary:
-      "Estudo visual de UI para organizar componentes, estados, cards e uma linguagem de produto digital.",
+      "Explorei componentes, estados, cards e uma linguagem visual coerente para o produto.",
     tags: ["UI", "Interfaces", "Produto digital"],
     featured: true,
     status: "published",
@@ -134,9 +134,9 @@ export const portfolioProjects: Project[] = [
     role: "UI design e sistema visual",
     tools: ["Figma", "Interface", "Prototipação"],
     problem:
-      "Representar um produto digital com hierarquia clara, navegação simples e estados visuais úteis.",
+      "Meu objetivo foi representar um produto digital com hierarquia clara, navegação simples e estados visuais úteis.",
     solution:
-      "Criar telas conceituais com padrões reutilizáveis, hierarquia clara e organização de conteúdo.",
+      "Criei telas conceituais com padrões reutilizáveis, hierarquia clara e conteúdo bem organizado.",
     highlights: [
       "Padrão visual preparado para evoluir para design system.",
       "Cards e estados pensados para responsividade.",
@@ -163,9 +163,9 @@ export const portfolioProjects: Project[] = [
     title: "Apresentação institucional criativa",
     type: "design",
     description:
-      "Projeto visual para organizar narrativa, slides e materiais digitais de apresentação.",
+      "Neste projeto, organizei narrativa, slides e materiais digitais para uma apresentação clara e visualmente marcante.",
     summary:
-      "Estrutura de apresentação conceitual para trabalhar narrativa, ritmo de slides e composição visual.",
+      "Desenvolvi uma estrutura conceitual para trabalhar narrativa, ritmo de slides e composição visual.",
     tags: ["Apresentação", "Editorial", "Narrativa"],
     featured: false,
     status: "published",
@@ -173,11 +173,11 @@ export const portfolioProjects: Project[] = [
     role: "Design editorial e storytelling",
     tools: ["Figma", "Slides", "Direção visual"],
     problem:
-      "Organizar uma apresentação com clareza narrativa, ritmo visual e impacto de abertura.",
+      "Eu queria organizar uma apresentação com clareza narrativa, ritmo visual e uma abertura de impacto.",
     solution:
-      "Criar uma sequência com abertura, contexto, destaque visual, conteúdo e fechamento.",
+      "Construí uma sequência de abertura, contexto, destaques, conteúdo e fechamento para conduzir a leitura.",
     highlights: [
-      "Ritmo visual pensado para leitura rapida.",
+      "Ritmo visual pensado para leitura rápida.",
       "Estrutura reutilizável para diferentes apresentações.",
       "Equilíbrio entre conteúdo, ritmo e impacto visual.",
     ],
@@ -202,9 +202,9 @@ export const portfolioProjects: Project[] = [
     title: "Peças para redes sociais",
     type: "design",
     description:
-      "Conjunto de peças para social media, variações de layout e consistência de campanha.",
+      "Criei um conjunto de peças para redes sociais explorando variações de layout sem perder a unidade da campanha.",
     summary:
-      "Conjunto de peças para posts, chamadas e adaptação entre formatos de redes sociais.",
+      "Organizei posts, chamadas e adaptações para diferentes formatos de redes sociais.",
     tags: ["Social media", "Layout", "Conteúdo"],
     featured: false,
     status: "published",
@@ -212,12 +212,12 @@ export const portfolioProjects: Project[] = [
     role: "Design para redes sociais",
     tools: ["Figma", "Templates", "Composição"],
     problem:
-      "Criar uma vitrine de formatos sociais com unidade visual e flexibilidade de uso.",
+      "Meu desafio foi criar formatos flexíveis que continuassem reconhecíveis como parte da mesma linguagem visual.",
     solution:
-      "Usar chamadas curtas, hierarquia clara e variação visual para carrossel, post e story.",
+      "Usei chamadas curtas, hierarquia clara e variação visual em carrosséis, posts e stories.",
     highlights: [
       "Templates com hierarquia de texto objetiva.",
-      "Variacao visual sem perder unidade.",
+      "Variação visual sem perder unidade.",
       "Sistema visual aplicável a diferentes formatos de redes sociais.",
     ],
     gallery: [
@@ -241,9 +241,9 @@ export const portfolioProjects: Project[] = [
     title: "Sistema web de portfólio",
     type: "dev",
     description:
-      "Projeto web para apresentar portfólio, navegação, identidade visual e organização de conteúdo.",
+      "Construí este projeto web para reunir meu portfólio, minha identidade visual e meus conteúdos em uma navegação clara.",
     summary:
-      "Aplicação em Next.js que organiza páginas públicas, identidade visual e componentes reutilizáveis.",
+      "Desenvolvi uma aplicação em Next.js com páginas públicas, identidade visual própria e componentes reutilizáveis.",
     tags: ["Next.js", "TypeScript", "App Router"],
     featured: true,
     status: "published",
@@ -251,9 +251,9 @@ export const portfolioProjects: Project[] = [
     role: "Frontend e arquitetura inicial",
     tools: ["Next.js", "TypeScript", "Tailwind CSS"],
     problem:
-      "Criar uma base navegável, responsiva e extensível para apresentar projetos e informações profissionais.",
+      "Eu precisava de uma base navegável, responsiva e extensível para apresentar projetos e informações profissionais.",
     solution:
-      "Organizar páginas, componentes e dados de forma clara para facilitar manutenção e evolução.",
+      "Organizei páginas, componentes e dados de forma clara para facilitar manutenção, atualização e evolução.",
     highlights: [
       "Páginas públicas organizadas com App Router.",
       "Componentes visuais reutilizáveis.",
@@ -280,9 +280,9 @@ export const portfolioProjects: Project[] = [
     title: "Painel de gestão conceitual",
     type: "dev",
     description:
-      "Estudo de painel para organizar conteúdo, projetos, experiências e informações principais.",
+      "Neste estudo de painel, organizei conteúdos, projetos, experiências e informações em uma interface de gestão clara.",
     summary:
-      "Conceito de dashboard para organizar fluxos de edição, priorização de informações e manutenção de conteúdo.",
+      "Desenvolvi um dashboard conceitual para estruturar fluxos de edição, prioridades e manutenção de conteúdo.",
     tags: ["Dashboard", "Organização", "UI"],
     featured: true,
     status: "published",
@@ -290,9 +290,9 @@ export const portfolioProjects: Project[] = [
     role: "Planejamento de interface e fluxo",
     tools: ["Next.js", "TypeScript", "UI"],
     problem:
-      "Organizar informações complexas em uma interface de gestão clara e objetiva.",
+      "Meu desafio foi transformar informações complexas em uma interface de gestão clara e objetiva.",
     solution:
-      "Representar seções, estados e prioridades com uma linguagem visual direta e consistente.",
+      "Organizei seções, estados e prioridades com uma linguagem visual direta e consistente.",
     highlights: [
       "Separação clara entre áreas de conteúdo.",
       "Prioridade para leitura rápida e edição objetiva.",
@@ -319,9 +319,9 @@ export const portfolioProjects: Project[] = [
     title: "Catálogo digital com filtros",
     type: "dev",
     description:
-      "Aplicação web conceitual com foco em estrutura, navegação, filtros e apresentação de conteúdo.",
+      "Criei esta aplicação conceitual para praticar estrutura, navegação, filtros e apresentação de conteúdo.",
     summary:
-      "Catálogo digital com listagem responsiva, filtros, tags e páginas de detalhe.",
+      "Desenvolvi um catálogo digital com listagem responsiva, filtros, tags e páginas de detalhe.",
     tags: ["Filtros", "Listagem", "Produto digital"],
     featured: false,
     status: "published",
@@ -329,9 +329,9 @@ export const portfolioProjects: Project[] = [
     role: "Frontend e modelagem de dados",
     tools: ["TypeScript", "Interface", "Modelagem de dados"],
     problem:
-      "Melhorar a experiência de explorar muitos itens com filtros, categorias e leitura rápida.",
+      "Eu queria tornar mais simples a exploração de muitos itens, categorias e informações.",
     solution:
-      "Usar estrutura de dados clara, filtros previsíveis e cards consistentes para organizar a navegação.",
+      "Usei uma estrutura de dados clara, filtros previsíveis e cards consistentes para organizar a navegação.",
     highlights: [
       "Base para filtros por tags e categorias.",
       "Detalhes preparados para informações enriquecidas.",
@@ -358,9 +358,9 @@ export const portfolioProjects: Project[] = [
     title: "Integração com GitHub",
     type: "dev",
     description:
-      "Estudo de exibição de repositórios selecionados, tecnologias e links de projetos.",
+      "Neste estudo, organizei a apresentação de repositórios, tecnologias e links de projetos dentro do portfólio.",
     summary:
-      "Estudo técnico para apresentar repositórios públicos dentro do portfólio com descrição clara e seleção de destaques.",
+      "Desenvolvi uma forma clara de apresentar meus repositórios públicos e destacar o contexto de cada projeto.",
     tags: ["GitHub", "Repositórios", "Curadoria"],
     featured: true,
     status: "published",
@@ -368,9 +368,9 @@ export const portfolioProjects: Project[] = [
     role: "Integração e apresentação de dados",
     tools: ["GitHub", "Next.js", "TypeScript"],
     problem:
-      "Apresentar repositórios de forma organizada, com contexto e tecnologias principais.",
+      "Eu precisava apresentar repositórios com mais contexto, organização e destaque para as tecnologias principais.",
     solution:
-      "Organizar dados públicos de projetos em cards claros, com foco em leitura e navegação.",
+      "Organizei os dados dos projetos em cards diretos, com foco em leitura rápida e navegação.",
     highlights: [
       "Seleção de projetos relevantes para o modo Dev.",
       "Cards com linguagem objetiva e tecnologias em destaque.",
@@ -397,9 +397,9 @@ export const portfolioProjects: Project[] = [
     title: "Landing page em Next.js",
     type: "dev",
     description:
-      "Projeto para representar páginas responsivas, hierarquia visual e experiência construída com código.",
+      "Construí esta landing page para praticar responsividade, hierarquia visual e uma experiência guiada por código.",
     summary:
-      "Landing page conceitual com estrutura de seções, chamadas, responsividade e padrões visuais consistentes.",
+      "Desenvolvi uma estrutura de seções, chamadas e padrões visuais consistentes para desktop e mobile.",
     tags: ["Next.js", "Tailwind CSS", "Responsivo"],
     featured: false,
     status: "published",
@@ -407,9 +407,9 @@ export const portfolioProjects: Project[] = [
     role: "Frontend responsivo",
     tools: ["Next.js", "Tailwind CSS", "shadcn/ui"],
     problem:
-      "Criar uma página promocional clara, responsiva e visualmente marcante.",
+      "Meu objetivo foi criar uma página promocional clara, responsiva e visualmente marcante.",
     solution:
-      "Montar seções com hierarquia forte, cards e chamadas bem distribuídas para leitura em desktop e mobile.",
+      "Montei seções com hierarquia forte, cards e chamadas bem distribuídas para leitura em desktop e mobile.",
     highlights: [
       "Layout responsivo em grid.",
       "Componentes consistentes com o design system.",
@@ -436,9 +436,9 @@ export const portfolioProjects: Project[] = [
     title: "Aplicação com estados de interface",
     type: "dev",
     description:
-      "Aplicação conceitual focada em estados de interface, organização de dados e fluxos de uso.",
+      "Criei esta aplicação conceitual para explorar estados de interface, organização de dados e fluxos de uso.",
     summary:
-      "Aplicação conceitual focada em estados de UI, dados tipados e preparação de experiências digitais mais completas.",
+      "Usei estados de UI e dados tipados para preparar uma experiência digital mais previsível e completa.",
     tags: ["Estados", "Arquitetura", "Interface"],
     featured: false,
     status: "published",
@@ -446,9 +446,9 @@ export const portfolioProjects: Project[] = [
     role: "Frontend e estados de interface",
     tools: ["TypeScript", "Modelagem de dados", "Componentização"],
     problem:
-      "Organizar telas e fluxos considerando estados vazios, preenchidos e de erro.",
+      "Eu queria organizar telas e fluxos considerando estados vazios, carregando, preenchidos e de erro.",
     solution:
-      "Modelar estruturas tipadas e componentes preparados para receber conteúdo de forma consistente.",
+      "Modelei estruturas tipadas e componentes preparados para receber conteúdo de forma consistente.",
     highlights: [
       "Melhora a leitura de estados de interface.",
       "Facilita testes visuais e ajustes de conteúdo.",

@@ -7,8 +7,8 @@ export function AboutPreviewSection() {
     <section id="sobre" className="brutal-section grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
       <SectionHeading
         eyebrow="Sobre mim"
-        title="Olhar visual, organização e raciocínio técnico"
-        description="Gustavo Poncell atua na interseção entre design gráfico e desenvolvimento web."
+        title="Um olhar visual com raciocínio técnico"
+        description="Eu transito entre design gráfico, criação visual e desenvolvimento web."
         level={2}
       />
 
@@ -18,14 +18,14 @@ export function AboutPreviewSection() {
           <ModeBadge mode="dev" />
         </div>
         <p className="text-xl font-bold leading-9">
-          Gustavo Poncell é um profissional em formação que combina design
-          gráfico, criação visual e desenvolvimento de sistemas para construir
-          experiências digitais claras, funcionais e visualmente marcantes.
+          Eu gosto de criar coisas que funcionam bem e têm identidade. Minha
+          trajetória mistura design gráfico, comunicação visual e desenvolvimento
+          de sistemas, então penso tanto na aparência quanto na estrutura de cada projeto.
         </p>
         <p className="leading-8">
-          Sua abordagem une organização da informação, senso estético e
-          raciocínio técnico para transformar ideias em interfaces, sistemas web
-          e materiais visuais com personalidade.
+          Meu jeito de trabalhar une organização da informação, senso estético e
+          raciocínio técnico para construir interfaces, sistemas web e materiais
+          visuais claros, úteis e com personalidade.
         </p>
       </BrutalCard>
     </section>

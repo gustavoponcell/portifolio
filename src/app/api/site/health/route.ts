@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { siteConfig } from "@/config/site";
-import { getAllProjects } from "@/lib/projects";
+import { getPublicDesignProjects } from "@/lib/design-projects";
+import { getPublicDevRepositories } from "@/lib/dev-repositories";
 import { hasSupabasePublicEnv } from "@/lib/supabase/env";
 
 export async function GET() {
-  const projects = getAllProjects();
+  const [designProjects, devResult] = await Promise.all([
+    getPublicDesignProjects(),
+    getPublicDevRepositories(),
+  ]);
 
   return NextResponse.json({
     ok: true,
@@ -16,6 +20,6 @@ export async function GET() {
     supabasePublicConfigured: hasSupabasePublicEnv(),
     githubUsernameConfigured: Boolean(siteConfig.githubUsername),
     publicRoutes: siteConfig.publicRoutes.length,
-    publicProjects: projects.length,
+    publicProjects: designProjects.length + devResult.repositories.length,
   });
 }

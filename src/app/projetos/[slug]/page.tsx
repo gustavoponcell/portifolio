@@ -8,8 +8,12 @@ import { ProjectHighlightsSection } from "@/components/projects/project-highligh
 import { ProjectLinksSection } from "@/components/projects/project-links-section";
 import { ProjectOverviewSection } from "@/components/projects/project-overview-section";
 import { RelatedProjectsSection } from "@/components/projects/related-projects-section";
-import { getAllProjects, getProjectBySlug, getRelatedProjects } from "@/lib/projects";
-import { createPageMetadata, createProjectMetadata } from "@/lib/seo/metadata";
+import {
+  getPublicDesignProjectBySlug,
+  getPublicDesignProjects,
+} from "@/lib/design-projects";
+import { getRelatedProjects } from "@/lib/projects";
+import { createProjectMetadata } from "@/lib/seo/metadata";
 import { createProjectJsonLd } from "@/lib/seo/structured-data";
 
 type ProjectPageProps = {
@@ -18,8 +22,12 @@ type ProjectPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return getAllProjects().map((project) => ({
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const projects = await getPublicDesignProjects();
+
+  return projects.map((project) => ({
     slug: project.slug,
   }));
 }
@@ -28,15 +36,10 @@ export async function generateMetadata({
   params,
 }: ProjectPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const project = await getPublicDesignProjectBySlug(slug);
 
   if (!project) {
-    return createPageMetadata({
-      title: "Projeto não encontrado",
-      description: "Projeto não encontrado no portfólio.",
-      path: `/projetos/${slug}`,
-      noIndex: true,
-    });
+    notFound();
   }
 
   return createProjectMetadata(project);
@@ -44,13 +47,16 @@ export async function generateMetadata({
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
-  const project = getProjectBySlug(slug);
+  const [project, projects] = await Promise.all([
+    getPublicDesignProjectBySlug(slug),
+    getPublicDesignProjects(),
+  ]);
 
   if (!project) {
     notFound();
   }
 
-  const relatedProjects = getRelatedProjects(project, 3);
+  const relatedProjects = getRelatedProjects(projects, project, 3);
   const jsonLd = createProjectJsonLd(project);
 
   return (

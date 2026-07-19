@@ -28,15 +28,15 @@ export default async function LoginPage() {
       <div className="space-y-8">
         <SectionHeading
           eyebrow="Login"
-          title="Acesso restrito ao administrador"
-          description="Entre com o usuario criado no Supabase Auth e autorizado para gerenciar o portfolio."
+          title="Acesso restrito"
+          description="Entre com a conta autorizada para gerenciar o conteúdo do portfólio."
         />
 
         {adminStatus.isAuthenticated && !adminStatus.isAdmin ? (
           <BrutalCard className="space-y-4">
             <h2 className="text-2xl font-black">Sessao sem permissao</h2>
             <p className="leading-7">
-              Existe uma sessao autenticada, mas ela nao corresponde ao e-mail
+              Existe uma sessão autenticada, mas ela não corresponde ao e-mail
               autorizado para o painel. Saia e entre com a conta correta.
             </p>
             <LogoutButton />
@@ -49,10 +49,10 @@ export default async function LoginPage() {
       <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
         <AuthStatusCard />
         <BrutalCard className="space-y-3">
-          <h2 className="text-2xl font-black">Sem cadastro publico</h2>
+          <h2 className="text-2xl font-black">Sem cadastro público</h2>
           <p className="leading-7">
-            O admin usa apenas usuario criado manualmente no Supabase. Recuperacao
-            de senha, OAuth e cadastro ficam fora desta etapa.
+            O acesso é exclusivo para a conta responsável pelo portfólio. Não é
+            possível criar novas contas por esta página.
           </p>
         </BrutalCard>
       </aside>

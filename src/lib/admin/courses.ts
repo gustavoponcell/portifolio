@@ -29,7 +29,7 @@ async function ensureWritableAdmin() {
   if (!admin.isAdmin) {
     return {
       ok: false,
-      message: "Acesso negado. Entre com o usuario administrador.",
+      message: "Acesso negado. Entre com o usuário administrador.",
     };
   }
 
@@ -37,7 +37,7 @@ async function ensureWritableAdmin() {
     return {
       ok: false,
       message:
-        "A conexao administrativa com o Supabase ainda nao esta configurada no servidor.",
+        "A conexão administrativa com o Supabase ainda não está configurada no servidor.",
     };
   }
 
@@ -62,7 +62,7 @@ export async function getCourses(): Promise<AdminCrudResult<Course[]>> {
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel carregar cursos.",
+        message: "Não foi possível carregar cursos.",
       };
     }
 
@@ -74,7 +74,7 @@ export async function getCourses(): Promise<AdminCrudResult<Course[]>> {
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -105,7 +105,7 @@ export async function createCourse(input: CourseInput): Promise<AdminCrudResult<
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel criar o curso.",
+        message: "Não foi possível criar o curso.",
       };
     }
 
@@ -117,7 +117,7 @@ export async function createCourse(input: CourseInput): Promise<AdminCrudResult<
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -152,7 +152,7 @@ export async function updateCourse(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel atualizar o curso.",
+        message: "Não foi possível atualizar o curso.",
       };
     }
 
@@ -164,7 +164,7 @@ export async function updateCourse(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -183,7 +183,7 @@ export async function deleteCourse(id: string): Promise<AdminCrudResult> {
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel excluir o curso.",
+        message: "Não foi possível excluir o curso.",
       };
     }
 
@@ -194,7 +194,7 @@ export async function deleteCourse(id: string): Promise<AdminCrudResult> {
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }
@@ -219,7 +219,7 @@ export async function toggleCourseVisibility(
     if (error) {
       return {
         ok: false,
-        message: "Nao foi possivel alterar a visibilidade do curso.",
+        message: "Não foi possível alterar a visibilidade do curso.",
       };
     }
 
@@ -230,7 +230,7 @@ export async function toggleCourseVisibility(
   } catch {
     return {
       ok: false,
-      message: "Nao foi possivel conectar ao Supabase admin.",
+      message: "Não foi possível conectar ao Supabase admin.",
     };
   }
 }

@@ -80,11 +80,11 @@ function readCuration(formData: FormData): GitHubRepositoryCurationInput {
 
 function validateCuration(input: GitHubRepositoryCurationInput) {
   if (!input.repositoryName) {
-    return "Nome do repositorio e obrigatorio.";
+    return "Nome do repositório é obrigatório.";
   }
 
   if (!/^[A-Za-z0-9._-]+$/.test(input.repositoryName)) {
-    return "Nome do repositorio contem caracteres invalidos.";
+    return "Nome do repositório contém caracteres inválidos.";
   }
 
   return null;
@@ -116,7 +116,7 @@ export async function deleteDevRepositoryCurationAction(formData: FormData) {
   const repositoryName = value(formData, "repositoryName");
 
   if (!repositoryName) {
-    go("Repositorio nao encontrado.", "error");
+    go("Repositório não encontrado.", "error");
   }
 
   const result = await deleteDevRepositoryCuration(repositoryName);
@@ -130,7 +130,7 @@ export async function toggleDevRepositoryVisibilityAction(formData: FormData) {
   const visible = value(formData, "visible") === "true";
 
   if (!repositoryName) {
-    go("Repositorio nao encontrado.", "error");
+    go("Repositório não encontrado.", "error");
   }
 
   const result = await toggleDevRepositoryVisibility(repositoryName, visible);
@@ -144,7 +144,7 @@ export async function toggleDevRepositoryFeaturedAction(formData: FormData) {
   const featured = value(formData, "featured") === "true";
 
   if (!repositoryName) {
-    go("Repositorio nao encontrado.", "error");
+    go("Repositório não encontrado.", "error");
   }
 
   const result = await toggleDevRepositoryFeatured(repositoryName, featured);

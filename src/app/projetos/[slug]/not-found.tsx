@@ -9,14 +9,14 @@ export default function ProjectNotFound() {
       <SectionHeading
         eyebrow="Projeto não encontrado"
         title="Este projeto não está disponível"
-        description="O endereço acessado não corresponde a um case publicado no portfólio."
+        description="Não encontrei um projeto publicado neste endereço."
       />
 
       <BrutalCard className="space-y-5">
         <ModeBadge mode="hybrid" />
         <p className="max-w-2xl text-lg leading-8">
-          Volte para uma das áreas principais e escolha um projeto disponível
-          na seleção atual.
+          Você pode voltar para uma das áreas principais e conhecer outro
+          projeto da minha seleção.
         </p>
         <div className="flex flex-wrap gap-3">
           <BrutalButton href="/" variant="outline">

@@ -14,8 +14,8 @@ export function DevelopmentProcessSection() {
     <section id="processo-dev" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Processo de desenvolvimento"
-        title="Da ideia ao produto digital"
-        description="Um fluxo prático para organizar objetivos, interface, dados e entrega de projetos web."
+        title="Como eu organizo uma ideia até ela funcionar"
+        description="Quando desenvolvo, começo pela estrutura, penso nos componentes, organizo os dados e só então refino a experiência e a entrega."
         accent="dev"
         level={2}
       />

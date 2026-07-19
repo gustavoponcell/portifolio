@@ -37,7 +37,7 @@ export function DevRepositoryAdminCard({
           <h2 className="mt-2 break-words text-2xl font-black">
             {repository.displayTitle}
           </h2>
-          <p className="mt-1 font-bold">Repositorio base: {repository.name}</p>
+          <p className="mt-1 font-bold">Repositório base: {repository.name}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">
@@ -49,14 +49,14 @@ export function DevRepositoryAdminCard({
                 : "bg-muted"
             }`}
           >
-            {repository.isConfigured ? "Configurado" : "Nao configurado"}
+            {repository.isConfigured ? "Configurado" : "Não configurado"}
           </span>
           <span
             className={`brutal-border px-3 py-1 text-xs font-black uppercase tracking-wide ${
               repository.visible ? "bg-dev ink-on-accent border-[#111111]" : "bg-muted"
             }`}
           >
-            {repository.visible ? "Visivel" : "Oculto"}
+            {repository.visible ? "Visível" : "Oculto"}
           </span>
           {repository.featured ? (
             <span className="brutal-border border-[#111111] bg-design px-3 py-1 text-xs font-black uppercase tracking-wide ink-on-accent">

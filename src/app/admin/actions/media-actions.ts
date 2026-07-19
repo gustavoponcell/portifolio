@@ -3,8 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { updateProfileAvatar } from "@/lib/admin/profile";
 import { requireAdmin } from "@/lib/auth/admin";
-import { getCurrentUser } from "@/lib/auth/session";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { hasSupabaseAdminEnv } from "@/lib/supabase/env";
 import {
@@ -42,7 +42,7 @@ async function ensureAdminAction() {
     return {
       ok: false,
       message:
-        "A conexao administrativa com o Supabase Storage ainda nao esta configurada no servidor.",
+        "A conexão administrativa com o Supabase Storage ainda não está configurada no servidor.",
     };
   }
 
@@ -53,6 +53,7 @@ function refreshProfile() {
   revalidatePath("/admin");
   revalidatePath("/admin/perfil");
   revalidatePath("/");
+  revalidatePath("/contato");
 }
 
 function refreshDesign(slug?: string) {
@@ -73,38 +74,27 @@ export async function uploadProfileAvatarAction(formData: FormData) {
     goProfile(guard.message, "error");
   }
 
-  const user = await getCurrentUser();
-
-  if (!user) {
-    goProfile("Usuario autenticado nao encontrado.", "error");
-  }
-
   const file = fileValue(formData);
 
   if (!file) {
     goProfile("Envie uma imagem antes de continuar.", "error");
   }
 
+  const uploadVersion = Date.now();
   const upload = await uploadImageToStorage(
     file,
-    createProfileAvatarPath(file.name, file.type)
+    createProfileAvatarPath(file.name, file.type),
+    { cacheVersion: uploadVersion }
   );
 
   if (!upload.ok || !upload.asset) {
     goProfile(upload.message, "error");
   }
 
-  try {
-    const supabase = createAdminClient();
-    const { error } = await supabase
-      .from("profiles")
-      .upsert({ id: user.id, avatar_url: upload.asset.publicUrl });
+  const profileResult = await updateProfileAvatar(upload.asset.publicUrl);
 
-    if (error) {
-      goProfile("Imagem enviada, mas nao foi possivel atualizar o perfil.", "error");
-    }
-  } catch {
-    goProfile("Imagem enviada, mas nao foi possivel conectar ao perfil.", "error");
+  if (!profileResult.ok) {
+    goProfile(profileResult.message, "error");
   }
 
   refreshProfile();
@@ -123,7 +113,7 @@ export async function uploadDesignProjectCoverAction(formData: FormData) {
   const file = fileValue(formData);
 
   if (!projectId || !projectSlug) {
-    goDesign("Projeto Design nao encontrado.", "error");
+    goDesign("Projeto Design não encontrado.", "error");
   }
 
   if (!file) {
@@ -148,10 +138,10 @@ export async function uploadDesignProjectCoverAction(formData: FormData) {
       .eq("type", "design");
 
     if (error) {
-      goDesign("Imagem enviada, mas nao foi possivel atualizar a capa.", "error");
+      goDesign("Imagem enviada, mas não foi possível atualizar a capa.", "error");
     }
   } catch {
-    goDesign("Imagem enviada, mas nao foi possivel conectar ao projeto.", "error");
+    goDesign("Imagem enviada, mas não foi possível conectar ao projeto.", "error");
   }
 
   refreshDesign(projectSlug);
@@ -172,11 +162,11 @@ export async function uploadDesignProjectGalleryImageAction(formData: FormData) 
   const file = fileValue(formData);
 
   if (!projectId || !projectSlug) {
-    goDesign("Projeto Design nao encontrado.", "error");
+    goDesign("Projeto Design não encontrado.", "error");
   }
 
   if (!title) {
-    goDesign("Titulo da imagem de galeria e obrigatorio.", "error");
+    goDesign("Título da imagem de galeria é obrigatório.", "error");
   }
 
   if (!file) {
@@ -210,10 +200,10 @@ export async function uploadDesignProjectGalleryImageAction(formData: FormData) 
     });
 
     if (error) {
-      goDesign("Imagem enviada, mas nao foi possivel criar o item de galeria.", "error");
+      goDesign("Imagem enviada, mas não foi possível criar o item de galeria.", "error");
     }
   } catch {
-    goDesign("Imagem enviada, mas nao foi possivel conectar a galeria.", "error");
+    goDesign("Imagem enviada, mas não foi possível conectar à galeria.", "error");
   }
 
   refreshDesign(projectSlug);
@@ -235,7 +225,7 @@ export async function deleteMediaAction(formData: FormData) {
       : "/admin";
 
   if (!path) {
-    redirect(`${redirectTo}?type=error&message=${encodeURIComponent("Imagem nao encontrada.")}`);
+    redirect(`${redirectTo}?type=error&message=${encodeURIComponent("Imagem não encontrada.")}`);
   }
 
   const result = await deleteImageFromStorage(path);

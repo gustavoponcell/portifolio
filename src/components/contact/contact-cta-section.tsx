@@ -7,9 +7,9 @@ export function ContactCtaSection() {
     <section className="brutal-section">
       <BrutalCard className="grid gap-8 bg-card text-foreground lg:grid-cols-[1fr_auto] lg:items-center">
         <SectionHeading
-          eyebrow="Antes do papo"
-          title="Veja os dois lados do portfólio."
-          description="Design mostra a frente visual. Dev mostra sistemas, interfaces e repositórios selecionados."
+          eyebrow="Enquanto isso"
+          title="Conheça os dois lados do meu trabalho."
+          description="No Design, mostro meu olhar visual. No Dev, apresento sistemas, interfaces e repositórios que fazem parte da minha trajetória."
           level={2}
           className="[&>h2]:text-foreground [&>p:last-child]:text-muted-foreground"
         />

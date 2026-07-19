@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { getGitHubRepositories } from "@/lib/github";
+import { getPublicDevRepositories } from "@/lib/dev-repositories";
 
 export const revalidate = 3600;
 
 export async function GET() {
-  const result = await getGitHubRepositories();
+  const result = await getPublicDevRepositories();
 
   return NextResponse.json(result);
 }

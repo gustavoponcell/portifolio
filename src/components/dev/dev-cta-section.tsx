@@ -8,8 +8,8 @@ export function DevCtaSection() {
       <BrutalCard className="grid gap-8 bg-card text-foreground lg:grid-cols-[1fr_auto] lg:items-center">
         <SectionHeading
           eyebrow="Próximo caminho"
-          title="Código e design se encontram para construir experiências digitais mais completas."
-          description="Continue pela Home ou conheça o lado Design do portfólio."
+          title="Meu código também nasce de um olhar visual."
+          description="Conheça meu lado Design para entender como identidade, composição e interface completam meu trabalho técnico."
           level={2}
           className="[&>h2]:text-foreground [&>p:last-child]:text-muted-foreground"
         />
@@ -19,7 +19,7 @@ export function DevCtaSection() {
             Voltar à Home
           </BrutalButton>
           <BrutalButton href="/design" variant="design">
-            Ver Modo Design
+            Ver meu lado Design
           </BrutalButton>
         </div>
       </BrutalCard>

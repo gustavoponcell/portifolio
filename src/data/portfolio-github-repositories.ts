@@ -6,7 +6,7 @@ export const portfolioGitHubRepositories: GitHubRepository[] = [
     name: "portfolio-next",
     fullName: "gustavoponcell/portfolio-next",
     description:
-      "Repositório em TypeScript para apresentar a base web do portfólio.",
+      "Aqui registro a construção em TypeScript da base web do meu portfólio.",
     htmlUrl: "",
     homepage: null,
     language: "TypeScript",
@@ -23,7 +23,7 @@ export const portfolioGitHubRepositories: GitHubRepository[] = [
     name: "painel-gestao",
     fullName: "gustavoponcell/painel-gestao",
     description:
-      "Estudo de painel para organização de conteúdo, projetos e informações profissionais.",
+      "Neste estudo, organizo conteúdos, projetos e informações profissionais em uma interface de painel.",
     htmlUrl: "",
     homepage: null,
     language: "TypeScript",
@@ -40,7 +40,7 @@ export const portfolioGitHubRepositories: GitHubRepository[] = [
     name: "catalogo-digital",
     fullName: "gustavoponcell/catalogo-digital",
     description:
-      "Repositório para estudos de listagens, filtros e organização de projetos.",
+      "Repositório em que pratico listagens, filtros e formas de organizar projetos digitais.",
     htmlUrl: "",
     homepage: null,
     language: "JavaScript",
@@ -57,7 +57,7 @@ export const portfolioGitHubRepositories: GitHubRepository[] = [
     name: "integracao-de-dados",
     fullName: "gustavoponcell/integracao-de-dados",
     description:
-      "Estudo de integração de dados e apresentação de informações em interfaces web.",
+      "Estudo em que conecto dados e apresentação de informações em interfaces web.",
     htmlUrl: "",
     homepage: null,
     language: "TypeScript",

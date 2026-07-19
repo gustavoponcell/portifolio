@@ -41,7 +41,7 @@ function Field({
   );
 }
 
-export function ExperienceForm({ experience, title = "Nova experiencia" }: ExperienceFormProps) {
+export function ExperienceForm({ experience, title = "Nova experiência" }: ExperienceFormProps) {
   const action = experience ? updateExperienceAction : createExperienceAction;
 
   return (
@@ -52,9 +52,9 @@ export function ExperienceForm({ experience, title = "Nova experiencia" }: Exper
         {experience ? <input name="id" type="hidden" value={experience.id} /> : null}
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Titulo" name="title" defaultValue={experience?.title} required />
+          <Field label="Título" name="title" defaultValue={experience?.title} required />
           <Field
-            label="Organizacao"
+            label="Organização"
             name="organization"
             defaultValue={experience?.organization}
           />
@@ -65,7 +65,7 @@ export function ExperienceForm({ experience, title = "Nova experiencia" }: Exper
             className="text-sm font-black uppercase tracking-[0.18em]"
             htmlFor={`description-${experience?.id ?? "new"}`}
           >
-            Descricao
+            Descrição
           </label>
           <textarea
             className="brutal-border min-h-28 w-full bg-card px-4 py-3 font-bold leading-7 outline-none focus-visible:ring-4 focus-visible:ring-dev"
@@ -114,12 +114,12 @@ export function ExperienceForm({ experience, title = "Nova experiencia" }: Exper
               name="visible"
               type="checkbox"
             />
-            Visivel
+            Visível
           </label>
         </div>
 
         <BrutalButton type="submit" variant={experience ? "outline" : "dev"}>
-          {experience ? "Atualizar experiencia" : "Criar experiencia"}
+          {experience ? "Atualizar experiência" : "Criar experiência"}
         </BrutalButton>
       </form>
     </BrutalCard>

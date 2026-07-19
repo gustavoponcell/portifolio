@@ -55,11 +55,11 @@ export async function saveProfileAction(formData: FormData) {
   };
 
   if (!input.fullName) {
-    go("Nome completo e obrigatorio.", "error");
+    go("Nome completo é obrigatório.", "error");
   }
 
   if (input.emailPublic && !isEmail(input.emailPublic)) {
-    go("E-mail publico invalido.", "error");
+    go("E-mail público inválido.", "error");
   }
 
   const urls = [
@@ -80,6 +80,7 @@ export async function saveProfileAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/perfil");
   revalidatePath("/");
+  revalidatePath("/contato");
 
   go(result.message, result.ok ? "success" : "error");
 }

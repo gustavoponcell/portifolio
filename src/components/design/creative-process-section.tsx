@@ -14,8 +14,8 @@ export function CreativeProcessSection() {
     <section id="processo-criativo" className="brutal-section space-y-8">
       <SectionHeading
         eyebrow="Processo criativo"
-        title="Do problema ao visual com intenção"
-        description="Um processo direto para transformar objetivos, referências e ideias em peças visuais consistentes."
+        title="Da ideia ao visual com intenção"
+        description="Meu processo começa entendendo a ideia, passa pela organização visual e termina em uma entrega que faça sentido para quem vê e para quem usa."
         accent="design"
         level={2}
       />

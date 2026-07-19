@@ -22,8 +22,8 @@ export function ProjectGallerySection({ project }: ProjectGallerySectionProps) {
     <section className="space-y-6">
       <SectionHeading
         eyebrow="Galeria"
-        title="Materiais do case"
-        description="Materiais visuais e registros do projeto organizados para apresentar contexto, linguagem e aplicação."
+        title="Materiais que ajudam a contar o projeto"
+        description="Organizei estes registros para mostrar melhor o contexto, a linguagem e as aplicações que explorei."
         accent={project.type}
         level={2}
       />
