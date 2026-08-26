@@ -4,12 +4,12 @@ Atualizado em: 2026-08-26.
 
 ## Resumo Executivo
 
-O portfólio está em fase avançada pré-produção. A base pública, admin, Supabase,
-upload de imagens, curadoria Dev, SEO básico, sitemap, robots e manifest já
-existem. A primeira revisão de dependências foi concluída com audit zerado. O
-próximo bloco de trabalho deve focar em deploy Vercel, auditoria de secrets,
-validação visual/manual e limpeza de documentação legada que ainda descreve
-fases antigas com mocks.
+O portfólio está publicado em produção na Vercel e validado para continuidade.
+A base pública, admin, Supabase, upload de imagens, curadoria Dev, SEO básico,
+sitemap, robots e manifest já existem. TASK-001 zerou vulnerabilidades de
+dependências, TASK-002 validou produção e TASK-003 não encontrou exposição
+objetiva de secrets. O próximo bloco de trabalho deve focar em teste visual e
+responsivo, acessibilidade, SEO fino e limpeza de documentação legada.
 
 ## Stack Verificada
 
@@ -118,8 +118,18 @@ Não há script `test`. A validação atual depende de lint, build e testes manu
 
 ### Deploy
 
-Vercel é o alvo, mas a validação final de produção ainda depende de configuração
-manual de variáveis, domínio, Supabase e GitHub.
+Resolvido em TASK-002.
+
+Resultado atual:
+
+- Produção Vercel confirmada pelo usuário como `Ready`.
+- Commit em produção confirmado pelo usuário:
+  `04e0e9dbf5e2dc9b566ca26b57019defdcbeb238`.
+- URL pública validada: `https://poncell-portifolio.vercel.app/`.
+- Rotas públicas principais responderam HTTP 200.
+- `/admin` sem sessão respondeu HTTP 307 para `/login`.
+- Login admin, rotas administrativas e Console do navegador foram confirmados
+  manualmente pelo usuário como funcionando.
 
 ## Últimos Comandos Executados Nesta Análise
 
@@ -133,6 +143,9 @@ npm.cmd run build
 Resultado:
 
 - TASK-001 aprovada por ChatGPT/Codex.
+- TASK-002 aprovada por ChatGPT/Codex após validação automática e confirmação
+  manual do usuário.
+- TASK-003 aprovada por ChatGPT/Codex sem exposição objetiva de secrets.
 - Audit sem vulnerabilidades.
 - Lint sem erros.
 - Build de produção concluído com Next.js 16.3.3.

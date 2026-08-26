@@ -2,6 +2,40 @@
 
 Atualizado em: 2026-08-26.
 
+## Revisão ChatGPT/Codex — Fechamento TASK-002 e TASK-003
+
+- Status: aprovadas.
+- Confirmações recebidas do usuário para TASK-002:
+  - Vercel Production está tudo ok.
+  - Commit mais recente em produção confirmado:
+    `04e0e9dbf5e2dc9b566ca26b57019defdcbeb238`.
+  - Variáveis Production conferidas no painel da Vercel, incluindo chaves
+    públicas, admin/server-side e GitHub.
+  - Login admin em produção, rotas administrativas e Console do navegador:
+    tudo ok.
+- Revisão ChatGPT/Codex:
+  - TASK-002 pode ser aprovada. As pendências manuais registradas foram
+    satisfeitas pelo usuário e as validações automatizáveis já tinham passado:
+    rotas públicas HTTP 200, `/admin` HTTP 307 para `/login`, lint, build e
+    audit.
+  - TASK-003 também pode ser aprovada. Revalidei localmente que `.env.example`
+    é o único `.env*` rastreado, que `SUPABASE_SECRET_KEY`,
+    `SUPABASE_SERVICE_ROLE_KEY`, `GITHUB_TOKEN` e `ADMIN_EMAIL` aparecem
+    apenas em helpers server-side ou `.env.example`, e que
+    `npm.cmd audit --omit=dev` retorna 0 vulnerabilidades.
+  - A revisão adversarial manual do plugin Codex continua útil antes de
+    mudanças sensíveis, mas não bloqueia a aprovação de TASK-003 porque a
+    revisão objetiva já encontrou e corrigiu a única imprecisão documental.
+- Arquivos/documentação atualizados:
+  - `docs/backlog.md`: TASK-002 e TASK-003 marcadas como concluídas; TASK-004
+    definida como próxima tarefa recomendada.
+  - `docs/project-status.md`: produção e auditoria de secrets registradas como
+    resolvidas.
+  - `docs/tasks/task-003-secrets-client-server-audit.md`: especificação formal
+    criada retroativamente para manter o padrão do fluxo.
+- Próxima ação:
+  - Entregar TASK-004 ao Claude Code: teste visual e responsivo manual.
+
 ## Último Handoff — TASK-003
 
 - Status: pronto para revisão.
