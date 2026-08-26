@@ -2,6 +2,236 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-003
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `docs/handoff.md` (este registro e correção de uma afirmação incorreta no
+    bloco anterior de TASK-002, apontada pela revisão Codex).
+- O que foi feito:
+  - `git status -sb` mostrou apenas `docs/handoff.md` modificado (bloco de
+    TASK-002 já registrado, não commitado, de sessão anterior). Não é uma
+    mudança de código nem conflita com esta tarefa, então segui em frente sem
+    bloquear, e preservei o conteúdo existente.
+  - Não existe `docs/tasks/task-003-*.md`. Só há especificação formal para
+    TASK-001 e TASK-002. Usei a descrição do próprio `docs/backlog.md` como
+    escopo: "confirmar que tokens Supabase/GitHub não entram no client
+    bundle, endpoints não retornam dados sensíveis e `.env*` segue
+    protegido."
+  - TASK-002 continua com os mesmos bloqueios de sessões anteriores (acesso
+    ao dashboard da Vercel, login admin real, DevTools em navegador) — nada
+    mudou que esta sessão pudesse resolver, então não tentei reexecutá-la e
+    segui para TASK-003, que é totalmente auditável sem acesso externo.
+  - Auditoria de secrets/exposição client-server (leitura de código, sem
+    alterações):
+    - `.gitignore` cobre `.env*` com exceção explícita de `.env.example`;
+      `.env.local` existe localmente mas não está rastreado
+      (`git ls-files` só lista `.env.example`).
+    - `SUPABASE_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GITHUB_TOKEN` e
+      `ADMIN_EMAIL` só são lidos em `src/lib/supabase/env.ts`,
+      `src/lib/auth/admin.ts` e `src/lib/github.ts` — nenhum arquivo
+      `"use client"` (`login-form.tsx`, `site-header.tsx`,
+      `mode-switcher.tsx`, `ui/separator.tsx`) referencia essas variáveis.
+    - `src/lib/supabase/admin.ts` e `src/lib/supabase/public.ts` têm
+      `import "server-only"`, impedindo bundling acidental no client.
+    - `src/lib/supabase/client.ts` (browser client) só usa a chave
+      pública/publishable via `requireSupabasePublicEnv()` — e hoje não está
+      sequer importado por nenhum componente (código não utilizado
+      atualmente, não é um risco de exposição real).
+    - `next.config.ts` não tem `env`/passthrough customizado, então só
+      `NEXT_PUBLIC_*` é inlined no client (comportamento padrão do Next).
+    - Todas as rotas de health (`/api/site/health`, `/api/supabase/health`,
+      `/api/auth/status`, `/api/admin/health`,
+      `/api/admin/projects/{design,dev}/health`, `/api/admin/storage/health`)
+      só retornam booleanos/contagens/timestamps, nunca valores de secret.
+    - Todas as Server Actions administrativas em `src/app/admin/actions/*.ts`
+      chamam `requireAdmin()`/`ensureAdminAction()` e fazem `redirect` para
+      `/login` quando não é admin, antes de qualquer escrita.
+    - `src/lib/storage/media.ts` já valida path traversal (rejeita `..`,
+      `/` inicial e `\`) e tipo/tamanho de arquivo (`validateImageFile`)
+      antes de upload/delete no Storage.
+    - Nenhuma string com formato de credencial (`eyJ...`, `ghp_...`, `sk-...`,
+      `AKIA...`) encontrada em `src/`.
+  - Considerei adicionar `import "server-only"` também em
+    `src/lib/supabase/env.ts`, mas essa mudança quebraria o uso futuro
+    pretendido de `client.ts` (que precisa da função pública do mesmo
+    módulo) e não corrige nenhum problema hoje existente — decidi não fazer
+    essa alteração especulativa, por não ser um "problema objetivo
+    encontrado".
+  - Revisão Codex objetiva (`/codex:review --background`) rodou sobre a
+    working tree e encontrou 1 achado real (P2): o bloco de handoff de
+    TASK-002 (linhas ~46-50, já existente antes desta sessão) afirmava que os
+    endpoints de health "confirmam presença e funcionamento" da chave
+    admin do Supabase e do `GITHUB_TOKEN`, quando na verdade
+    `/api/supabase/health` só confirma que a env não está vazia (não que a
+    chave é válida), e `/api/github/repositories` responde 200 mesmo sem
+    `GITHUB_TOKEN` (repositórios públicos não exigem token). Corrigi o texto
+    desse bloco e adicionei a pendência correspondente.
+  - Revisão adversarial (`/codex:adversarial-review`, foco em segurança,
+    regressão e dados reais): **não executada nesta sessão**. Essa skill tem
+    `disable-model-invocation` e só pode ser disparada pelo usuário
+    diretamente, não por mim. Pedi ao usuário para rodá-la.
+- Decisões técnicas:
+  - Tratei TASK-003 como tarefa de auditoria/confirmação (conforme o próprio
+    backlog descreve), não de mudança de código. Como nenhum problema
+    objetivo de exposição de secrets foi encontrado, não houve diff de
+    código — só a correção textual no handoff apontada pela revisão Codex.
+  - Não criei `docs/tasks/task-003-*.md` (não é papel do Claude Code criar
+    especificação; isso é responsabilidade do ChatGPT/Codex conforme
+    `AGENTS.md`), apenas registrei que a especificação formal está ausente.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `npm.cmd audit --omit=dev`
+  - `/codex:review --background` (revisão objetiva do working tree).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 17 rotas geradas, mesma lista
+    das tarefas anteriores.
+  - Audit: 0 vulnerabilidades.
+  - Codex review: 1 achado P2 (ver acima), corrigido nesta mesma sessão.
+- Problemas encontrados:
+  - Nenhuma exposição objetiva de secrets no client bundle, em endpoints ou
+    em Server Actions.
+  - 1 imprecisão factual no handoff de TASK-002 (corrigida).
+- Pendências:
+  - Rodar `/codex:adversarial-review` focado em segurança, regressão e dados
+    reais (o usuário precisa disparar; não posso fazer por eles).
+  - Criar `docs/tasks/task-003-*.md` formal, se o ChatGPT quiser manter o
+    padrão de especificação por arquivo para tarefas futuras.
+  - Validar `SUPABASE_SECRET_KEY`/`SUPABASE_SERVICE_ROLE_KEY` e
+    `GITHUB_TOKEN` em Production (pendência já registrada no bloco de
+    TASK-002 corrigido acima).
+  - TASK-002 continua bloqueada pelos mesmos motivos de sessões anteriores
+    (acesso à Vercel, login admin real, DevTools) — nada resolvido aqui.
+- Riscos:
+  - Baixo. Nenhuma mudança de código foi feita; a única edição é textual em
+    documentação, corrigindo uma afirmação que poderia levar a uma aprovação
+    equivocada de TASK-002.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se o escopo de auditoria adotado para TASK-003 (sem arquivo de
+    especificação formal) é aceitável, ou se preferem que eu pare tarefas
+    futuras sem spec em `docs/tasks/`.
+  - Decidir se `docs/tasks/task-003-*.md` deve ser criado retroativamente.
+  - Rodar (ou pedir ao usuário) `/codex:adversarial-review` para TASK-003,
+    já que esta sessão não pôde disparar essa skill.
+  - Revisar a correção textual aplicada ao bloco de TASK-002 e decidir se as
+    pendências de validação de chave admin/GitHub token bloqueiam a aprovação
+    dessa tarefa.
+
+## Último Handoff — TASK-002
+
+- Status: pronto para revisão (com pendências que exigem acesso fora desta sessão).
+- Arquivos alterados:
+  - `docs/handoff.md` (este registro).
+- O que foi feito:
+  - `git status -sb` confirmado limpo (`## main...origin/main`) antes de
+    começar; HEAD local igual a `origin/main`
+    (`04e0e9dbf5e2dc9b566ca26b57019defdcbeb238`), que já contém o bump de
+    dependências da TASK-001 (`next` e `eslint-config-next` em `16.3.3` no
+    `package.json` atual).
+  - Rodado localmente com sucesso:
+    - `npm.cmd run lint`: sem erros/avisos.
+    - `npm.cmd audit --omit=dev`: 0 vulnerabilidades.
+    - `npm.cmd run build`: build de produção concluído (Next.js 16.3.3,
+      Turbopack), 17 rotas geradas, mesma lista da TASK-001.
+  - Testada via HTTP a URL pública de produção informada pelo usuário
+    (`https://poncell-portifolio.vercel.app/`):
+    - `/` → 200
+    - `/design` → 200 (título "Design | Gustavo Poncell", HTML ~93 KB, não é
+      estado vazio)
+    - `/dev` → 200 (título "Dev | Gustavo Poncell", HTML ~115 KB)
+    - `/contato` → 200
+    - `/login` → 200
+    - `/sitemap.xml` → 200, `Content-Type: application/xml`
+    - `/robots.txt` → 200, `Content-Type: text/plain; charset=utf-8`
+    - `/admin` sem autenticação → **307** com `Location: /login` (protegido
+      corretamente, sem seguir redirect automaticamente para confirmar o
+      código HTTP real).
+  - Checadas as rotas de health/status (sem imprimir nenhum segredo, apenas
+    os campos booleanos/contagens que elas expõem por design):
+    - `/api/site/health` → `{"ok":true,"siteUrlConfigured":true,
+      "supabasePublicConfigured":true,"githubUsernameConfigured":true,
+      "publicRoutes":4,"publicProjects":10}`
+    - `/api/supabase/health` → `{"configured":true,"publicEnv":true,
+      "adminEnv":true}`
+    - `/api/auth/status` → `{"supabaseConfigured":true,
+      "adminEmailConfigured":true,"authenticated":false,"isAdmin":false}`
+    - `/api/github/repositories` → 200, retornando repositório real do
+      GitHub (`gustavoponcell/portifolio`) com `pushedAt` recente, confirmando
+      chamada real à API do GitHub (não mock).
+  - Interpretação (corrigida após revisão Codex): os flags acima confirmam
+    apenas **presença** (não vazio) em Production de `NEXT_PUBLIC_SITE_URL`,
+    da chave pública do Supabase e de `ADMIN_EMAIL`, sem que nenhum valor de
+    variável tenha sido lido ou escrito neste documento. `adminEnv: true` em
+    `/api/supabase/health` só indica que `SUPABASE_SECRET_KEY` ou
+    `SUPABASE_SERVICE_ROLE_KEY` está definida e não vazia — **não** confirma
+    que a chave é válida ou funcional (isso exigiria uma escrita/leitura real
+    autenticada, não feita aqui). `/api/github/repositories` retornar 200 com
+    dados reais também **não** confirma presença de `GITHUB_TOKEN`, já que
+    esse endpoint funciona sem token para repositórios públicos (rate limit
+    menor, mas sem erro); `GITHUB_USERNAME` está confirmado por
+    `githubUsernameConfigured: true`, mas `GITHUB_TOKEN` permanece não
+    verificado por esta sessão.
+  - `publicProjects: 10` e o tamanho real das páginas `/design` e `/dev`
+    confirmam que dados públicos reais do Supabase/GitHub estão aparecendo em
+    produção, não estados vazios nem mocks.
+- Decisões técnicas:
+  - Não tentei login admin nem manuseei credenciais reais — nesta sessão não
+    tenho (e não devo obter) usuário/senha do Supabase; login administrativo
+    continua exigindo teste manual pelo usuário.
+  - Não acessei CLI/dashboard da Vercel (sem `.vercel/`, sem token
+    autenticado nesta sessão), então não disparei redeploy nem confirmei
+    literalmente o rótulo "Ready" na Vercel. Como o domínio já responde 200 em
+    todas as rotas públicas com dados reais e HEAD local == `origin/main`, a
+    inferência prática é de que o deploy Production está saudável e
+    atualizado, mas isso não substitui a confirmação visual no dashboard.
+  - Não usei navegador real, então não verifiquei o Console DevTools das
+    páginas principais; validei apenas HTTP status, headers e tamanho/HTML
+    retornado.
+  - Não alterei código, schema, variáveis de ambiente ou domínio.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd audit --omit=dev`, `npm.cmd run build`
+    (local).
+  - Requisições HTTP (`curl`) contra a URL pública de produção para todas as
+    rotas listadas nos critérios de aceite, mais as rotas de health/status e
+    `/api/github/repositories`.
+- Resultado dos testes:
+  - Lint, audit e build: sem erros.
+  - Todas as rotas públicas exigidas: HTTP 200.
+  - `/admin`: HTTP 307 → `/login` (protegido).
+  - Health/status endpoints: todos `ok`/`configured: true`, sem exposição de
+    valores sensíveis no corpo da resposta.
+- Problemas encontrados:
+  - Nenhum erro HTTP, 404 ou falha de build/lint/audit encontrado.
+- Pendências:
+  - Confirmar manualmente no dashboard da Vercel que o deploy Production mais
+    recente está com status "Ready" e corresponde ao commit
+    `04e0e9dbf5e2dc9b566ca26b57019defdcbeb238` (não confirmável por esta
+    sessão sem CLI/token da Vercel).
+  - Testar login admin em produção com o usuário autorizado real (precisa ser
+    feito por quem tem as credenciais; não deve ser feito por um agente de
+    IA).
+  - Verificar manualmente o Console do DevTools nas páginas principais em um
+    navegador real (esta sessão não tem acesso a navegador).
+  - Confirmar que `SUPABASE_SECRET_KEY`/`SUPABASE_SERVICE_ROLE_KEY` é válida
+    (não só presente) e que `GITHUB_TOKEN` está de fato configurado em
+    Production — nenhum dos dois foi provado por esta sessão (ver correção
+    acima após revisão Codex).
+- Riscos:
+  - Baixo. Todas as validações automatizáveis sem credenciais/dashboard
+    passaram. O risco residual é apenas não confirmado por falta de acesso a
+    ferramentas específicas (Vercel dashboard/CLI e navegador), não por falha
+    detectada.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se as evidências indiretas de variáveis de ambiente (via
+    `/api/site/health`, `/api/supabase/health`, `/api/auth/status`) são
+    suficientes para o critério de aceite ou se ainda é necessária a
+    confirmação manual no dashboard da Vercel.
+  - Decidir se TASK-002 pode ser aprovada com as pendências de login manual e
+    verificação de Console/DevTools delegadas ao usuário, ou se precisa de
+    nova rodada.
+
 ## Revisão ChatGPT/Codex — Correção Do Loop TASK-002
 
 - Status: correção aplicada, precisa reexecutar.
