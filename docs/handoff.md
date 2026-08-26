@@ -1,0 +1,120 @@
+# Handoff Entre Agentes
+
+Atualizado em: 2026-08-26.
+
+## Revisão ChatGPT/Codex — TASK-001
+
+- Status: aprovada.
+- Revisão:
+  - `package.json` alterou apenas `next` e `eslint-config-next` de `16.2.9`
+    para `16.3.3`.
+  - `package-lock.json` foi atualizado conforme o bump e a correção transitiva
+    de dependências vulneráveis.
+  - Não identifiquei alteração funcional fora do escopo da tarefa.
+- Validação executada por ChatGPT/Codex:
+  - `npm.cmd audit --omit=dev`: 0 vulnerabilidades.
+  - `npm.cmd run lint`: passou.
+  - `npm.cmd run build`: passou com 17 rotas geradas.
+- Decisão:
+  - TASK-001 concluída.
+  - Próxima tarefa recomendada: TASK-002 — Validar deploy Vercel em produção.
+
+## Último Handoff — TASK-001
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `package.json`
+  - `package-lock.json`
+- O que foi feito:
+  - Confirmado baseline com `npm audit --omit=dev`: 11 vulnerabilidades (2
+    moderadas, 9 altas) em `@hono/node-server`, `hono`, `brace-expansion`,
+    `fast-uri`, `ip-address`, `js-yaml`, `nanoid`, `undici`, `next`, `postcss`
+    e `sharp`.
+  - Rodado `npm audit fix` (sem `--force`): resolveu 8 das 11 vulnerabilidades
+    dentro dos ranges já declarados (todas transitivas de `shadcn`, dependência
+    de produção usada como CLI). Não houve mudança em `package.json` nesse
+    passo, apenas no lockfile.
+  - As 3 vulnerabilidades altas restantes (`next`, `postcss`, `sharp`) só
+    tinham correção via `npm audit fix --force`, que instalaria
+    `next@16.3.3`. Em vez de aceitar o force cegamente, atualizei
+    explicitamente `next` de `16.2.9` para `16.3.3` em `package.json` (mesma
+    major version, dentro do range estável do App Router/Server
+    Actions/Tailwind 4) e rodei `npm install` para aplicar. `postcss` e
+    `sharp` são dependências transitivas do próprio `next` e foram resolvidas
+    junto.
+  - Também atualizei `eslint-config-next` de `16.2.9` para `16.3.3` para
+    manter a versão do plugin de lint alinhada com a versão do `next` (não
+    era exigido pelo audit, mas evita desalinhamento entre o Next e o
+    conjunto de regras de lint oficial).
+- Decisões técnicas:
+  - Não usei `npm audit fix --force` diretamente; preferi editar
+    `package.json` de forma explícita para `next@16.3.3` e deixar o
+    `npm install` resolver `postcss`/`sharp` como consequência, conforme
+    pedido na tarefa ("preferir atualização explícita de versões").
+  - Não houve downgrade de nenhuma dependência.
+  - Nenhuma feature, UI, rota, Supabase, Auth ou Storage foi alterada.
+- Testes executados:
+  - `npm.cmd audit --omit=dev` (antes e depois).
+  - `npm.cmd run lint`.
+  - `npm.cmd run build`.
+- Resultado dos testes:
+  - `npm audit --omit=dev`: **0 vulnerabilidades** (antes: 11 — 2 moderadas,
+    9 altas).
+  - `npm run lint`: passou sem erros ou warnings.
+  - `npm run build`: build de produção concluído com sucesso (Next.js 16.3.3,
+    Turbopack); todas as 17 rotas foram geradas normalmente (estáticas,
+    dinâmicas e SSG de `/projetos/[slug]`), sem mudança na lista de rotas.
+- Problemas encontrados:
+  - Nenhum. O upgrade do Next de `16.2.9` para `16.3.3` não exigiu nenhuma
+    mudança de código.
+- Pendências:
+  - Nenhuma pendência técnica para esta tarefa.
+- Riscos:
+  - Baixo. A mudança fica restrita a `package.json`/`package-lock.json`; o
+    Next subiu apenas de patch/minor dentro da mesma major (16), sem
+    mudanças de API usadas no projeto. Build e lint validam o resultado, mas
+    a tarefa não incluiu testes automatizados de funcionalidade (não existem
+    no projeto) nem verificação manual em navegador — recomenda-se validação
+    visual/manual antes do deploy, como já previsto em TASK-004.
+- Revisão pedida ao ChatGPT:
+  - Confirmar que a atualização do `next`/`eslint-config-next` para `16.3.3`
+    é aceitável como escopo de TASK-001.
+  - Revisar `package-lock.json` para confirmar que não há dependências novas
+    inesperadas além do esperado pelo bump de versão.
+  - Decidir se TASK-001 pode ser marcada como concluída no backlog.
+
+## Último Handoff — Setup do Workflow
+
+- Status: pronto para uso.
+- Autor: ChatGPT/Codex.
+- O que foi feito:
+  - criado protocolo ChatGPT + Claude;
+  - definido fluxo de tarefas;
+  - criado diagnóstico inicial;
+  - criado backlog inicial;
+  - criada primeira tarefa para Claude.
+- Próxima ação:
+  - entregar `docs/tasks/task-001-dependency-audit.md` ao Claude Code.
+
+## Como Claude Deve Atualizar Este Arquivo
+
+Ao terminar uma tarefa, coloque um novo bloco acima deste, usando:
+
+```markdown
+## Último Handoff — TASK-XXX
+
+- Status: pronto para revisão | bloqueado | precisa de correção
+- Arquivos alterados:
+- O que foi feito:
+- Decisões técnicas:
+- Testes executados:
+- Resultado dos testes:
+- Problemas encontrados:
+- Pendências:
+- Riscos:
+- Revisão pedida ao ChatGPT:
+```
+
+## Histórico
+
+- 2026-08-26: protocolo inicial criado.

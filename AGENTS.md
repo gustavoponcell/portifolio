@@ -1,156 +1,162 @@
 # AGENTS.md
 
-Instruções permanentes para agentes Codex trabalhando neste repositório.
+Instruções permanentes para qualquer agente de IA trabalhando neste repositório.
 
-## Escopo do projeto
+Este arquivo é a camada comum. Regras específicas do Claude Code ficam em
+`CLAUDE.md`. O estado vivo do projeto fica em `docs/project-status.md`,
+`docs/backlog.md` e `docs/handoff.md`.
 
-Este projeto é um site pessoal de portfólio, currículo e contato para Gustavo Poncell, com identidade híbrida de Designer + Desenvolvedor. O produto terá dois modos principais:
+## Papel do Projeto
 
-- Modo Design: foco em atuação como designer, projetos visuais, artes, destaques e links curados para Behance.
-- Modo Dev: foco em atuação como estudante/desenvolvedor, projetos, repositórios, tecnologias, destaques e integração futura com GitHub.
+Site pessoal de portfólio, currículo e contato de Gustavo Poncell, com identidade
+híbrida de Designer + Desenvolvedor.
 
-Não implemente funcionalidades fora do escopo solicitado no prompt atual. Se uma tarefa pedir documentação, não crie código de aplicação. Se uma tarefa pedir uma seção específica, não antecipe outras seções.
+Objetivo final:
 
-## Stack oficial planejada
+- site funcional, responsivo, seguro, performático e pronto para produção;
+- sem erros de build, lint ou console relevantes;
+- sem links quebrados;
+- sem secrets no repositório;
+- sem dados falsos no site público;
+- documentação e GitHub atualizados.
 
-- Next.js com App Router.
+## Stack Atual
+
+- Next.js App Router.
 - TypeScript.
-- Tailwind CSS.
-- shadcn/ui.
-- Supabase para autenticação, banco e storage.
-- Vercel para deploy.
-- GitHub API para dados do modo Dev.
-- Behance por curadoria manual, usando links cadastrados internamente.
+- Tailwind CSS 4.
+- shadcn/ui e componentes próprios.
+- Supabase Auth, Database e Storage.
+- GitHub API server-side para dados Dev.
+- Vercel como alvo de produção.
 
-Enquanto o projeto Next.js ainda não existir, não crie `package.json`, dependências, componentes, páginas ou configuração de framework sem pedido explícito.
+## Divisão de Papéis
 
-## Estilo visual oficial
+### ChatGPT / Codex
 
-- Neobrutalismo moderno.
-- Visual forte, jovem, memorável e profissional.
-- Bordas grossas.
-- Sombras duras e deslocadas.
-- Alto contraste.
-- Tipografia grande e expressiva.
-- Cards com aparência editorial.
-- Amarelo como cor principal do modo Design.
-- Verde como cor principal do modo Dev.
-- Base neutra com preto, branco, off-white e cinza.
-- Layout responsivo, moderno e marcante.
+Atua como orquestrador principal: Product Manager, arquiteto, tech lead, QA,
+revisor de segurança e gestor de documentação.
 
-O site deve diferenciar Design e Dev sem parecer dois produtos diferentes. Use a mesma base visual, mudando cor de destaque, ícones, badges e linguagem de conteúdo.
+Responsabilidades:
 
-## Regras de implementação
+- analisar estado atual antes de planejar;
+- escolher próxima tarefa;
+- escrever especificações pequenas e revisáveis para Claude Code;
+- revisar diffs, segurança, acessibilidade, SEO, performance e arquitetura;
+- atualizar documentação viva;
+- organizar commits e GitHub quando solicitado.
+
+### Claude Code
+
+Atua como agente principal de implementação.
+
+Responsabilidades:
+
+- implementar somente a tarefa recebida;
+- editar código, executar testes e corrigir falhas;
+- registrar relatório curto em `docs/handoff.md`;
+- não tomar decisões arquiteturais grandes sem registrar bloqueio.
+
+## Fonte Única de Verdade
+
+- `AGENTS.md`: regras gerais para todos os agentes.
+- `CLAUDE.md`: regras específicas para Claude Code.
+- `docs/agent-workflow.md`: protocolo ChatGPT -> Claude -> revisão.
+- `docs/project-status.md`: diagnóstico e estado atual.
+- `docs/backlog.md`: tarefas priorizadas.
+- `docs/handoff.md`: passagem de contexto entre agentes.
+- `docs/decisions.md`: decisões técnicas importantes.
+- `docs/tasks/`: especificações de tarefas individuais.
+- `docs/architecture.md`, `docs/requirements.md`, `docs/roadmap.md`: documentação de produto e arquitetura.
+
+Não use memória de conversa como fonte final. Se algo precisa sobreviver ao
+próximo ciclo, registre nos arquivos acima.
+
+## Ciclo de Trabalho
+
+1. ChatGPT lê status, backlog, handoff e Git.
+2. ChatGPT escolhe a próxima tarefa.
+3. ChatGPT escreve ou atualiza `docs/tasks/TASK-XXX-*.md`.
+4. Claude Code implementa somente essa tarefa.
+5. Claude executa validações e registra relatório em `docs/handoff.md`.
+6. ChatGPT revisa diff, testes e riscos.
+7. Se houver problema, ChatGPT devolve correções para Claude.
+8. Se aprovado, documentação é atualizada e o GitHub recebe o commit/push.
+
+## Controle de Concorrência
+
+- Apenas um agente implementa código por tarefa.
+- ChatGPT pode editar documentação/protocolo enquanto Claude não está rodando.
+- Claude deve iniciar com `git status -sb` e parar se houver mudanças não
+  relacionadas à tarefa.
+- Não use `git reset --hard`, `git checkout --` ou comandos destrutivos sem
+  pedido explícito do usuário.
+- Se houver conflito entre tarefa e estado do repositório, registre bloqueio em
+  `docs/handoff.md` e pare.
+
+## Regras de Implementação
 
 - Leia a estrutura existente antes de alterar arquivos.
 - Preserve conteúdo útil já existente.
-- Prefira padrões e convenções já adotados no repositório.
-- Mantenha mudanças pequenas, revisáveis e diretamente relacionadas ao prompt.
+- Prefira padrões e helpers locais.
+- Mantenha mudanças pequenas, revisáveis e diretamente relacionadas à tarefa.
 - Não crie abstrações prematuras.
-- Não implemente integrações reais sem pedido explícito.
-- Não crie dados pessoais inventados. Use placeholders claros quando necessário.
-- Não crie páginas, componentes, banco, autenticação ou APIs em tarefas apenas documentais.
-- Ao final de cada tarefa, resuma alterações feitas, decisões registradas, pendências e próximos passos.
+- Não implemente integrações reais sem tarefa explícita.
+- Não crie dados pessoais inventados.
+- Não reintroduza dados mockados no site público.
+- Use português do Brasil na documentação e na interface pública.
+- Use `kebab-case` para arquivos e pastas.
+- Use `PascalCase` para componentes React.
+- Use `camelCase` para funções, variáveis e hooks.
 
-## Regras de segurança
+## Dados Públicos
 
-- Nunca exponha tokens do GitHub, Supabase ou qualquer API no client.
-- Nunca commite valores reais de chaves, tokens, secrets, URLs privadas ou credenciais.
-- Use variáveis de ambiente para dados sensíveis.
-- Chaves secretas devem ser acessadas somente no servidor.
-- Revise qualquer uso de `NEXT_PUBLIC_`: somente valores realmente públicos podem usar esse prefixo.
-- Integrações com GitHub devem passar por rotas server-side, server actions ou outra camada segura.
-- Supabase deve respeitar RLS quando o banco for configurado.
-- A área administrativa deve ser restrita a um único usuário autorizado.
+Regras atuais:
 
-## Variáveis de ambiente
+- Design público vem de projetos `design` com status `published` no Supabase.
+- Dev público vem do GitHub real e da curadoria visível/publicada quando Supabase
+  está configurado.
+- Estados vazios profissionais são preferíveis a conteúdo fictício.
+- `src/data/portfolio-projects.ts` e `src/data/portfolio-github-repositories.ts`
+  são referências internas e apoio de desenvolvimento, não fonte do site público.
 
-Não crie arquivo `.env` real. Quando necessário, crie ou atualize apenas `.env.example`, sem valores reais.
+## Segurança
 
-Variáveis previstas para etapas futuras:
+- Nunca commitar `.env`, `.env.local`, tokens, chaves, dumps privados ou credenciais.
+- `NEXT_PUBLIC_*` somente para valores realmente públicos.
+- `SUPABASE_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY` e `GITHUB_TOKEN` são server-only.
+- Server Actions administrativas devem validar admin antes de qualquer escrita.
+- Supabase deve respeitar RLS.
+- Uploads devem validar tipo, tamanho e path.
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `GITHUB_TOKEN`
-- `GITHUB_USERNAME`
-- `NEXT_PUBLIC_SITE_URL`
+## Acessibilidade e Qualidade
 
-Qualquer variável com token, chave privada ou permissão elevada deve ficar sem prefixo `NEXT_PUBLIC_`.
+- Manter contraste adequado.
+- Garantir foco visível e navegação por teclado.
+- Usar HTML semântico e textos alternativos úteis.
+- Não depender apenas de cor para comunicar estado.
+- Considerar responsividade em mobile, tablet e desktop.
+- Evitar animações excessivas.
 
-## Regras de acessibilidade
+## Comandos de Validação
 
-- Manter contraste adequado em textos, botões, badges e cards.
-- Garantir navegação por teclado.
-- Usar estados visíveis de foco.
-- Usar HTML semântico.
-- Incluir textos alternativos em imagens relevantes.
-- Não depender apenas de cor para comunicar estado, modo ou categoria.
-- Evitar animações excessivas ou oferecer tratamento respeitoso a preferências de redução de movimento.
+Use os scripts reais do `package.json`:
 
-## Convenções de nomenclatura
-
-- Arquivos e pastas: `kebab-case`.
-- Componentes React futuros: `PascalCase`.
-- Funções, variáveis e hooks: `camelCase`.
-- Hooks futuros: prefixo `use`.
-- Tipos e interfaces TypeScript: `PascalCase`.
-- Constantes globais: `SCREAMING_SNAKE_CASE` quando fizer sentido.
-- Documentação: português do Brasil.
-
-## Estrutura esperada de pastas
-
-Estrutura planejada para etapas futuras:
-
-```text
-.
-├── app/
-│   ├── (site)/
-│   ├── admin/
-│   ├── api/
-│   └── layout.tsx
-├── components/
-│   ├── ui/
-│   ├── layout/
-│   ├── sections/
-│   └── cards/
-├── config/
-├── data/
-├── docs/
-├── lib/
-│   ├── github/
-│   ├── supabase/
-│   └── utils/
-├── public/
-│   └── images/
-├── styles/
-└── types/
+```powershell
+npm.cmd run lint
+npm.cmd run build
+npm.cmd audit
 ```
 
-Esta estrutura é uma referência. Ajustes são permitidos quando a implementação real justificar.
+Não existe script de teste automatizado neste momento. Se uma tarefa exigir
+testes específicos, registre a lacuna ou crie teste como parte da tarefa.
 
-## Comandos esperados
+## Checklist Antes de Finalizar Uma Tarefa
 
-Quando o projeto Next.js for criado, os comandos esperados são:
-
-```bash
-npm run dev
-npm run lint
-npm run build
-npm run test
-```
-
-Se o gerenciador de pacotes ou os scripts forem diferentes no futuro, siga o `package.json` existente e atualize esta seção.
-
-## Checklist de pronto
-
-Antes de finalizar uma tarefa:
-
-- A alteração atende exatamente ao prompt atual.
-- Não foram criadas funcionalidades fora do escopo.
-- Não há tokens, secrets ou dados sensíveis.
-- A documentação afetada foi atualizada quando necessário.
-- O código, quando existir, compila ou foi verificado na medida possível.
-- Acessibilidade e responsividade foram consideradas em alterações de UI.
-- O resumo final informa arquivos criados, arquivos alterados, decisões, pendências e próximo passo recomendado.
-
+- Escopo solicitado foi atendido.
+- Não houve mudança fora da tarefa.
+- Não há secrets ou dados sensíveis.
+- Lint/build foram executados ou a impossibilidade foi registrada.
+- Documentação viva foi atualizada quando necessário.
+- `docs/handoff.md` contém resultado, testes e pendências.
+- Próximo passo recomendado está claro.

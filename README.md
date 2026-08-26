@@ -1,5 +1,21 @@
 # Portifolio
 
+## Workflow ChatGPT + Claude Code
+
+O desenvolvimento passa a usar um protocolo versionado no próprio repositório:
+
+- `AGENTS.md`: regras gerais para agentes;
+- `CLAUDE.md`: regras específicas para Claude Code;
+- `docs/agent-workflow.md`: ciclo ChatGPT -> Claude -> revisão;
+- `docs/project-status.md`: diagnóstico atual;
+- `docs/backlog.md`: tarefas priorizadas;
+- `docs/handoff.md`: relatório entre agentes;
+- `docs/automation.md`: loop local para Claude implementar e Codex revisar;
+- `docs/tasks/`: especificações de tarefas.
+
+Para continuar o projeto, comece lendo `docs/handoff.md` e a próxima tarefa em
+`docs/backlog.md`.
+
 ## Revisão final antes do deploy
 
 O Prompt 16.10 concluiu a revisão técnica local e a preparação do repositório:
