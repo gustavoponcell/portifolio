@@ -1,6 +1,7 @@
 param(
   [int]$MaxCycles = 1,
   [int]$MaxFixAttempts = 1,
+  [string]$TaskId,
   [ValidateSet("acceptEdits", "auto", "dontAsk", "manual", "plan")]
   [string]$ClaudePermissionMode = "acceptEdits",
   [decimal]$ClaudeMaxBudgetUsd = 2.00,
@@ -8,7 +9,8 @@ param(
   [switch]$AutoCommit,
   [switch]$AutoPush,
   [switch]$AllowDirtyStart,
-  [switch]$DryRun
+  [switch]$DryRun,
+  [switch]$DebugDiscovery
 )
 
 $ErrorActionPreference = "Stop"
@@ -71,7 +73,10 @@ function Convert-ToPlainText {
 }
 
 function Get-NextTask {
-  param([string[]]$CompletedTasks)
+  param(
+    [string[]]$CompletedTasks,
+    [string]$RequestedTaskId
+  )
 
   $BacklogPath = Join-Path $ProjectRoot "docs\backlog.md"
   $TasksDir = Join-Path $ProjectRoot "docs\tasks"
@@ -92,9 +97,23 @@ function Get-NextTask {
     }
   }
 
+  if ($DebugDiscovery) {
+    Write-Step "Discovery: found $($Headings.Count) task heading(s)"
+  }
+
   for ($h = 0; $h -lt $Headings.Count; $h++) {
     $TaskId = $Headings[$h].Id
+    if ($RequestedTaskId -and $TaskId -ne $RequestedTaskId.ToUpperInvariant()) {
+      if ($DebugDiscovery) {
+        Write-Host "Skipping $TaskId`: requested task is $($RequestedTaskId.ToUpperInvariant())"
+      }
+      continue
+    }
+
     if ($CompletedTasks -contains $TaskId) {
+      if ($DebugDiscovery) {
+        Write-Host "Skipping $TaskId`: already completed in .agent-loop/state.json"
+      }
       continue
     }
 
@@ -115,7 +134,14 @@ function Get-NextTask {
       $StatusText.Contains("cancelada") -or
       $StatusText.Contains("bloqueada")
 
-    if (-not $Ready -or $Done) {
+    if ($DebugDiscovery) {
+      Write-Host "Checking $TaskId"
+      Write-Host "  Status line: $StatusLine"
+      Write-Host "  Ready: $Ready"
+      Write-Host "  Done: $Done"
+    }
+
+    if (-not $RequestedTaskId -and (-not $Ready -or $Done)) {
       continue
     }
 
@@ -130,10 +156,15 @@ function Get-NextTask {
     }
 
     if ($SpecPath -and (Test-Path $SpecPath)) {
+      if ($DebugDiscovery) {
+        Write-Host "  Spec: $SpecPath"
+      }
       return [pscustomobject]@{
         Id = $TaskId
         SpecPath = (Resolve-Path $SpecPath).Path
       }
+    } elseif ($DebugDiscovery) {
+      Write-Host "  Spec not found for $TaskId"
     }
   }
 
@@ -310,7 +341,7 @@ try {
   $State = Get-LoopState
 
   if ($DryRun) {
-    $Task = Get-NextTask -CompletedTasks @($State.completedTasks)
+    $Task = Get-NextTask -CompletedTasks @($State.completedTasks) -RequestedTaskId $TaskId
     if ($Task) {
       Write-Step "Dry run: next task is $($Task.Id)"
       Write-Host "Spec: $($Task.SpecPath)"
@@ -322,7 +353,7 @@ try {
 
   for ($Cycle = 1; $Cycle -le $MaxCycles; $Cycle++) {
     $Completed = @($State.completedTasks)
-    $Task = Get-NextTask -CompletedTasks $Completed
+    $Task = Get-NextTask -CompletedTasks $Completed -RequestedTaskId $TaskId
 
     if (-not $Task) {
       Write-Step "No ready task found in docs/backlog.md"

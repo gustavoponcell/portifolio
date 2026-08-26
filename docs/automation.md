@@ -36,6 +36,18 @@ cd C:\portifolio
 .\scripts\agent-loop.ps1 -DryRun
 ```
 
+Se a descoberta automatica nao encontrar a tarefa esperada, diagnostique:
+
+```powershell
+.\scripts\agent-loop.ps1 -DryRun -DebugDiscovery
+```
+
+Tambem e possivel executar uma tarefa especifica sem depender da descoberta:
+
+```powershell
+.\scripts\agent-loop.ps1 -TaskId TASK-002 -DryRun
+```
+
 Rodar um ciclo, sem commit automatico:
 
 ```powershell
