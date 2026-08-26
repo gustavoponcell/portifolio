@@ -70,6 +70,12 @@ cd C:\portifolio
 .\scripts\agent-loop.ps1 -MaxCycles 2 -MaxFixAttempts 1 -RunAudit -AutoCommit -AutoPush
 ```
 
+Para tarefas de deploy/producao, informe a URL publica:
+
+```powershell
+.\scripts\agent-loop.ps1 -TaskId TASK-002 -ProductionUrl "https://poncell-portifolio.vercel.app/" -MaxCycles 1 -MaxFixAttempts 1 -RunAudit -AutoCommit -AutoPush
+```
+
 ## Regras De Seguranca
 
 - O script nao faz deploy.

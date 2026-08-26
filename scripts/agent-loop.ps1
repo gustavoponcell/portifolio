@@ -2,6 +2,7 @@ param(
   [int]$MaxCycles = 1,
   [int]$MaxFixAttempts = 1,
   [string]$TaskId,
+  [string]$ProductionUrl,
   [ValidateSet("acceptEdits", "auto", "dontAsk", "manual", "plan")]
   [string]$ClaudePermissionMode = "acceptEdits",
   [decimal]$ClaudeMaxBudgetUsd = 2.00,
@@ -195,12 +196,20 @@ function Invoke-ClaudeTask {
 
   $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
   $LogPath = Join-Path $LogDir "$Timestamp-$($Task.Id.ToLower())-claude-attempt-$Attempt.log"
+  $ExtraContext = if ($ProductionUrl) {
+    "URL publica de producao informada pelo usuario: $ProductionUrl`nUse essa URL para validacoes HTTP publicas quando a tarefa envolver deploy."
+  } else {
+    "Nenhuma URL publica de producao foi informada ao loop."
+  }
   $Prompt = @"
 Voce e Claude Code trabalhando no repositorio C:\portifolio.
 
 Leia AGENTS.md e CLAUDE.md antes de alterar arquivos.
 Execute exatamente a tarefa abaixo, sem criar escopo extra:
 $($Task.SpecPath)
+
+Contexto adicional:
+$ExtraContext
 
 Regras obrigatorias:
 - Nao faca commit, push, deploy ou alteracao de secrets.
@@ -242,8 +251,16 @@ function Invoke-CodexReview {
 
   $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
   $ReviewPath = Join-Path $LogDir "$Timestamp-$($Task.Id.ToLower())-codex-review-attempt-$Attempt.md"
+  $ExtraContext = if ($ProductionUrl) {
+    "URL publica de producao informada pelo usuario: $ProductionUrl"
+  } else {
+    "Nenhuma URL publica de producao foi informada ao loop."
+  }
   $Prompt = @"
 Voce e ChatGPT/Codex no papel de orquestrador e revisor tecnico deste repositorio.
+
+Contexto adicional:
+$ExtraContext
 
 Revise a tarefa $($Task.Id) usando:
 - AGENTS.md
@@ -266,7 +283,7 @@ Nao altere arquivos nesta revisao.
 
   Invoke-LoggedCommand `
     -Name "codex" `
-    -Arguments @("exec", "-C", $ProjectRoot, "-s", "read-only", "-a", "never", "-o", $ReviewPath, $Prompt) `
+    -Arguments @("exec", "-C", $ProjectRoot, "-s", "read-only", "-o", $ReviewPath, $Prompt) `
     -LogPath (Join-Path $LogDir "$Timestamp-$($Task.Id.ToLower())-codex-review-cli.log")
 
   if (-not (Test-Path $ReviewPath)) {
@@ -288,6 +305,11 @@ function Invoke-ClaudeFix {
 
   $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
   $LogPath = Join-Path $LogDir "$Timestamp-$($Task.Id.ToLower())-claude-fix-$Attempt.log"
+  $ExtraContext = if ($ProductionUrl) {
+    "URL publica de producao informada pelo usuario: $ProductionUrl`nUse essa URL para validacoes HTTP publicas quando a tarefa envolver deploy."
+  } else {
+    "Nenhuma URL publica de producao foi informada ao loop."
+  }
   $Prompt = @"
 Voce e Claude Code trabalhando no repositorio C:\portifolio.
 
@@ -296,6 +318,9 @@ Leia:
 - $($Task.SpecPath)
 - $ReviewPath
 - docs/handoff.md
+
+Contexto adicional:
+$ExtraContext
 
 Corrija somente os pontos apontados pela revisao.
 Nao faca commit, push, deploy ou alteracao de secrets.

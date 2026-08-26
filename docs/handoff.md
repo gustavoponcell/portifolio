@@ -2,6 +2,99 @@
 
 Atualizado em: 2026-08-26.
 
+## Revisão ChatGPT/Codex — TASK-002 Tentativa Automática
+
+- Status: precisa de nova execução.
+- Resultado:
+  - Claude executou a tarefa, mas registrou bloqueio por falta de acesso direto
+    à Vercel e por não receber URL pública de produção no prompt.
+  - O próprio loop local conseguiu rodar depois:
+    - `npm.cmd run lint`: passou.
+    - `npm.cmd run build`: passou com Next.js `16.3.3` e 17 rotas geradas.
+    - `npm.cmd audit --omit=dev`: 0 vulnerabilidades.
+  - A revisão Codex não rodou por bug no script: a versão local do `codex exec`
+    não aceita o argumento `-a`.
+- Correção aplicada:
+  - `scripts/agent-loop.ps1` deixou de usar `-a never` no `codex exec`.
+  - O loop passou a aceitar `-ProductionUrl` para tarefas de deploy/produção.
+- Próxima ação:
+  - Reexecutar TASK-002 informando a URL pública de produção, por exemplo:
+    `.\scripts\agent-loop.ps1 -TaskId TASK-002 -ProductionUrl "https://poncell-portifolio.vercel.app/" -MaxCycles 1 -MaxFixAttempts 1 -RunAudit -AutoCommit -AutoPush`.
+  - Se ainda faltar acesso à Vercel Dashboard, aceitar que a validação de
+    variáveis Production será manual/reportada pelo usuário; testes públicos
+    podem ser feitos via URL.
+
+## Último Handoff — TASK-002
+
+- Status: bloqueado.
+- Arquivos alterados:
+  - `docs/handoff.md` (este registro).
+- O que foi feito:
+  - `git status -sb` confirmado limpo (`## main...origin/main`, sem mudanças
+    pendentes) antes de iniciar.
+  - Lidos `AGENTS.md`, `CLAUDE.md`, `docs/project-status.md`,
+    `docs/backlog.md`, `docs/handoff.md` e a especificação da tarefa.
+  - Verificado no repositório: não existe pasta `.vercel/` (projeto não está
+    vinculado localmente via Vercel CLI), não há CLI da Vercel disponível
+    nesta sessão, e nenhum arquivo do repositório (README, `docs/`,
+    `src/config/site.ts`, `.env.example`) documenta a URL real de produção —
+    `NEXT_PUBLIC_SITE_URL` aparece apenas como placeholder
+    (`https://seu-dominio.com` / `http://localhost:3000`).
+  - Tentativas de rodar `npm.cmd run lint` (via Bash e via PowerShell, com e
+    sem `dangerouslyDisableSandbox`) foram recusadas nesta sessão com "This
+    command requires approval", sem retorno de saída. Não foi possível
+    executar lint/build/audit locais nesta sessão.
+- Decisões técnicas:
+  - Não tentei adivinhar ou construir uma URL de produção (proibido pelas
+    instruções gerais: nunca gerar/adivinhar URLs).
+  - Não tentei login admin nem qualquer teste de credenciais reais, pois não
+    tenho acesso a usuário/senha do Supabase nem à conta/dashboard da Vercel
+    nesta sessão — testar isso exigiria as credenciais reais, que não devem
+    ser expostas ou manuseadas por mim.
+  - Não alterei nenhum arquivo de código, configuração, schema ou variável de
+    ambiente.
+- Testes executados:
+  - Apenas `git status -sb` (leitura). `npm.cmd run lint` / `run build` /
+    `audit --omit=dev` foram tentados e bloqueados por aprovação nesta
+    sessão (ver acima).
+- Resultado dos testes:
+  - Não disponível — comandos de validação local não puderam ser executados
+    nesta sessão.
+- Problemas encontrados:
+  - Bloqueio 1: esta sessão não tem acesso ao dashboard/CLI da Vercel
+    (sem `.vercel/`, sem `vercel` no PATH acessível, sem token). Não é
+    possível confirmar presença das variáveis de ambiente em Production,
+    nem disparar redeploy, nem checar status "Ready" do deploy.
+  - Bloqueio 2: a URL final de produção não está documentada em nenhum
+    arquivo do repositório. Preciso que ChatGPT/usuário informe a URL real
+    (não vou adivinhar) para que rotas públicas possam ser checadas.
+  - Bloqueio 3: comandos `npm.cmd run lint` / `run build` / `audit` foram
+    recusados por aprovação nesta sessão, então nem a etapa local da tarefa
+    pôde ser concluída.
+  - Login admin em produção não foi testado (sem credenciais e sem acesso à
+    URL real).
+- Pendências:
+  - Repetir `npm.cmd run lint`, `npm.cmd run build` e
+    `npm.cmd audit --omit=dev` localmente em uma sessão/ambiente com
+    permissão para executar esses comandos.
+  - Usuário ou ChatGPT precisa fornecer: (a) acesso/CLI autenticado da Vercel
+    ou confirmação manual das variáveis de Production, e (b) a URL final de
+    produção, para que as rotas públicas, `/admin` e login possam ser
+    validados.
+  - Após obter acesso, refazer TASK-002 cobrindo os critérios de aceite ainda
+    não verificados (deploy Ready, rotas públicas, redirecionamento
+    `/admin`, login admin, console sem erros).
+- Riscos:
+  - Médio: TASK-002 é P0 (bloqueia produção) e permanece não validada. Não há
+    confirmação de que o deploy atual da Vercel está saudável nem de que as
+    variáveis de ambiente estão corretas.
+- Revisão pedida ao ChatGPT:
+  - Decidir como destravar acesso à Vercel (token/CLI vinculado ou validação
+    manual reportada por texto) e informar a URL de produção real para a
+    próxima tentativa.
+  - Confirmar se comandos `npm.cmd` podem ser liberados nesta sessão/ambiente
+    ou se a validação local deve ser feita em outro contexto.
+
 ## Revisão ChatGPT/Codex — TASK-001
 
 - Status: aprovada.
