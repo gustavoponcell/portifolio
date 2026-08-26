@@ -2,6 +2,31 @@
 
 Atualizado em: 2026-08-26.
 
+## Revisão ChatGPT/Codex — Correção Do Loop TASK-002
+
+- Status: correção aplicada, precisa reexecutar.
+- Problema identificado:
+  - `codex exec` passou a rodar sem `-a`, mas o Codex CLI imprime alguns avisos
+    internos em `stderr`.
+  - Como `scripts/agent-loop.ps1` usava `$ErrorActionPreference = "Stop"` junto
+    de `2>&1 | Tee-Object`, o PowerShell tratou esses avisos como erro fatal
+    antes de considerar o exit code real do Codex.
+- Correção aplicada:
+  - `Invoke-LoggedCommand` agora relaxa temporariamente o tratamento de
+    `stderr`, grava stdout/stderr no log e só falha quando o exit code do
+    comando for diferente de zero.
+  - O modo padrão do Claude no loop passou de `acceptEdits` para `auto`, porque
+    `acceptEdits` bloqueou comandos/WebFetch dentro do Claude.
+  - `scripts/agent-loop.ps1` agora testa rotas públicas por HTTP quando
+    `-ProductionUrl` é informado, reduzindo dependência de WebFetch dentro do
+    Claude para TASK-002.
+- Validação feita:
+  - Parse do script PowerShell passou.
+  - `git diff --check` passou.
+- Próxima ação:
+  - Reexecutar:
+    `.\scripts\agent-loop.ps1 -TaskId TASK-002 -ProductionUrl "https://poncell-portifolio.vercel.app/" -MaxCycles 1 -MaxFixAttempts 1 -RunAudit -AutoCommit -AutoPush`.
+
 ## Revisão ChatGPT/Codex — TASK-002 Tentativa Automática
 
 - Status: precisa de nova execução.

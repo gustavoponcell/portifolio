@@ -4,7 +4,7 @@ param(
   [string]$TaskId,
   [string]$ProductionUrl,
   [ValidateSet("acceptEdits", "auto", "dontAsk", "manual", "plan")]
-  [string]$ClaudePermissionMode = "acceptEdits",
+  [string]$ClaudePermissionMode = "auto",
   [decimal]$ClaudeMaxBudgetUsd = 2.00,
   [switch]$RunAudit,
   [switch]$AutoCommit,
@@ -39,9 +39,29 @@ function Invoke-LoggedCommand {
   )
 
   Write-Step "$Name $($Arguments -join ' ')"
-  & $Name @Arguments 2>&1 | Tee-Object -FilePath $LogPath
-  if ($LASTEXITCODE -ne 0) {
-    throw "Command failed with exit code $LASTEXITCODE. See $LogPath"
+
+  $PreviousErrorActionPreference = $ErrorActionPreference
+  $PreviousNativeErrorActionPreference = $null
+  $HasNativeErrorPreference = Get-Variable -Name PSNativeCommandUseErrorActionPreference -Scope Global -ErrorAction SilentlyContinue
+
+  if ($HasNativeErrorPreference) {
+    $PreviousNativeErrorActionPreference = $global:PSNativeCommandUseErrorActionPreference
+    $global:PSNativeCommandUseErrorActionPreference = $false
+  }
+
+  try {
+    $ErrorActionPreference = "Continue"
+    & $Name @Arguments 2>&1 | ForEach-Object { "$_" } | Tee-Object -FilePath $LogPath
+    $ExitCode = $LASTEXITCODE
+  } finally {
+    $ErrorActionPreference = $PreviousErrorActionPreference
+    if ($HasNativeErrorPreference) {
+      $global:PSNativeCommandUseErrorActionPreference = $PreviousNativeErrorActionPreference
+    }
+  }
+
+  if ($ExitCode -ne 0) {
+    throw "Command failed with exit code $ExitCode. See $LogPath"
   }
 }
 
@@ -242,6 +262,88 @@ function Invoke-ProjectValidation {
   }
 }
 
+function Join-UrlPath {
+  param(
+    [string]$BaseUrl,
+    [string]$Path
+  )
+
+  return $BaseUrl.TrimEnd("/") + "/" + $Path.TrimStart("/")
+}
+
+function Get-HttpStatus {
+  param([string]$Url)
+
+  $Request = [System.Net.HttpWebRequest]::Create($Url)
+  $Request.Method = "GET"
+  $Request.AllowAutoRedirect = $false
+  $Request.UserAgent = "portfolio-agent-loop/1.0"
+  $Request.Timeout = 30000
+
+  try {
+    $Response = $Request.GetResponse()
+    return [pscustomobject]@{
+      Url = $Url
+      StatusCode = [int]$Response.StatusCode
+      Location = $Response.Headers["Location"]
+    }
+  } catch [System.Net.WebException] {
+    if ($_.Exception.Response) {
+      $Response = $_.Exception.Response
+      return [pscustomobject]@{
+        Url = $Url
+        StatusCode = [int]$Response.StatusCode
+        Location = $Response.Headers["Location"]
+      }
+    }
+
+    throw
+  } finally {
+    if ($Response) {
+      $Response.Close()
+    }
+  }
+}
+
+function Invoke-ProductionValidation {
+  param([object]$Task)
+
+  if (-not $ProductionUrl) {
+    return
+  }
+
+  $Timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+  $LogPath = Join-Path $LogDir "$Timestamp-$($Task.Id.ToLower())-production-http.log"
+  $PublicRoutes = @("/", "/design", "/dev", "/contato", "/login", "/sitemap.xml", "/robots.txt")
+  $Results = @()
+
+  Write-Step "Validating production routes at $ProductionUrl"
+
+  foreach ($Route in $PublicRoutes) {
+    $Url = Join-UrlPath -BaseUrl $ProductionUrl -Path $Route
+    $Result = Get-HttpStatus -Url $Url
+    $Results += $Result
+    "{0} {1}" -f $Result.StatusCode, $Result.Url | Tee-Object -FilePath $LogPath -Append
+
+    if ($Result.StatusCode -lt 200 -or $Result.StatusCode -ge 400) {
+      throw "Production route failed: $($Result.StatusCode) $($Result.Url). See $LogPath"
+    }
+  }
+
+  $AdminUrl = Join-UrlPath -BaseUrl $ProductionUrl -Path "/admin"
+  $AdminResult = Get-HttpStatus -Url $AdminUrl
+  $Results += $AdminResult
+  "{0} {1} Location={2}" -f $AdminResult.StatusCode, $AdminResult.Url, $AdminResult.Location | Tee-Object -FilePath $LogPath -Append
+
+  $AdminRedirectsToLogin =
+    ($AdminResult.StatusCode -ge 300 -and $AdminResult.StatusCode -lt 400) -and
+    ($AdminResult.Location -match "/login")
+
+  if (-not $AdminRedirectsToLogin) {
+    throw "Production /admin did not redirect to /login. Status=$($AdminResult.StatusCode), Location=$($AdminResult.Location). See $LogPath"
+  }
+}
+
 function Invoke-CodexReview {
   param(
     [object]$Task,
@@ -399,10 +501,11 @@ try {
       if ($Attempt -eq 1) {
         Invoke-ClaudeTask -Task $Task -Cycle $Cycle -Attempt $Attempt
       } else {
-        Invoke-ClaudeFix -Task $Task -ReviewPath $Review.Path -Attempt $Attempt
+      Invoke-ClaudeFix -Task $Task -ReviewPath $Review.Path -Attempt $Attempt
       }
 
       Invoke-ProjectValidation -Task $Task -Cycle $Cycle -Attempt $Attempt
+      Invoke-ProductionValidation -Task $Task
       $Review = Invoke-CodexReview -Task $Task -Cycle $Cycle -Attempt $Attempt
 
       if ($Review.Text -match "AGENT_REVIEW:\s*APPROVED") {

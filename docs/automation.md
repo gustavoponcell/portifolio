@@ -10,10 +10,11 @@ usando `scripts/agent-loop.ps1`.
 3. chama Claude Code para implementar a tarefa;
 4. roda `npm.cmd run lint` e `npm.cmd run build`;
 5. opcionalmente roda `npm.cmd audit --omit=dev`;
-6. chama Codex CLI em modo somente leitura para revisar o diff;
-7. se Codex pedir correcao, devolve a revisao para Claude;
-8. se Codex aprovar, registra a tarefa em `.agent-loop/state.json`;
-9. opcionalmente faz commit e push.
+6. quando `-ProductionUrl` for informado, testa rotas publicas por HTTP;
+7. chama Codex CLI em modo somente leitura para revisar o diff;
+8. se Codex pedir correcao, devolve a revisao para Claude;
+9. se Codex aprovar, registra a tarefa em `.agent-loop/state.json`;
+10. opcionalmente faz commit e push.
 
 Os logs ficam em `.agent-loop/logs/`, que nao entra no Git.
 
@@ -76,12 +77,22 @@ Para tarefas de deploy/producao, informe a URL publica:
 .\scripts\agent-loop.ps1 -TaskId TASK-002 -ProductionUrl "https://poncell-portifolio.vercel.app/" -MaxCycles 1 -MaxFixAttempts 1 -RunAudit -AutoCommit -AutoPush
 ```
 
+O modo padrao do Claude no loop e `auto`, porque `acceptEdits` pode aceitar
+edicoes, mas ainda bloquear chamadas de terminal ou WebFetch dentro do Claude.
+Se quiser forcar outro modo:
+
+```powershell
+.\scripts\agent-loop.ps1 -TaskId TASK-002 -ClaudePermissionMode dontAsk -ProductionUrl "https://poncell-portifolio.vercel.app/" -MaxCycles 1 -RunAudit
+```
+
 ## Regras De Seguranca
 
 - O script nao faz deploy.
 - O script nao altera variaveis de ambiente.
 - Claude e instruido a nao fazer commit, push ou mexer em secrets.
 - Codex revisa em `read-only`.
+- Testes HTTP de producao usam apenas rotas publicas quando `-ProductionUrl`
+  e informado.
 - Commit e push so acontecem com `-AutoCommit` e `-AutoPush`.
 - Por padrao, o loop exige working tree limpo antes de comecar.
 
