@@ -29,6 +29,13 @@ git commit -m "chore: configura workflow automatico de agentes"
 git push origin main
 ```
 
+Testar qual tarefa o loop pegaria, sem chamar Claude ou Codex:
+
+```powershell
+cd C:\portifolio
+.\scripts\agent-loop.ps1 -DryRun
+```
+
 Rodar um ciclo, sem commit automatico:
 
 ```powershell

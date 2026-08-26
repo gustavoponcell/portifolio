@@ -7,7 +7,8 @@ param(
   [switch]$RunAudit,
   [switch]$AutoCommit,
   [switch]$AutoPush,
-  [switch]$AllowDirtyStart
+  [switch]$AllowDirtyStart,
+  [switch]$DryRun
 )
 
 $ErrorActionPreference = "Stop"
@@ -58,6 +59,17 @@ function Save-LoopState {
   $State | ConvertTo-Json -Depth 8 | Set-Content -Path $StatePath -Encoding UTF8
 }
 
+function Convert-ToPlainText {
+  param([string]$Value)
+
+  if (-not $Value) {
+    return ""
+  }
+
+  $Normalized = $Value.Normalize([Text.NormalizationForm]::FormD)
+  return [Text.RegularExpressions.Regex]::Replace($Normalized, "\p{Mn}", "")
+}
+
 function Get-NextTask {
   param([string[]]$CompletedTasks)
 
@@ -90,8 +102,18 @@ function Get-NextTask {
     $End = if ($h + 1 -lt $Headings.Count) { $Headings[$h + 1].Start - 1 } else { $Lines.Count - 1 }
     $Block = ($Lines[$Start..$End] -join "`n")
 
-    $Ready = $Block -match "Status:\s*(proxima tarefa recomendada|pr[oó]xima tarefa recomendada|pronta para Claude|pendente)"
-    $Done = $Block -match "Status:\s*(conclu[ií]da|cancelada|bloqueada)"
+    $StatusLine = ($Block -split "`n" | Where-Object { $_ -match "^\s*-\s*Status:" } | Select-Object -First 1)
+    $StatusText = (Convert-ToPlainText $StatusLine).ToLowerInvariant()
+
+    $Ready =
+      $StatusText.Contains("proxima tarefa recomendada") -or
+      $StatusText.Contains("pronta para claude") -or
+      $StatusText.Contains("pendente")
+
+    $Done =
+      $StatusText.Contains("concluida") -or
+      $StatusText.Contains("cancelada") -or
+      $StatusText.Contains("bloqueada")
 
     if (-not $Ready -or $Done) {
       continue
@@ -286,6 +308,17 @@ Set-Content -Path $LockPath -Value "pid=$PID started=$(Get-Date -Format o)" -Enc
 try {
   Assert-CleanStart
   $State = Get-LoopState
+
+  if ($DryRun) {
+    $Task = Get-NextTask -CompletedTasks @($State.completedTasks)
+    if ($Task) {
+      Write-Step "Dry run: next task is $($Task.Id)"
+      Write-Host "Spec: $($Task.SpecPath)"
+    } else {
+      Write-Step "Dry run: no ready task found in docs/backlog.md"
+    }
+    return
+  }
 
   for ($Cycle = 1; $Cycle -le $MaxCycles; $Cycle++) {
     $Completed = @($State.completedTasks)
