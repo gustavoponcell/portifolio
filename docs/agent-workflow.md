@@ -128,6 +128,8 @@ Recomendado agora.
 - Claude Code implementa a próxima tarefa do backlog.
 - Codex CLI revisa em modo somente leitura.
 - Logs e estado ficam em `.agent-loop/`.
+- Fluxo oficial preferido: Claude Code com plugin `codex@openai-codex`,
+  seguindo `docs/claude-codex-continuous-loop.md`.
 - GitHub Issues para cada `TASK-XXX`.
 - Branch por tarefa.
 - PR para revisão.

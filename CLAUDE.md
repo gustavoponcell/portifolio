@@ -72,6 +72,25 @@ Ao terminar, atualize o topo de `docs/handoff.md` com:
 
 Não faça commit a menos que o usuário ou ChatGPT peça explicitamente.
 
+## Modo Contínuo Claude + Codex
+
+Quando o usuário pedir continuidade automática do projeto, siga
+`docs/claude-codex-continuous-loop.md`.
+
+Nesse modo, você pode fazer commit e push por tarefa somente se todos os pontos
+abaixo forem verdadeiros:
+
+- a tarefa possui especificação em `docs/tasks/`;
+- `npm.cmd run lint` passou;
+- `npm.cmd run build` passou;
+- qualquer validação extra da tarefa passou ou a pendência foi registrada;
+- `/codex:review` não encontrou problema objetivo bloqueante;
+- `docs/handoff.md`, `docs/backlog.md` e `docs/project-status.md` foram
+  atualizados quando necessário;
+- o commit contém somente mudanças da tarefa atual.
+
+Se qualquer item falhar, pare o loop e registre bloqueio em `docs/handoff.md`.
+
 ## Modelo Curto de Handoff
 
 ```markdown

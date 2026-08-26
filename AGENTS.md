@@ -83,6 +83,24 @@ próximo ciclo, registre nos arquivos acima.
 7. Se houver problema, ChatGPT devolve correções para Claude.
 8. Se aprovado, documentação é atualizada e o GitHub recebe o commit/push.
 
+## Ciclo Contínuo Claude + Codex
+
+Quando o usuário solicitar execução em looping, use
+`docs/claude-codex-continuous-loop.md` como protocolo operacional.
+
+Regras adicionais:
+
+- Claude Code pode ser o piloto principal do loop.
+- Codex, via plugin oficial no Claude Code, deve atuar como revisor objetivo
+  depois de cada tarefa.
+- Cada tarefa aprovada deve terminar em commit pequeno e push para `main`.
+- O loop deve parar em caso de teste falhando, review Codex bloqueante, ausência
+  de especificação, risco de secret, necessidade de decisão de produto ou
+  qualquer ação que exija credencial/sistema externo do usuário.
+- `/codex:adversarial-review` é recomendado para tarefas sensíveis, mas depende
+  de invocação direta do usuário quando o plugin não permitir chamada pelo
+  agente.
+
 ## Controle de Concorrência
 
 - Apenas um agente implementa código por tarefa.

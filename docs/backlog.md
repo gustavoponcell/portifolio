@@ -41,6 +41,7 @@ Atualizado em: 2026-08-26.
 ### TASK-005 — Auditoria de acessibilidade básica
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-005-accessibility-basic-audit.md`.
 
 - Navegação por teclado.
 - Contraste.
@@ -52,6 +53,7 @@ Atualizado em: 2026-08-26.
 ### TASK-006 — Auditoria SEO e compartilhamento
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-006-seo-sharing-audit.md`.
 
 - Validar titles, descriptions, Open Graph, Twitter card, canonical, sitemap,
   robots e JSON-LD.
@@ -60,6 +62,7 @@ Atualizado em: 2026-08-26.
 ### TASK-007 — Checagem de links quebrados
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-007-broken-links-check.md`.
 
 - Validar links internos e externos.
 - Validar GitHub, LinkedIn, WhatsApp, Behance se usado.
@@ -69,6 +72,7 @@ Atualizado em: 2026-08-26.
 ### TASK-008 — Limpar documentação legada de mocks
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-008-clean-legacy-mock-docs.md`.
 
 - Diferenciar histórico de instrução atual.
 - Evitar que agentes futuros sigam trechos obsoletos.
@@ -76,6 +80,7 @@ Atualizado em: 2026-08-26.
 ### TASK-009 — Decidir destino do status `mock`
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-009-decide-mock-status.md`.
 
 - Avaliar se `mock` ainda precisa existir no schema/admin.
 - Se não precisar, planejar migração segura.
@@ -83,6 +88,7 @@ Atualizado em: 2026-08-26.
 ### TASK-010 — Criar testes mínimos
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-010-minimal-tests.md`.
 
 - Avaliar Playwright para rotas públicas e login/admin básico.
 - Avaliar testes unitários para helpers críticos.
@@ -90,6 +96,7 @@ Atualizado em: 2026-08-26.
 ### TASK-011 — CI simples no GitHub Actions
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-011-github-actions-ci.md`.
 
 - Rodar `npm ci`, `npm run lint`, `npm run build` em push/PR.
 - Adicionar audit como warning ou job separado.
@@ -99,18 +106,22 @@ Atualizado em: 2026-08-26.
 ### TASK-012 — Configurar domínio final e Search Console
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-012-domain-search-console.md`.
 
 ### TASK-013 — Analytics leve e privacidade
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-013-analytics-privacy.md`.
 
 ### TASK-014 — Melhorias de performance fina
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-014-performance-fine-tuning.md`.
 
 ### TASK-015 — Automação semi-automatizada do workflow
 
 - Status: pendente.
+- Especificação: `docs/tasks/task-015-agent-workflow-hardening.md`.
 
 - GitHub Issues por tarefa.
 - Branch por tarefa.

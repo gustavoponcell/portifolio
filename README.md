@@ -7,6 +7,7 @@ O desenvolvimento passa a usar um protocolo versionado no próprio repositório:
 - `AGENTS.md`: regras gerais para agentes;
 - `CLAUDE.md`: regras específicas para Claude Code;
 - `docs/agent-workflow.md`: ciclo ChatGPT -> Claude -> revisão;
+- `docs/claude-codex-continuous-loop.md`: prompt mestre para loop Claude + Codex;
 - `docs/project-status.md`: diagnóstico atual;
 - `docs/backlog.md`: tarefas priorizadas;
 - `docs/handoff.md`: relatório entre agentes;
