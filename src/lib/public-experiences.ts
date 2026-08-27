@@ -1,5 +1,6 @@
-import { hasSupabasePublicEnv } from "@/lib/supabase/env";
-import { createClient } from "@/lib/supabase/server";
+import { cache } from "react";
+
+import { createPublicClient } from "@/lib/supabase/public";
 import type { SupabaseExperienceRow } from "@/lib/supabase/types";
 
 export type PublicExperience = {
@@ -32,13 +33,14 @@ function mapExperience(row: SupabaseExperienceRow): PublicExperience {
   };
 }
 
-export async function getPublicExperiences(): Promise<PublicExperience[]> {
-  if (!hasSupabasePublicEnv()) {
+export const getPublicExperiences = cache(async (): Promise<PublicExperience[]> => {
+  const supabase = createPublicClient();
+
+  if (!supabase) {
     return [];
   }
 
   try {
-    const supabase = await createClient();
     const { data, error } = await supabase
       .from("experiences")
       .select("*")
@@ -54,4 +56,4 @@ export async function getPublicExperiences(): Promise<PublicExperience[]> {
   } catch {
     return [];
   }
-}
+});

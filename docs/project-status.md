@@ -20,9 +20,12 @@ pedido do usuário. TASK-012 confirmou `https://poncell-portifolio.vercel.app`
 como a URL estável de produção (o usuário decidiu não comprar domínio
 próprio por enquanto) e preparou a verificação do Google Search Console via
 env (`GOOGLE_SITE_VERIFICATION`), e TASK-013 adicionou Vercel Analytics e
-Speed Insights (sem cookies, sem banner de consentimento — DEC-007). O
-próximo bloco de trabalho é o restante de P3: TASK-014 (performance) e
-TASK-015 (hardening do workflow de agentes).
+Speed Insights (sem cookies, sem banner de consentimento — DEC-007), e
+TASK-014 corrigiu `/` e `/contato`, que renderizavam dinamicamente por
+acidente (client Supabase com cookies usado para dados públicos),
+passando ambas para ISR (`revalidate: 300`) sem perder a atualização
+imediata via `revalidatePath` do admin. O próximo bloco de trabalho é
+TASK-015 (hardening do workflow de agentes), a última do backlog inicial.
 
 ## Stack Verificada
 
@@ -263,6 +266,23 @@ adicionados em `src/app/layout.tsx`. Sem cookies, sem PII coletado pelo
 código do projeto, sem banner de consentimento (não exigido pela
 ferramenta). Pendência: usuário precisa habilitar "Web Analytics"/"Speed
 Insights" no painel da Vercel para a coleta de dados começar de fato.
+
+### Performance (Rotas Estáticas/Dinâmicas)
+
+Resolvido em TASK-014.
+
+Resultado atual: `/` e `/contato` renderizavam dinamicamente por acidente,
+porque `getPublicProfile`/`getPublicContactLinks`
+(`src/lib/public-profile.ts`) e `getPublicExperiences`
+(`src/lib/public-experiences.ts`) liam dados 100% públicos usando o
+client Supabase com cookies (`@/lib/supabase/server`), o que força
+renderização dinâmica em toda a rota. Corrigido para usar
+`createPublicClient()` (`@/lib/supabase/public`), com `cache()` do React
+para dedupe dentro do mesmo request. `/contato` trocou `force-dynamic`
+por `revalidate = 300`. Confirmado no `next build`: as duas rotas
+passaram de `ƒ Dynamic` para `○ Static, Revalidate: 5m`. Oportunidade
+registrada, não implementada: `next/image` para fotos/capas reais (exige
+`next.config.ts` + dimensões conhecidas, hoje não armazenadas no schema).
 
 ## Últimos Comandos Executados Nesta Análise
 

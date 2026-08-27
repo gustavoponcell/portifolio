@@ -1,6 +1,7 @@
+import { cache } from "react";
+
 import { siteConfig } from "@/config/site";
-import { hasSupabasePublicEnv } from "@/lib/supabase/env";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import type {
   SupabaseContactLinkRow,
   SupabaseProfileRow,
@@ -135,13 +136,14 @@ function uniqueContactLinks(links: PublicContactLink[]) {
   });
 }
 
-export async function getPublicProfile(): Promise<PublicProfile> {
-  if (!hasSupabasePublicEnv()) {
+export const getPublicProfile = cache(async (): Promise<PublicProfile> => {
+  const supabase = createPublicClient();
+
+  if (!supabase) {
     return fallbackProfile;
   }
 
   try {
-    const supabase = await createClient();
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
@@ -157,17 +159,17 @@ export async function getPublicProfile(): Promise<PublicProfile> {
   } catch {
     return fallbackProfile;
   }
-}
+});
 
 export async function getPublicContactLinks(profile: PublicProfile) {
   const links = profileLinks(profile);
+  const supabase = createPublicClient();
 
-  if (!hasSupabasePublicEnv()) {
+  if (!supabase) {
     return uniqueContactLinks(links);
   }
 
   try {
-    const supabase = await createClient();
     const { data, error } = await supabase
       .from("contact_links")
       .select("*")

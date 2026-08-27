@@ -17,7 +17,7 @@ export const metadata: Metadata = createPageMetadata({
   path: "/contato",
 });
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function ContactPage() {
   const profile = await getPublicProfile();

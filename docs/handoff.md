@@ -2,6 +2,112 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-014
+
+- Status: pronto para revisão (revisado por Claude, Codex indisponível).
+- Arquivos alterados:
+  - `src/lib/public-profile.ts`
+  - `src/lib/public-experiences.ts`
+  - `src/app/contato/page.tsx`
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-014-performance-fine-tuning.md`.
+  - Revisei o escopo pedido (imagens, fontes, bundle/client components,
+    rotas estáticas/dinâmicas, cache/revalidate, dados GitHub/Supabase):
+    - Fontes: já otimizadas (`next/font/google`, self-hosted, sem
+      requisição bloqueante). Nada a mudar.
+    - Client components: só 4 no site público/login
+      (`SiteHeader`/`ModeSwitcher` por precisarem de `usePathname()`,
+      `LoginForm` por `useActionState`, e `ui/separator.tsx`, gerado pelo
+      shadcn). Já é uma superfície mínima; não mexi no `separator.tsx`
+      por ser boilerplate de terceiro e o ganho seria marginal/especulativo.
+    - GitHub: `src/lib/github.ts` já usa `next: { revalidate: 3600 }` e
+      `AbortSignal.timeout(5000)`. Já adequado.
+    - **Achado objetivo e mensurável**: `/` (Home) declarava
+      `export const revalidate = 300` mas o build mostrava a rota como
+      `ƒ Dynamic` mesmo assim. Investigando, `src/lib/public-profile.ts`
+      (`getPublicProfile`/`getPublicContactLinks`) e
+      `src/lib/public-experiences.ts` (`getPublicExperiences`) usavam o
+      client Supabase **com cookies** (`createClient` de
+      `@/lib/supabase/server`, que chama `cookies()` de `next/headers`),
+      mesmo lendo só dados **públicos** (perfil, contatos visíveis,
+      experiências visíveis — sem sessão, sem dado privado). Usar
+      `cookies()` força a rota inteira a renderizar dinamicamente a cada
+      request, ignorando o `revalidate` declarado. Isso também explicava
+      por que `/contato` precisava de `export const dynamic =
+      "force-dynamic"` só para funcionar de forma consistente.
+  - Corrigido: troquei as duas libs para usar `createPublicClient()` de
+    `@/lib/supabase/public.ts` (o mesmo client já usado por
+    `design-projects.ts`/`dev-repositories.ts`, sem cookies, sem sessão).
+    Removido `hasSupabasePublicEnv()` como checagem separada, usando o
+    retorno `null` do próprio `createPublicClient()` como guarda (mesmo
+    comportamento, menos uma chamada redundante).
+  - Também envolvi `getPublicProfile` e `getPublicExperiences` em
+    `cache()` do React (mesmo padrão já usado em
+    `getPublicDesignProjects`), já que `getPublicProfile()` era chamado
+    duas vezes por request na Home (`HeroSection` direto em `page.tsx` e
+    de novo dentro de `ContactPreviewSection`) — agora dedupe dentro do
+    mesmo request.
+  - Troquei `export const dynamic = "force-dynamic"` por
+    `export const revalidate = 300` em `src/app/contato/page.tsx`,
+    alinhado com `/design`/`/dev`/Home. As Server Actions de admin já
+    chamam `revalidatePath("/")`/`revalidatePath("/contato")` depois de
+    salvar perfil/experiências (`refreshProfile()` em
+    `media-actions.ts`), então o conteúdo continua atualizando na hora
+    certa mesmo com ISR.
+  - **Validado no build**: antes, `/` e `/contato` apareciam como `ƒ
+    Dynamic`; depois da correção, ambos aparecem como `○ Static` com
+    `Revalidate: 5m` — mudança real e mensurável direto no output do
+    `next build`.
+  - Registrado, mas **não implementado** (avaliado como "otimização
+    complexa" demais para esta tarefa, por faltar restrição/evidência
+    suficiente): trocar `ResponsiveImage` (`<img>` simples) por
+    `next/image` nas fotos de perfil e capas de projeto. Ganho real
+    existe (resize automático, AVIF/WebP, menos layout shift), mas
+    exigiria configurar `images.remotePatterns` para o domínio do
+    Supabase Storage no `next.config.ts` e ter `width`/`height`
+    conhecidos (não armazenados hoje no schema) — risco de quebrar
+    layout/proporção sem visualização real. Registrado como oportunidade
+    futura, não uma correção desta tarefa.
+- Decisões técnicas:
+  - Não toquei em Auth/Storage/schema; a mudança é só de qual client
+    Supabase é usado para leitura pública (sem sessão) e de estratégia de
+    cache de rota (ISR em vez de dynamic).
+  - Não removi `hasSupabasePublicEnv` do projeto (ainda usado em outros
+    arquivos como `github.ts`/`admin.ts`), só parei de chamá-lo
+    separadamente nos dois arquivos alterados, já que
+    `createPublicClient()` já faz a mesma checagem internamente.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run test` (16/16), `npm.cmd run build`,
+    `npm.cmd audit --omit=dev`.
+  - Comparação do output de rotas do `next build` antes/depois (`/` e
+    `/contato`: `ƒ Dynamic` → `○ Static, Revalidate: 5m`).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Testes: 16/16 passando.
+  - Build: sucesso, 19 rotas (mesma lista, mudança é na estratégia de
+    renderização de 2 rotas).
+  - Audit: 0 vulnerabilidades (sem dependência nova).
+- Problemas encontrados:
+  - 1 achado real e corrigido: `/` e `/contato` renderizavam
+    dinamicamente por acidente (cliente Supabase errado para dados
+    públicos), ignorando o `revalidate`/ISR já configurado.
+- Pendências:
+  - Oportunidade futura registrada, não implementada: `next/image` para
+    fotos/capas reais (exige `next.config.ts` + dimensões conhecidas).
+  - Nenhuma outra pendência técnica desta tarefa.
+- Riscos:
+  - Baixo. Mesma lógica de negócio, mesmos dados retornados — só mudou o
+    client Supabase (de cookie-based para o client público, já usado em
+    outras partes do projeto) e a estratégia de cache da rota. Validado
+    por build mostrando o resultado esperado.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a mudança de `force-dynamic` para ISR em `/contato` é
+    aceitável dado que a página já é revalidada sob demanda pelas Server
+    Actions de admin.
+  - Decidir se vale abrir uma tarefa futura dedicada para `next/image`.
+
 ## Último Handoff — TASK-013
 
 - Status: pronto para revisão (revisado por Claude, Codex indisponível).

@@ -180,12 +180,21 @@ Atualizado em: 2026-08-26.
 
 ### TASK-014 — Melhorias de performance fina
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (revisada por Claude, Codex indisponível).
 - Especificação: `docs/tasks/task-014-performance-fine-tuning.md`.
+- Resultado: `/` e `/contato` renderizavam dinamicamente por acidente
+  (`getPublicProfile`/`getPublicContactLinks`/`getPublicExperiences`
+  usavam o client Supabase com cookies para dados 100% públicos).
+  Corrigido para usar `createPublicClient()` (mesmo client já usado em
+  design/dev), com `cache()` do React para dedupe. `/contato` trocou
+  `force-dynamic` por `revalidate = 300`. Build confirma: as duas rotas
+  passaram de `ƒ Dynamic` para `○ Static, Revalidate: 5m`. Oportunidade
+  de `next/image` registrada, não implementada (exige config +
+  dimensões conhecidas).
 
 ### TASK-015 — Automação semi-automatizada do workflow
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-015-agent-workflow-hardening.md`.
 
 - GitHub Issues por tarefa.
