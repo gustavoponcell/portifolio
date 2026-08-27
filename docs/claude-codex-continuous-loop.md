@@ -3,6 +3,11 @@
 Este documento define como rodar Claude Code e Codex juntos até concluir a fila
 do backlog, começando pela TASK-004.
 
+Este foi o fluxo usado de fato em TASK-004 a TASK-015 (confirmado em
+`docs/agent-workflow.md`, que também documenta os limites conhecidos do
+plugin Codex — quota de uso, o stop-time review gate, e o protocolo de
+fallback para quando o Codex fica indisponível no meio do loop).
+
 ## Pré-requisitos
 
 No PowerShell:

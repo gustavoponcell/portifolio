@@ -124,20 +124,60 @@ Recomendado agora.
 
 ### Nível 2 — Semi-Automatizado
 
-- Script local `scripts/agent-loop.ps1`.
-- Claude Code implementa a próxima tarefa do backlog.
-- Codex CLI revisa em modo somente leitura.
-- Logs e estado ficam em `.agent-loop/`.
-- Fluxo oficial preferido: Claude Code com plugin `codex@openai-codex`,
-  seguindo `docs/claude-codex-continuous-loop.md`.
-- GitHub Issues para cada `TASK-XXX`.
-- Branch por tarefa.
-- PR para revisão.
-- Hooks do Claude para avisar conclusão ou rodar lint/build.
-- GitHub Actions para lint/build/audit.
+**Fluxo primário (confirmado em uso real, TASK-004 a TASK-015):** Claude
+Code rodando interativamente, chamando o plugin `codex@openai-codex`
+(`/codex:review --background`) por tarefa, seguindo
+`docs/claude-codex-continuous-loop.md`. GitHub Actions (TASK-011) cobre
+lint/test/build/audit em push/PR. Este é o fluxo recomendado para
+trabalhos futuros — veja "Limites Conhecidos do Plugin Codex" abaixo
+antes de rodar um loop longo sem supervisão.
 
-Recomendado agora em modo local. GitHub Issues, branches por tarefa e PRs ainda
-podem entrar depois.
+**Fluxo legado/alternativo:** `scripts/agent-loop.ps1` (documentado em
+`docs/automation.md`) orquestra Claude Code e o Codex CLI como
+subprocessos via PowerShell, com logs em `.agent-loop/`. Não foi usado
+nesta sessão nem em nenhuma das TASK-001 a TASK-015; mantido no
+repositório como histórico e como alternativa para rodar o loop fora de
+uma sessão interativa do Claude Code (ex.: agendado, headless), mas não é
+mais o caminho recomendado por padrão.
+
+Decisão final (TASK-015): **não adotar** GitHub Issues por tarefa nem
+branch/PR por tarefa por enquanto. Motivo: o projeto é individual (sem
+colaboradores revisando PRs), o fluxo atual de arquivo
+(`docs/tasks/` + `docs/backlog.md` + `docs/handoff.md`) já funcionou bem
+em 15 tarefas reais, e cada tarefa já passa por uma revisão objetiva
+(Codex ou Claude Code, ver abaixo) antes do commit — branch/PR
+adicionaria cerimônia sem um revisor humano adicional para justificar o
+ganho. Reavaliar se o projeto ganhar colaboradores ou se o usuário quiser
+um gate manual extra antes de mergear.
+
+## Limites Conhecidos do Plugin Codex
+
+Observados nesta sessão (TASK-010 em diante), registrados aqui para que
+sessões futuras não percam tempo redescobrindo:
+
+- **Quota de uso da conta ChatGPT/Codex pode se esgotar no meio do
+  loop.** `/codex:review`/`/codex:adversarial-review` falham com uma
+  mensagem explícita (`Codex error: You've hit your usage limit... or try
+  again at HH:MM`), não relacionada ao diff sendo revisado. Não adianta
+  tentar de novo imediatamente.
+- **O "stop-time review gate"** (`/codex:setup --enable-review-gate`)
+  passa a exigir uma revisão Codex bem-sucedida antes de qualquer resposta
+  poder terminar — se a quota estiver esgotada, isso bloqueia **todas** as
+  respostas seguintes, não só as relacionadas a revisão de código. Para
+  destravar: `/codex:setup --disable-review-gate` (pode ser reativado
+  depois com `--enable-review-gate`).
+- **Fallback quando o Codex está indisponível**: a pedido explícito do
+  usuário, Claude Code pode assumir o papel de revisor objetivo (reler o
+  diff criticamente, como uma revisão externa faria) em vez de pausar o
+  loop inteiro. Isso deve ficar **marcado explicitamente** no bloco de
+  `docs/handoff.md` daquela tarefa ("revisado por Claude, Codex
+  indisponível"), nunca apresentado como se o Codex tivesse revisado —
+  para que ChatGPT/Codex possa fazer uma segunda revisão retroativa
+  quando a quota voltar.
+- Trocar de conta ChatGPT (ex.: para uma conta Pro com mais quota) exige
+  rodar `codex login` interativamente (fluxo de navegador) — um agente não
+  pode fazer isso sozinho; é preciso pedir ao usuário para rodar
+  `!codex login` no prompt do Claude Code.
 
 ### Nível 3 — Altamente Automatizado
 

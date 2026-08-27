@@ -194,10 +194,62 @@ Atualizado em: 2026-08-26.
 
 ### TASK-015 — Automação semi-automatizada do workflow
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (revisada por Claude, Codex indisponível). **Última
+  tarefa do backlog inicial.**
 - Especificação: `docs/tasks/task-015-agent-workflow-hardening.md`.
 
 - GitHub Issues por tarefa.
 - Branch por tarefa.
 - PRs curtos.
 - Hooks do Claude para lint/build ou notificação.
+- Resultado: fluxo consolidado em `docs/decisions.md` (DEC-008) e
+  `docs/agent-workflow.md`. Fluxo primário confirmado: Claude Code +
+  plugin Codex (`/codex:review --background`) + GitHub Actions.
+  `scripts/agent-loop.ps1` marcado como legado (nunca usado nas 15
+  tarefas reais, não removido). GitHub Issues e branch/PR por tarefa:
+  decidido **não adotar** por enquanto (projeto individual). Limites do
+  plugin Codex documentados (quota de conta, stop-time review gate,
+  protocolo de fallback para Claude Code revisar quando o Codex está
+  indisponível).
+
+## Fechamento do Backlog Inicial (TASK-001 a TASK-015)
+
+Todas as 15 tarefas do backlog inicial estão concluídas. Resumo por
+prioridade:
+
+- **P0** (TASK-001 a TASK-003): dependências, deploy e secrets — todas
+  aprovadas por ChatGPT/Codex.
+- **P1** (TASK-004 a TASK-007): responsividade, acessibilidade, SEO e
+  links — todas concluídas; TASK-006 corrigiu a imagem OG, TASK-007
+  corrigiu um link âncora quebrado.
+- **P2** (TASK-008 a TASK-011): documentação legada, status `mock`,
+  testes mínimos e CI — todas concluídas; `mock` mantido por decisão
+  (DEC-006), Vitest adotado para testes, CI criado no GitHub Actions.
+- **P3** (TASK-012 a TASK-015): domínio, analytics, performance e
+  workflow — todas concluídas dentro do possível sem domínio próprio;
+  TASK-014 corrigiu uma renderização dinâmica acidental em `/` e
+  `/contato`.
+
+A partir da TASK-010, com o Codex indisponível por limite de uso da
+conta, as revisões objetivas de TASK-010 a TASK-015 foram feitas por
+Claude Code no mesmo papel crítico, a pedido explícito do usuário — não
+pelo Codex. Recomenda-se uma revisão retroativa do Codex sobre esses
+commits quando a quota permitir.
+
+Pendências que dependem do usuário (não de um agente), acumuladas ao
+longo do backlog:
+
+- Confirmar manualmente no dashboard da Vercel que os deploys mais
+  recentes estão `Ready` (TASK-002 e seguintes).
+- Testar login admin em produção com o usuário autorizado real.
+- Criar a propriedade "Prefixo de URL" no Google Search Console e colar
+  o token em `GOOGLE_SITE_VERIFICATION` (TASK-012).
+- Habilitar "Web Analytics"/"Speed Insights" no painel da Vercel
+  (TASK-013).
+- Rodar `/codex:review`/`/codex:adversarial-review` retroativamente
+  sobre TASK-010 a TASK-015 quando a quota do Codex voltar.
+
+Próximos passos possíveis (não bloqueantes, fora do backlog inicial):
+domínio próprio (se decidido), `next/image` para fotos/capas reais,
+migração de `mock` (se decidido reabrir DEC-006), e reavaliar Issues/
+branch/PR se o projeto ganhar colaboradores (DEC-008).

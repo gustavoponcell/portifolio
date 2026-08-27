@@ -4,28 +4,28 @@ Atualizado em: 2026-08-26.
 
 ## Resumo Executivo
 
-O portfólio está publicado em produção na Vercel e validado para continuidade.
-A base pública, admin, Supabase, upload de imagens, curadoria Dev, SEO básico,
-sitemap, robots e manifest já existem. TASK-001 a TASK-009 zeraram
-vulnerabilidades de dependências, validaram produção, auditaram secrets,
-responsividade, acessibilidade e SEO (corrigindo a imagem OG e um link
-quebrado), limparam a documentação legada de mocks e decidiram manter o
-status `mock` por enquanto (detalhes de cada uma no histórico deste arquivo
-e em `docs/handoff.md`). TASK-010 adicionou uma base mínima de testes
-automatizados (Vitest, 16 testes) e TASK-011 criou CI no GitHub Actions
-(lint, test, build bloqueantes; audit não bloqueante). A partir da
-TASK-010, com o Codex indisponível por limite de uso da conta, as revisões
-objetivas passaram a ser feitas por Claude Code no mesmo papel crítico, a
-pedido do usuário. TASK-012 confirmou `https://poncell-portifolio.vercel.app`
-como a URL estável de produção (o usuário decidiu não comprar domínio
-próprio por enquanto) e preparou a verificação do Google Search Console via
-env (`GOOGLE_SITE_VERIFICATION`), e TASK-013 adicionou Vercel Analytics e
-Speed Insights (sem cookies, sem banner de consentimento — DEC-007), e
-TASK-014 corrigiu `/` e `/contato`, que renderizavam dinamicamente por
-acidente (client Supabase com cookies usado para dados públicos),
-passando ambas para ISR (`revalidate: 300`) sem perder a atualização
-imediata via `revalidatePath` do admin. O próximo bloco de trabalho é
-TASK-015 (hardening do workflow de agentes), a última do backlog inicial.
+**O backlog inicial (TASK-001 a TASK-015) está concluído.** O portfólio
+está publicado em produção na Vercel (`https://poncell-portifolio.vercel.app`,
+confirmado como URL estável em TASK-012), com base pública, admin,
+Supabase, upload de imagens, curadoria Dev, SEO, sitemap, robots, manifest,
+CI (GitHub Actions), testes automatizados mínimos (Vitest), analytics sem
+cookies (Vercel Analytics/Speed Insights) e um workflow de agentes
+consolidado (`docs/agent-workflow.md`, DEC-008). Detalhe de cada tarefa no
+histórico deste arquivo, em `docs/backlog.md` e em `docs/handoff.md`.
+
+A partir da TASK-010, com o Codex indisponível por limite de uso da conta
+ChatGPT conectada, as revisões objetivas de TASK-010 a TASK-015 foram
+feitas por Claude Code no mesmo papel crítico, a pedido explícito do
+usuário — não pelo Codex. Recomenda-se uma revisão retroativa do Codex
+sobre esses commits quando a quota permitir.
+
+Pendências que dependem do usuário (não bloqueantes, não de um agente):
+confirmar deploy `Ready` no dashboard da Vercel, testar login admin real,
+criar propriedade no Google Search Console (TASK-012), habilitar Web
+Analytics/Speed Insights no painel da Vercel (TASK-013), e a revisão
+retroativa do Codex mencionada acima. Próximos passos possíveis, fora do
+backlog inicial: domínio próprio, `next/image` para fotos/capas reais,
+e reavaliar Issues/branch/PR se o projeto ganhar colaboradores.
 
 ## Stack Verificada
 
@@ -283,6 +283,22 @@ por `revalidate = 300`. Confirmado no `next build`: as duas rotas
 passaram de `ƒ Dynamic` para `○ Static, Revalidate: 5m`. Oportunidade
 registrada, não implementada: `next/image` para fotos/capas reais (exige
 `next.config.ts` + dimensões conhecidas, hoje não armazenadas no schema).
+
+### Workflow de Agentes
+
+Resolvido em TASK-015 (DEC-008 — ver `docs/decisions.md`). **Última
+tarefa do backlog inicial.**
+
+Resultado atual: fluxo primário confirmado — Claude Code interativo +
+plugin Codex (`/codex:review --background`) + GitHub Actions, seguindo
+`docs/claude-codex-continuous-loop.md`. `scripts/agent-loop.ps1` marcado
+como legado/alternativo (nunca usado nas 15 tarefas reais, não removido).
+GitHub Issues e branch/PR por tarefa: decidido não adotar por enquanto
+(projeto individual, sem colaboradores). Limites do plugin Codex
+documentados em `docs/agent-workflow.md` (quota de conta ChatGPT, o
+stop-time review gate bloqueando toda resposta quando o Codex está
+indisponível, e o protocolo de fallback para Claude Code revisar
+objetivamente nesse caso).
 
 ## Últimos Comandos Executados Nesta Análise
 

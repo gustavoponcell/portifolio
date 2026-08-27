@@ -181,3 +181,47 @@ para confirmar se já estão habilitados ou se dependem de um plano pago
 específico. O código funciona (não quebra nada) independentemente disso;
 sem habilitar no painel, os scripts simplesmente não têm para onde
 enviar dados.
+
+## DEC-008 — Fluxo final de workflow de agentes (TASK-015)
+
+Data: 2026-08-26.
+
+Decisão: consolidar o fluxo Claude Code + Codex Plugin + GitHub como
+segue, com base na experiência real de TASK-001 a TASK-015 (15 tarefas
+concluídas):
+
+- **Fluxo primário**: Claude Code interativo, chamando
+  `/codex:review --background` por tarefa (plugin `codex@openai-codex`),
+  seguindo `docs/claude-codex-continuous-loop.md`. GitHub Actions
+  (TASK-011) cobre lint/test/build/audit em todo push/PR.
+- **`scripts/agent-loop.ps1`** (PowerShell + Codex CLI direto) vira
+  **legado/alternativo** — nunca foi usado nas 15 tarefas reais, mas
+  continua no repositório (não removido) como opção para rodar o loop
+  fora de uma sessão interativa (ex.: headless/agendado).
+- **GitHub Issues por tarefa**: não adotado. O arquivo `docs/tasks/` +
+  `docs/backlog.md` + `docs/handoff.md` já cobriu 15 tarefas sem atrito;
+  Issues adicionariam uma segunda fonte de verdade a manter sincronizada
+  sem benefício claro para um projeto individual.
+- **Branch/PR por tarefa**: não adotado. Sem colaboradores revisando PRs,
+  e cada tarefa já passa por revisão objetiva (Codex ou Claude Code)
+  antes do commit direto em `main` — branch/PR adicionaria cerimônia sem
+  um segundo revisor humano para justificar o ganho.
+
+Limites do plugin Codex documentados em `docs/agent-workflow.md`
+("Limites Conhecidos do Plugin Codex"): esgotamento de quota da conta
+ChatGPT no meio do loop, interação do stop-time review gate com quota
+esgotada (bloqueia toda resposta, não só revisões), e o protocolo de
+fallback (Claude Code assume o papel de revisor objetivo a pedido
+explícito do usuário, sempre marcado como tal no handoff, nunca
+apresentado como revisão do Codex).
+
+Motivo: manter o nível de automação atual (Nível 2 semi-automatizado)
+até que o volume de trabalho ou o número de colaboradores realmente
+exijam Issues/branches/PRs ou MCP (Nível 3) — evita complexidade e risco
+operacional desnecessários para um projeto individual, conforme já
+apontado em `docs/agent-workflow.md`.
+
+Revisão futura: reabrir esta decisão se o projeto ganhar colaboradores,
+se o volume de tarefas simultâneas crescer, ou se os limites de quota do
+Codex se tornarem frequentes o suficiente para justificar um Nível 3
+(MCP, agentes com permissões separadas, PRs automáticos).

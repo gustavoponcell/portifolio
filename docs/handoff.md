@@ -2,6 +2,92 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-015 (última tarefa do backlog inicial)
+
+- Status: pronto para revisão (revisado por Claude, Codex indisponível).
+- Arquivos alterados:
+  - `docs/agent-workflow.md` (Nível 2 consolidado, decisão final sobre
+    Issues/branch/PR, nova seção "Limites Conhecidos do Plugin Codex").
+  - `docs/automation.md` (aviso de fluxo legado no topo, sem apagar
+    conteúdo).
+  - `docs/claude-codex-continuous-loop.md` (cross-reference para os
+    limites do plugin Codex).
+  - `docs/decisions.md` (DEC-008).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-015-agent-workflow-hardening.md`.
+  - Reli `AGENTS.md`, `CLAUDE.md`, `docs/agent-workflow.md`,
+    `docs/automation.md` e `docs/claude-codex-continuous-loop.md`
+    conforme pedido no escopo.
+  - Decisão sobre `scripts/agent-loop.ps1`: marcado como **legado/
+    alternativo**, não removido (531 linhas, script funcional de
+    orquestração via PowerShell + Codex CLI direto). Motivo: nenhuma das
+    15 tarefas reais (TASK-001 a TASK-015) usou esse script — todas
+    rodaram via Claude Code interativo chamando o plugin
+    `codex@openai-codex` diretamente. Mantido como opção para rodar o
+    loop fora de uma sessão interativa (headless/agendado).
+  - Avaliado GitHub Issues por tarefa: **não adotado**. O fluxo de
+    arquivo (`docs/tasks/` + `docs/backlog.md` + `docs/handoff.md`) já
+    funcionou de ponta a ponta em 15 tarefas sem atrito real.
+  - Avaliado branch/PR por tarefa: **não adotado**. Sem colaboradores
+    revisando PRs, e cada tarefa já passou por uma revisão objetiva
+    (Codex ou Claude Code) antes do commit direto em `main` — branch/PR
+    seria cerimônia extra sem um segundo revisor humano.
+  - Documentei em `docs/agent-workflow.md` (seção nova "Limites
+    Conhecidos do Plugin Codex") o que esta sessão aprendeu na prática:
+    - Esgotamento de quota da conta ChatGPT/Codex no meio do loop
+      (aconteceu de fato entre TASK-009 e TASK-010).
+    - O stop-time review gate (`--enable-review-gate`) bloqueia **toda**
+      resposta quando o Codex está indisponível, não só revisões — só
+      destrava com `--disable-review-gate` (também aconteceu de fato
+      nesta sessão).
+    - O protocolo de fallback que o usuário pediu explicitamente: Claude
+      Code assume o papel de revisor objetivo quando o Codex está
+      indisponível, sempre marcado como tal no handoff (não apresentado
+      como revisão do Codex), para permitir revisão retroativa quando a
+      quota voltar.
+  - Marquei `docs/automation.md` com um aviso no topo (sem apagar
+    nenhuma instrução existente) apontando para o fluxo primário atual.
+  - Registrei a decisão consolidada em `docs/decisions.md` (DEC-008),
+    reunindo fluxo primário, fluxo legado, decisão de Issues/branch/PR e
+    os limites do Codex em um único registro.
+- Decisões técnicas:
+  - Não removi `scripts/agent-loop.ps1` nem `docs/automation.md` (histórico
+    útil preservado, conforme restrição da tarefa), só deixei claro que
+    não é mais o fluxo primário.
+  - Não instalei nenhum plugin adicional (GitHub Issues/MCP), conforme
+    restrição.
+  - Não criei nenhuma automação de deploy ou que mexesse em secrets.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run build` (mudança é 100% documentação;
+    ambos já passavam e continuam passando).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso, sem mudança de rotas.
+- Problemas encontrados:
+  - Nenhum.
+- Pendências:
+  - Nenhuma pendência bloqueante desta tarefa especificamente. Pendências
+    gerais acumuladas de tarefas anteriores continuam listadas em
+    `docs/backlog.md`/`docs/project-status.md` (Search Console, Vercel
+    Analytics no painel, `next/image` futuro, revisão retroativa do
+    Codex quando a quota voltar).
+- Riscos:
+  - Nenhum. Mudança 100% documental, sem impacto em código ou runtime.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a decisão de não adotar GitHub Issues/branch-PR por
+    tarefa continua válida, ou se o volume de trabalho já justifica
+    reabrir essa decisão.
+  - Quando a quota do Codex voltar (ou login Pro for feito), considerar
+    rodar `/codex:review`/`/codex:adversarial-review` retroativamente
+    sobre os commits de TASK-010 a TASK-015, que foram revisados por
+    Claude Code em vez do Codex.
+
+**Esta é a última tarefa do backlog inicial (TASK-001 a TASK-015).** Ver
+resumo de fechamento no topo de `docs/backlog.md` e
+`docs/project-status.md`.
+
 ## Último Handoff — TASK-014
 
 - Status: pronto para revisão (revisado por Claude, Codex indisponível).

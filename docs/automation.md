@@ -1,5 +1,15 @@
 # Automacao Local ChatGPT + Claude
 
+> **Aviso — fluxo legado/alternativo (TASK-015).** O fluxo primário
+> recomendado desde TASK-015 é Claude Code interativo chamando o plugin
+> `codex@openai-codex` (`/codex:review --background`) por tarefa, seguindo
+> `docs/claude-codex-continuous-loop.md` — foi o que rodou de fato em todas
+> as TASK-001 a TASK-015. Este script (`scripts/agent-loop.ps1`) não foi
+> usado nessas tarefas; ele continua documentado aqui como alternativa para
+> rodar o loop fora de uma sessão interativa do Claude Code (ex.: agendado,
+> headless), não como o caminho padrão. Ver limites conhecidos do plugin
+> Codex em `docs/agent-workflow.md`.
+
 Este projeto pode rodar um ciclo semi-automatico entre Claude Code e Codex CLI
 usando `scripts/agent-loop.ps1`.
 
