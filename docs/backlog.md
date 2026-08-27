@@ -65,16 +65,21 @@ Atualizado em: 2026-08-26.
 
 ### TASK-006 — Auditoria SEO e compartilhamento
 
-- Status: próxima tarefa recomendada.
+- Status: concluída e aprovada por revisão Codex objetiva.
 - Especificação: `docs/tasks/task-006-seo-sharing-audit.md`.
 
 - Validar titles, descriptions, Open Graph, Twitter card, canonical, sitemap,
   robots e JSON-LD.
 - Definir imagem OG final.
+- Resultado: robots/sitemap/metadata/JSON-LD já estavam corretos. Único
+  achado objetivo: `siteConfig.ogImage` apontava para o `/window.svg`
+  padrão do `create-next-app`. Corrigido com uma rota `/og`
+  (`src/app/og/route.tsx`) que gera uma imagem 1200x630 on-brand via
+  `next/og` (`ImageResponse`), sem dependências novas.
 
 ### TASK-007 — Checagem de links quebrados
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-007-broken-links-check.md`.
 
 - Validar links internos e externos.

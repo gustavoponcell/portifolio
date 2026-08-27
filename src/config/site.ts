@@ -24,7 +24,7 @@ export const siteConfig = {
   ],
   locale: "pt_BR",
   url: siteUrl,
-  ogImage: `${siteUrl}/window.svg`,
+  ogImage: `${siteUrl}/og`,
   mainNav: [
     { title: "Início", href: "/" },
     { title: "Design", href: "/design" },

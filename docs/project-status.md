@@ -11,10 +11,11 @@ dependências, TASK-002 validou produção, TASK-003 não encontrou exposição
 objetiva de secrets, TASK-004 revisou a estrutura responsiva do layout
 (neobrutalista) sem encontrar problema objetivo de clipping/sobreposição, e
 TASK-005 auditou acessibilidade básica (foco visível, labels, contraste, alt
-text, navegação por teclado) sem encontrar problema objetivo — ambas via
-auditoria de código, sem navegador/leitor de tela real conectado nesta
-sessão. O próximo bloco de trabalho deve focar em SEO fino, links quebrados
-e limpeza de documentação legada.
+text, navegação por teclado) sem encontrar problema objetivo, e TASK-006
+revisou SEO/compartilhamento e corrigiu a imagem OG (antes um placeholder
+`/window.svg`, agora gerada sob demanda em `/og` via `next/og`). O próximo
+bloco de trabalho deve focar em links quebrados e limpeza de documentação
+legada.
 
 ## Stack Verificada
 
@@ -60,6 +61,11 @@ APIs:
 - `/api/admin/storage/health`
 - `/api/admin/projects/design/health`
 - `/api/admin/projects/dev/health`
+
+Outras rotas geradas:
+
+- `/og`: imagem Open Graph/Twitter gerada sob demanda (`next/og`), fora de
+  `/api` de propósito para não ser bloqueada pelo `disallow` de `robots.ts`.
 
 ## Arquitetura Atual
 
@@ -145,6 +151,18 @@ cor com texto; nenhum controle interativo depende de `onClick` em elemento
 não semântico. Nenhum problema objetivo encontrado. Pendência: teste manual
 com leitor de tela (NVDA/VoiceOver) e navegação por teclado ao vivo ainda
 recomendado quando houver ferramenta disponível.
+
+### SEO e Compartilhamento
+
+Resolvido em TASK-006.
+
+Resultado atual: `robots.ts`, `sitemap.ts`, metadata por rota (title,
+description, canonical), Open Graph/Twitter Card e JSON-LD (`Person`,
+`CreativeWork`) já estavam corretos. Único achado: `siteConfig.ogImage`
+usava o `/window.svg` padrão do `create-next-app`. Corrigido com uma imagem
+OG gerada sob demanda em `/og` (`next/og`/`ImageResponse`, sem dependência
+nova), com as cores de marca (design `#ffd84d`, dev `#39ff88`, fundo
+`#0f0f0f`).
 
 ### Deploy
 

@@ -2,6 +2,97 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-006
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `src/app/og/route.tsx` (novo).
+  - `src/config/site.ts` (`ogImage` atualizado).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-006-seo-sharing-audit.md`.
+  - Auditoria do estado atual de SEO/compartilhamento:
+    - `robots.ts`: `disallow` cobre `siteConfig.noIndexRoutes`
+      (`/admin`, `/login`, `/api`) e aponta `sitemap` para `/sitemap.xml`.
+      Correto.
+    - `sitemap.ts`: gera apenas `siteConfig.publicRoutes` (`/`, `/design`,
+      `/dev`, `/contato`) + slugs de projetos Design públicos. Não inclui
+      `/admin`/`/login`/`/api`. Correto.
+    - Metadata por rota (`createPageMetadata`): `/`, `/design`, `/dev`,
+      `/contato` e `/projetos/[slug]` têm title/description/canonical
+      próprios via `absoluteUrl`. Todas as páginas `/admin/*` e `/login`
+      usam `noIndexMetadata` (`robots: { index: false, follow: false }`).
+      Correto.
+    - Open Graph/Twitter Card: já configurados em `createPageMetadata`
+      (`summary_large_image`, título, descrição, imagem).
+    - JSON-LD: `Person` em `/contato`, `CreativeWork` em
+      `/projetos/[slug]`. Presentes.
+    - `manifest.webmanifest`: nome, short_name, description, cores e
+      `lang="pt-BR"` corretos; sem `icons` explícito, mas `favicon.ico`
+      já existe via convenção do App Router — não é um problema objetivo
+      dentro do escopo desta tarefa.
+    - **Achado objetivo**: `siteConfig.ogImage` apontava para
+      `/window.svg` — o ícone padrão gerado pelo `create-next-app`,
+      não uma imagem de compartilhamento real. Isso é usado como
+      `og:image`/`twitter:image` em toda página que não tem capa própria
+      (home, `/design`, `/dev`, `/contato`).
+  - Correção aplicada: criei `src/app/og/route.tsx`, um Route Handler que
+    usa `ImageResponse` de `next/og` (já incluso no Next.js, nenhuma
+    dependência nova) para gerar uma imagem 1200x630 PNG on-brand
+    (fundo `#0f0f0f`, badges "DESIGN"/"DEV" com as cores de acento
+    `#ffd84d`/`#39ff88`, nome e tagline do site). Atualizei
+    `siteConfig.ogImage` de `/window.svg` para `/og`.
+  - Decisão de path: coloquei a rota em `/og` (não em `/api/og`) de
+    propósito, porque `robots.ts` bloqueia todo o prefixo `/api` via
+    `siteConfig.noIndexRoutes`; um `og:image` sob `/api` correria o risco
+    de ser recusado por crawlers que respeitam `robots.txt` também para
+    fetch de imagem, quebrando o preview de compartilhamento. `/og` não
+    cai em nenhuma regra de `disallow` nem aparece no sitemap (que só lista
+    `publicRoutes` + slugs de projeto), então fica acessível para
+    crawlers de social sem virar uma página indexável.
+  - Testado localmente: subi `npm.cmd run dev`, fiz `curl` em
+    `http://localhost:3000/og` → HTTP 200, `Content-Type: image/png`,
+    imagem 1200x630 válida (verifiquei abrindo o PNG). Encerrei o processo
+    ao final.
+  - Efeito colateral de novo: `next dev` reescreveu o bloco automático em
+    `AGENTS.md` (mesmo comportamento documentado em TASK-004); revertido
+    de novo com `git checkout -- AGENTS.md` antes de seguir.
+- Decisões técnicas:
+  - Não criei `icons` no manifest nem novo favicon: `favicon.ico` já existe
+    e não está nos critérios de aceite da tarefa; registrando como possível
+    melhoria futura, não como bug.
+  - Não toquei em domínio, Search Console ou qualquer conta externa (isso é
+    escopo de TASK-012).
+  - Não alterei identidade visual das páginas, só adicionei um recurso de
+    imagem gerada programaticamente.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - Teste manual via `curl` na rota `/og` gerada.
+  - `/codex:review --background`.
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 18 rotas geradas (nova rota
+    `/og` dinâmica).
+  - `/og`: HTTP 200, PNG 1200x630 válido.
+  - Codex review: nenhum problema de correção, segurança ou manutenção
+    encontrado.
+- Problemas encontrados:
+  - 1 problema objetivo: imagem OG placeholder (`/window.svg`). Corrigido.
+- Pendências:
+  - Nenhuma pendência bloqueante. Melhoria futura opcional: adicionar
+    `icons` explícitos no `manifest.ts` (192x192/512x512) se quiser suporte
+    PWA mais completo — fora do escopo desta tarefa.
+- Riscos:
+  - Baixo. Mudança aditiva (nova rota, uma linha de config), sem alteração
+    de rotas existentes, sem novas dependências, validada por build e teste
+    manual da imagem gerada.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a nova imagem OG gerada (`/og`) está no padrão visual
+    esperado (posso ajustar cores/layout se pedido).
+  - Decidir se vale abrir uma tarefa futura para `icons` no manifest.
+
 ## Último Handoff — TASK-005
 
 - Status: pronto para revisão.
