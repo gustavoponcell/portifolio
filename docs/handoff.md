@@ -2,6 +2,73 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-013
+
+- Status: pronto para revisão (revisado por Claude, Codex indisponível).
+- Arquivos alterados:
+  - `package.json`, `package-lock.json` (`@vercel/analytics`,
+    `@vercel/speed-insights` como dependências de produção).
+  - `src/app/layout.tsx` (`<Analytics />` e `<SpeedInsights />`).
+  - `docs/decisions.md` (DEC-007).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-013-analytics-privacy.md`.
+  - Avaliei Vercel Analytics/Speed Insights (por já estarmos hospedados
+    na Vercel — integração nativa, zero-config), Google Analytics,
+    Plausible e Fathom como alternativas. Escolhi Vercel por não usar
+    cookies, não coletar PII pelo nosso código, e não exigir SDK/consent
+    manager adicional — a opção mais "leve" disponível dado o hosting
+    atual.
+  - Instalado `@vercel/analytics` e `@vercel/speed-insights` (dependências
+    de produção, não dev — rodam no client).
+  - Adicionado `<Analytics />` e `<SpeedInsights />` em
+    `src/app/layout.tsx`, dentro de `<body>`, depois do `SiteShell`.
+  - Registrada a decisão em `docs/decisions.md` (DEC-007): trade-offs de
+    privacidade (sem cookies, mas dados passam pela infraestrutura da
+    Vercel como processador terceiro), motivo de não criar banner de
+    consentimento, e passo a passo de como desativar se decidirem
+    remover depois.
+  - **Não criei banner de consentimento**, conforme restrição da tarefa
+    (a ferramenta escolhida não usa cookies).
+  - **Não coletei nem expus nenhum dado pessoal** — a integração só
+    injeta os scripts oficiais da Vercel, sem código próprio de tracking.
+- Decisões técnicas:
+  - Deixei explícito em DEC-007 que a conformidade legal final (LGPD,
+    já que o site é em pt-BR) é uma decisão de produto do usuário, não
+    uma garantia que eu possa dar — apenas seguí o entendimento público
+    da documentação da Vercel sobre a ferramenta.
+  - Não habilitei "Web Analytics"/"Speed Insights" no painel da Vercel
+    (não tenho acesso ao dashboard); o código funciona de qualquer forma,
+    mas a coleta de dados só começa depois que o usuário habilitar essas
+    features no painel do projeto.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run test` (16/16), `npm.cmd run build`,
+    `npm.cmd audit --omit=dev`.
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Testes: 16/16 passando.
+  - Build: sucesso, 18 rotas (mudança é injeção de script, sem nova
+    rota).
+  - Audit: 0 vulnerabilidades.
+- Problemas encontrados:
+  - Nenhum.
+- Pendências (dependem do usuário):
+  - Habilitar "Web Analytics" e "Speed Insights" no painel da Vercel
+    (aba Analytics do projeto) para a coleta de dados começar de fato.
+  - Confirmar conformidade LGPD/GDPR final para o caso de uso específico,
+    se desejado (a ferramenta em si é comercializada pela Vercel como
+    sem cookies).
+- Riscos:
+  - Baixo. Dependências novas de produção, mas de peso mínimo (scripts
+    oficiais da Vercel, carregados de forma assíncrona/lazy), sem coleta
+    de PII pelo código do projeto.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se Vercel Analytics/Speed Insights é aceitável como escolha
+    final, ou se preferem uma alternativa (Plausible/Fathom, que também
+    seriam "sem cookies" mas exigiriam conta/script de terceiro
+    adicional, não nativo da Vercel).
+
 ## Último Handoff — TASK-012 (finalizada)
 
 - Status: pronto para revisão (revisado por Claude, Codex indisponível).

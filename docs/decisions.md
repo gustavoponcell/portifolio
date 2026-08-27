@@ -132,3 +132,52 @@ em `project-status-badge.tsx` seriam removidas do código.
 Revisão futura: reabrir esta decisão se o valor `mock` começar a ser usado
 de forma real em produção, ou se a limpeza de código/schema for priorizada
 por outra razão.
+
+## DEC-007 — Usar Vercel Analytics + Speed Insights (TASK-013)
+
+Data: 2026-08-26.
+
+Decisão: adicionar `@vercel/analytics` e `@vercel/speed-insights` como
+dependências de produção, renderizados em `src/app/layout.tsx`
+(`<Analytics />` e `<SpeedInsights />`, dentro de `<body>`, depois do
+`SiteShell`). Nenhum outro analytics (Google Analytics, Plausible, Fathom,
+etc.) foi avaliado como alternativa principal, por já estarmos hospedados
+na Vercel — a integração nativa é a opção mais leve e com menos peças
+móveis.
+
+Trade-offs de privacidade considerados:
+
+- **A favor**: segundo a documentação da Vercel, Web Analytics e Speed
+  Insights não usam cookies, não fazem fingerprinting nem rastreiam
+  visitantes entre sites/sessões — coletam métricas agregadas (visitas,
+  país aproximado, tipo de dispositivo, Core Web Vitals), sem dado
+  pessoal identificável coletado pelo nosso próprio código.
+- **Contra / limitações**: os dados passam pela infraestrutura da Vercel
+  (um processador terceiro), então ainda é uma coleta de dados de uso,
+  mesmo sem cookies — se o site vier a ter uma política de privacidade
+  formal no futuro, ela deve mencionar isso. Também é um vínculo com a
+  plataforma Vercel (não seria portável para outro host sem trocar de
+  ferramenta).
+- Por não usar cookies, decidi **não criar banner de consentimento**,
+  conforme a própria restrição da tarefa ("não criar banner de
+  consentimento se a solução escolhida não exigir"). Isso segue o
+  entendimento público da Vercel sobre a ferramenta, mas a conformidade
+  final com LGPD/GDPR para o caso de uso específico é uma decisão de
+  produto do usuário, não algo que eu possa garantir como certeza legal.
+
+Como desativar (se o usuário decidir remover depois):
+
+1. Remover `<Analytics />` e `<SpeedInsights />` de
+   `src/app/layout.tsx` (e os dois `import`s correspondentes).
+2. Rodar `npm uninstall @vercel/analytics @vercel/speed-insights`.
+3. Opcionalmente, desabilitar "Web Analytics"/"Speed Insights" no painel
+   da Vercel (Settings do projeto) — isso também interrompe a coleta
+   mesmo sem tocar no código.
+
+Pendência: a coleta de dados só começa de verdade depois que "Web
+Analytics" e "Speed Insights" forem habilitados no painel da Vercel
+(aba Analytics do projeto) — esta sessão não tem acesso a esse painel
+para confirmar se já estão habilitados ou se dependem de um plano pago
+específico. O código funciona (não quebra nada) independentemente disso;
+sem habilitar no painel, os scripts simplesmente não têm para onde
+enviar dados.

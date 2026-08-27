@@ -19,9 +19,10 @@ objetivas passaram a ser feitas por Claude Code no mesmo papel crítico, a
 pedido do usuário. TASK-012 confirmou `https://poncell-portifolio.vercel.app`
 como a URL estável de produção (o usuário decidiu não comprar domínio
 próprio por enquanto) e preparou a verificação do Google Search Console via
-env (`GOOGLE_SITE_VERIFICATION`). O próximo bloco de trabalho é o restante
-de P3: TASK-013 (analytics), TASK-014 (performance) e TASK-015
-(hardening do workflow de agentes).
+env (`GOOGLE_SITE_VERIFICATION`), e TASK-013 adicionou Vercel Analytics e
+Speed Insights (sem cookies, sem banner de consentimento — DEC-007). O
+próximo bloco de trabalho é o restante de P3: TASK-014 (performance) e
+TASK-015 (hardening do workflow de agentes).
 
 ## Stack Verificada
 
@@ -252,6 +253,16 @@ verificação do Google Search Console sem mudança de código futura.
 Checklist completo em `docs/domain-search-console-checklist.md`.
 Pendências restantes (criar propriedade, verificar, submeter sitemap)
 exigem login na conta Google do usuário.
+
+### Analytics
+
+Resolvido em TASK-013 (DEC-007 — ver `docs/decisions.md`).
+
+Resultado atual: `@vercel/analytics` e `@vercel/speed-insights`
+adicionados em `src/app/layout.tsx`. Sem cookies, sem PII coletado pelo
+código do projeto, sem banner de consentimento (não exigido pela
+ferramenta). Pendência: usuário precisa habilitar "Web Analytics"/"Speed
+Insights" no painel da Vercel para a coleta de dados começar de fato.
 
 ## Últimos Comandos Executados Nesta Análise
 

@@ -170,12 +170,17 @@ Atualizado em: 2026-08-26.
 
 ### TASK-013 — Analytics leve e privacidade
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (revisada por Claude, Codex indisponível).
 - Especificação: `docs/tasks/task-013-analytics-privacy.md`.
+- Resultado: adotado Vercel Analytics + Speed Insights (DEC-007 em
+  `docs/decisions.md`) — sem cookies, sem PII coletado pelo código do
+  projeto, sem banner de consentimento (não exigido pela ferramenta).
+  Pendência: usuário precisa habilitar "Web Analytics"/"Speed Insights"
+  no painel da Vercel para a coleta começar de fato.
 
 ### TASK-014 — Melhorias de performance fina
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-014-performance-fine-tuning.md`.
 
 ### TASK-015 — Automação semi-automatizada do workflow
