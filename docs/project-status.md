@@ -16,8 +16,12 @@ automatizados (Vitest, 16 testes) e TASK-011 criou CI no GitHub Actions
 (lint, test, build bloqueantes; audit não bloqueante). A partir da
 TASK-010, com o Codex indisponível por limite de uso da conta, as revisões
 objetivas passaram a ser feitas por Claude Code no mesmo papel crítico, a
-pedido do usuário. O próximo bloco de trabalho é P3 (TASK-012 a TASK-015),
-onde TASK-012 provavelmente exige domínio/conta externa do usuário.
+pedido do usuário. TASK-012 confirmou `https://poncell-portifolio.vercel.app`
+como a URL estável de produção (o usuário decidiu não comprar domínio
+próprio por enquanto) e preparou a verificação do Google Search Console via
+env (`GOOGLE_SITE_VERIFICATION`). O próximo bloco de trabalho é o restante
+de P3: TASK-013 (analytics), TASK-014 (performance) e TASK-015
+(hardening do workflow de agentes).
 
 ## Stack Verificada
 
@@ -232,6 +236,22 @@ Resultado atual:
 - `/admin` sem sessão respondeu HTTP 307 para `/login`.
 - Login admin, rotas administrativas e Console do navegador foram confirmados
   manualmente pelo usuário como funcionando.
+
+### Domínio e Search Console
+
+Resolvido em TASK-012 (dentro do possível sem domínio próprio).
+
+Resultado atual: usuário decidiu manter o domínio padrão da Vercel, sem
+comprar domínio próprio por enquanto. `https://poncell-portifolio.vercel.app`
+confirmado por HTTP como a URL estável de produção (headers e fingerprint
+de build distintos de uma URL de deployment específico que o usuário
+havia colado). `NEXT_PUBLIC_SITE_URL` já estava correto em Production.
+Preparado `GOOGLE_SITE_VERIFICATION` (env opcional) +
+`metadata.verification.google` em `src/app/layout.tsx` para viabilizar a
+verificação do Google Search Console sem mudança de código futura.
+Checklist completo em `docs/domain-search-console-checklist.md`.
+Pendências restantes (criar propriedade, verificar, submeter sitemap)
+exigem login na conta Google do usuário.
 
 ## Últimos Comandos Executados Nesta Análise
 

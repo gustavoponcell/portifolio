@@ -2,93 +2,116 @@
 
 Atualizado em: 2026-08-26.
 
-Este documento é um guia reutilizável, independente do domínio final
-escolhido. Nenhum passo aqui foi executado — é planejamento, conforme
-TASK-012.
+## Decisão (TASK-012)
 
-## Pendência bloqueante
+O usuário confirmou: por enquanto, o projeto **continua usando o domínio
+padrão da Vercel**, sem comprar ou configurar domínio próprio.
 
-O domínio final ainda não foi confirmado pelo usuário. Nenhum passo desta
-seção pode ser concluído sem essa resposta:
+URL de produção estável: **`https://poncell-portifolio.vercel.app`**.
 
-- Qual é o domínio final desejado (ex.: `gustavopon cell.com`,
-  `gustavoponcell.dev`, um subdomínio, ou manter
-  `poncell-portifolio.vercel.app`)?
-- O domínio já foi comprado em algum registrador (Registro.br, Namecheap,
-  GoDaddy, Cloudflare, etc.), ou ainda precisa ser comprado?
-- Quem tem acesso ao painel de DNS desse domínio?
+O usuário também compartilhou `https://poncell-3qx2rovy7-poncell.vercel.app`
+e pediu para verificar se era a URL estável. **Confirmado que não é**:
+essa é uma URL de deployment específico (padrão
+`{projeto}-{hash-do-build}-{time}.vercel.app`), não o alias estável do
+projeto. Evidências checadas via HTTP nas duas URLs:
 
-## Passo 1 — Adicionar o domínio na Vercel
+- `poncell-3qx2rovy7-poncell.vercel.app` respondeu com o header
+  `X-Robots-Tag: noindex` — a Vercel adiciona esse header automaticamente
+  em URLs de deployment/preview para impedir indexação, e não o adiciona
+  no domínio de produção aliado.
+- Os dois hosts serviram fingerprints de build diferentes (hashes de CSS
+  e fontes distintos), confirmando que são deployments diferentes, não o
+  mesmo alias.
+- `poncell-portifolio.vercel.app` não tem `X-Robots-Tag: noindex` e já é o
+  URL usado desde TASK-002 (validado então pelo usuário como produção
+  `Ready`).
 
-1. Abrir o projeto na Vercel → **Settings → Domains**.
-2. Adicionar o domínio final (ex.: `seu-dominio.com` e, se quiser,
-   `www.seu-dominio.com`).
-3. A Vercel mostra os registros DNS exatos exigidos para aquele domínio
-   específico (variam por caso, por isso não há valores fixos aqui).
-4. Definir qual dos dois (`seu-dominio.com` ou `www.seu-dominio.com`) é o
-   domínio primário; o outro deve redirecionar (a própria Vercel oferece
-   essa opção).
+Por isso, `https://poncell-portifolio.vercel.app` é o URL correto a
+manter como `NEXT_PUBLIC_SITE_URL`.
 
-## Passo 2 — Configurar DNS (padrão geral, confirmar valores exatos na Vercel)
+## Estado confirmado em produção (checado por HTTP nesta sessão)
 
-- **Domínio raiz/apex** (`seu-dominio.com`): normalmente um registro `A`
-  apontando para o IP da Vercel, ou `ALIAS`/`ANAME` se o provedor de DNS
-  suportar.
-- **Subdomínio `www`**: normalmente um registro `CNAME` apontando para
-  `cname.vercel-dns.com`.
-- Propagação de DNS pode levar de minutos a até 48h dependendo do
-  registrador/TTL.
-- A Vercel verifica automaticamente e emite certificado SSL (Let's
-  Encrypt) assim que o DNS propaga — nenhuma ação manual de certificado é
-  necessária.
+- `curl https://poncell-portifolio.vercel.app/` → o HTML já traz
+  `canonical`, `og:url` e `og:image` apontando para
+  `https://poncell-portifolio.vercel.app` (`/og` incluído, da TASK-006).
+- `curl https://poncell-portifolio.vercel.app/api/site/health` →
+  `{"ok":true,"siteUrlConfigured":true,"supabasePublicConfigured":true,
+  "githubUsernameConfigured":true,"publicRoutes":4,"publicProjects":10}`.
+- Conclusão: `NEXT_PUBLIC_SITE_URL` **já está correto em Production**,
+  apontando para `https://poncell-portifolio.vercel.app`. Nenhuma
+  mudança de env var em Production foi necessária.
+- `.env.example` atualizado para documentar esse valor atual como
+  referência (em vez do placeholder genérico `https://seu-dominio.com`).
 
-## Passo 3 — Atualizar `NEXT_PUBLIC_SITE_URL`
+## Google Search Console — sem domínio próprio
 
-Só depois que o domínio estiver ativo e confirmado pelo usuário:
+Como o projeto usa um subdomínio de `vercel.app` (DNS que não pertence ao
+projeto), a propriedade do Search Console **deve ser do tipo "Prefixo de
+URL"**, não "Domínio" (o tipo "Domínio" exige um registro `TXT` na zona
+raiz `vercel.app`, que só a Vercel controla).
 
-1. Atualizar a env `NEXT_PUBLIC_SITE_URL` no painel da Vercel
-   (Settings → Environment Variables, ambiente Production) para a URL
-   final (ex.: `https://seu-dominio.com`).
-2. Fazer um novo deploy (redeploy) para que `metadata`, `sitemap.xml`,
-   `robots.txt` e `/og` passem a usar a URL final.
-3. Confirmar `sitemap.xml`/`robots.txt` na nova URL antes de prosseguir
-   para o Search Console.
+Passos para o usuário (exigem login na conta Google do usuário; um agente
+de IA não deve nem pode fazer isso):
 
-Esta sessão **não** deve alterar `NEXT_PUBLIC_SITE_URL` real (Vercel) nem
-`.env.local` sem confirmação explícita do usuário sobre o domínio final.
+1. Abrir <https://search.google.com/search-console>.
+2. Adicionar propriedade → **Prefixo de URL** →
+   `https://poncell-portifolio.vercel.app`.
+3. Escolher o método de verificação **"Tag HTML"** (o mais simples aqui,
+   já que o projeto não tem Google Analytics/Tag Manager configurado
+   ainda — isso é escopo da TASK-013).
+4. O Search Console gera um token parecido com
+   `abcdefghijklmnopqrstuvwxyz0123456789ABCD`.
+5. Definir esse token na env `GOOGLE_SITE_VERIFICATION` no painel da
+   Vercel (Settings → Environment Variables → Production) e fazer
+   redeploy. **Já preparei o código para isso** (ver abaixo) — nenhuma
+   mudança de código é necessária depois que o usuário tiver o token, só
+   configurar a env e redeployar.
+6. Voltar ao Search Console e clicar em "Verificar".
+7. Em **Sitemaps**, submeter:
+   `https://poncell-portifolio.vercel.app/sitemap.xml`.
+8. Conferir em Cobertura/Páginas que `/admin`, `/login` e `/api/*` não
+   aparecem indexados (já garantido por `robots.txt`/`noindex` desde
+   TASK-006/007).
 
-## Passo 4 — Google Search Console
+## O que já foi implementado nesta tarefa (código)
 
-1. Criar/abrir a propriedade em <https://search.google.com/search-console>.
-2. Escolher tipo de propriedade:
-   - **Domínio** (recomendado): cobre `http`/`https` e todos os
-     subdomínios, mas exige verificação via registro `TXT` no DNS.
-   - **Prefixo de URL**: verifica só `https://seu-dominio.com` (ou
-     `www`), com mais opções de verificação (arquivo HTML, tag
-     meta, Google Analytics/Tag Manager já configurado).
-3. Verificar a propriedade pelo método escolhido.
-4. Em **Sitemaps**, submeter `https://seu-dominio.com/sitemap.xml`.
-5. Conferir em **Cobertura/Páginas** que `/admin`, `/login` e `/api/*`
-   não aparecem indexados (já bloqueados por `robots.txt` e `noindex`,
-   confirmado nas TASK-006/007).
+- `src/app/layout.tsx`: adiciona `metadata.verification.google` lendo de
+  `process.env.GOOGLE_SITE_VERIFICATION`, só quando a env existir (não
+  gera `<meta name="google-site-verification">` vazio/quebrado quando não
+  configurado).
+- `.env.example`: documenta `GOOGLE_SITE_VERIFICATION` como opcional, com
+  instruções de onde conseguir o valor e por que o tipo "Domínio" não se
+  aplica aqui.
 
 ## Checklist resumido
 
-- [ ] Domínio final confirmado pelo usuário.
-- [ ] Domínio comprado (se ainda não foi).
-- [ ] Domínio adicionado em Vercel → Settings → Domains.
-- [ ] Registros DNS configurados conforme exigido pela Vercel.
-- [ ] DNS propagado e certificado SSL emitido (automático pela Vercel).
-- [ ] `NEXT_PUBLIC_SITE_URL` atualizada em Production (só após confirmação).
-- [ ] Redeploy feito após atualizar a env.
-- [ ] `sitemap.xml`/`robots.txt` conferidos na URL final.
-- [ ] Propriedade criada e verificada no Google Search Console.
-- [ ] Sitemap submetido no Search Console.
-- [ ] Confirmado que `/admin`, `/login` e `/api/*` não aparecem indexados.
+- [x] Domínio final decidido: manter `poncell-portifolio.vercel.app`
+      (sem domínio próprio por enquanto).
+- [x] `NEXT_PUBLIC_SITE_URL` confirmado correto em Production (nenhuma
+      mudança necessária).
+- [x] Código preparado para verificação do Search Console via env
+      (`GOOGLE_SITE_VERIFICATION`).
+- [ ] Usuário cria a propriedade "Prefixo de URL" no Search Console
+      (exige login Google do usuário).
+- [ ] Usuário cola o token de verificação em `GOOGLE_SITE_VERIFICATION`
+      na Vercel e faz redeploy.
+- [ ] Usuário clica em "Verificar" no Search Console.
+- [ ] Usuário submete `sitemap.xml` no Search Console.
+- [ ] Confirmar que `/admin`, `/login` e `/api/*` não aparecem indexados.
 
-## Fora de escopo desta tarefa
+## Fora de escopo / não feito nesta tarefa
 
-- Comprar o domínio.
-- Alterar DNS de fato.
-- Alterar `NEXT_PUBLIC_SITE_URL` em Production sem confirmação.
-- Qualquer decisão de qual domínio usar — isso é do usuário.
+- Comprar ou configurar domínio próprio (usuário optou por não fazer
+  isso agora).
+- Criar a propriedade no Google Search Console de fato (exige conta
+  Google do usuário; um agente de IA não deve autenticar nessa conta).
+- Qualquer alteração de DNS (não se aplica: domínio é gerenciado pela
+  Vercel).
+
+## Revisitar quando
+
+- O usuário decidir comprar um domínio próprio no futuro — nesse caso,
+  reabrir esta tarefa: adicionar o domínio em Vercel → Settings →
+  Domains, configurar DNS (`A`/`ALIAS` para o domínio raiz, `CNAME` para
+  `www`), atualizar `NEXT_PUBLIC_SITE_URL` para o novo domínio, redeploy,
+  e trocar a propriedade do Search Console para o tipo "Domínio".

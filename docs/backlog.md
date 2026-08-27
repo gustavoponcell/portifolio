@@ -152,13 +152,25 @@ Atualizado em: 2026-08-26.
 
 ### TASK-012 — Configurar domínio final e Search Console
 
-- Status: próxima tarefa recomendada (provavelmente exige decisão/conta
-  externa do usuário — ver pendência que pode pausar o loop aqui).
+- Status: concluída (dentro do possível sem domínio próprio; revisada por
+  Claude, Codex indisponível).
 - Especificação: `docs/tasks/task-012-domain-search-console.md`.
+- Resultado: usuário decidiu manter o domínio padrão da Vercel
+  (`https://poncell-portifolio.vercel.app`), sem comprar domínio próprio.
+  Confirmado por HTTP que essa é a URL estável de produção (a URL colada
+  pelo usuário, `poncell-3qx2rovy7-poncell.vercel.app`, era uma URL de
+  deployment específico — tinha `X-Robots-Tag: noindex`, a outra não).
+  `NEXT_PUBLIC_SITE_URL` já estava correto em Production. Preparado
+  `GOOGLE_SITE_VERIFICATION` (env opcional) + `metadata.verification.google`
+  em `layout.tsx` para o usuário só precisar colar o token do Search
+  Console e redeployar, sem mudança de código. Checklist completo em
+  `docs/domain-search-console-checklist.md`. Pendências restantes exigem
+  login na conta Google do usuário (criar propriedade, verificar,
+  submeter sitemap).
 
 ### TASK-013 — Analytics leve e privacidade
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-013-analytics-privacy.md`.
 
 ### TASK-014 — Melhorias de performance fina

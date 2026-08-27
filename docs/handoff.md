@@ -2,6 +2,100 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-012 (finalizada)
+
+- Status: pronto para revisão (revisado por Claude, Codex indisponível).
+- Continuação do bloco anterior ("TASK-012 (loop pausado)"): o usuário
+  respondeu à pendência — manter o domínio padrão da Vercel, sem comprar
+  domínio próprio por enquanto — e pediu para verificar se
+  `https://poncell-3qx2rovy7-poncell.vercel.app` (URL que ele colou) era a
+  URL estável de produção ou uma URL de deployment específico.
+- Arquivos alterados:
+  - `.env.example` (comentário de `NEXT_PUBLIC_SITE_URL` atualizado; nova
+    env opcional `GOOGLE_SITE_VERIFICATION`).
+  - `src/app/layout.tsx` (metadata.verification.google condicional).
+  - `docs/domain-search-console-checklist.md` (reescrito com a decisão
+    final).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - Investiguei via `curl -sI` as duas URLs:
+    - `https://poncell-3qx2rovy7-poncell.vercel.app` respondeu com
+      `X-Robots-Tag: noindex` (marca que a Vercel adiciona automaticamente
+      em URLs de deployment/preview, não na URL de produção aliada) e um
+      fingerprint de build (hashes de CSS/fonte) diferente do outro host.
+    - `https://poncell-portifolio.vercel.app` não tem esse header, e já
+      era a URL confirmada em produção desde a TASK-002.
+    - Conclusão: a URL colada pelo usuário é de um deployment específico,
+      não a URL estável. `poncell-portifolio.vercel.app` é a correta.
+  - Confirmei via `curl` que `NEXT_PUBLIC_SITE_URL` **já está correto em
+    Production**: o HTML de `https://poncell-portifolio.vercel.app/` traz
+    `canonical`, `og:url` e `og:image` apontando para esse mesmo host, e
+    `/api/site/health` retorna `siteUrlConfigured:true`. Nenhuma mudança
+    de env var em Production foi necessária — já estava certo.
+  - Atualizei `.env.example` para documentar esse valor real como
+    referência (em vez do placeholder genérico `https://seu-dominio.com`).
+  - Implementei a parte de Search Console que dá para preparar sem uma
+    conta Google (que só o usuário tem): adicionei
+    `metadata.verification.google` em `src/app/layout.tsx`, lendo de uma
+    nova env opcional `GOOGLE_SITE_VERIFICATION` (documentada em
+    `.env.example`). Quando a env não existe (caso local atual), nenhuma
+    tag `<meta name="google-site-verification">` é gerada — confirmei
+    isso rodando `npm.cmd run dev` e conferindo com `curl` que a tag não
+    aparece.
+  - Reescrevi `docs/domain-search-console-checklist.md` com a decisão
+    final: manter `poncell-portifolio.vercel.app`, evidências da
+    investigação, e o passo a passo restante do Search Console
+    adaptado para "sem domínio próprio" — a propriedade deve ser do tipo
+    **Prefixo de URL**, não **Domínio** (que exigiria um registro `TXT`
+    na zona `vercel.app`, fora do controle do projeto).
+  - Efeito colateral de novo: `next dev` reescreveu o bloco automático em
+    `AGENTS.md`; revertido com `git checkout -- AGENTS.md`, mesmo padrão
+    de TASK-004/006.
+- Decisões técnicas:
+  - Não criei a propriedade no Google Search Console de fato — isso
+    exige login na conta Google pessoal do usuário, que um agente de IA
+    não deve fazer. Deixei o código pronto (env + metadata) para que,
+    quando o usuário tiver o token do Search Console, baste colar a env
+    na Vercel e redeployar, sem nenhuma mudança de código.
+  - Escolhi `GOOGLE_SITE_VERIFICATION` sem prefixo `NEXT_PUBLIC_` porque o
+    valor é lido em `generateMetadata`/`metadata` (código de servidor) e
+    termina exposto na tag HTML de qualquer forma — não é secret, então
+    não há necessidade do prefixo público, mas também não há risco em não
+    usá-lo (o valor não precisa estar disponível no client bundle).
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run test` (16/16), `npm.cmd run build`.
+  - `curl` contra produção (`poncell-portifolio.vercel.app` e a URL de
+    deployment) para comparar headers e confirmar `NEXT_PUBLIC_SITE_URL`.
+  - `npm.cmd run dev` + `curl` local para confirmar que a tag de
+    verificação não aparece sem a env configurada.
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Testes: 16/16 passando.
+  - Build: sucesso, 18 rotas (sem mudança de rotas, só de metadata).
+  - Produção: `NEXT_PUBLIC_SITE_URL` confirmado correto, sem necessidade
+    de alteração.
+- Problemas encontrados:
+  - Nenhum problema de código. A URL colada pelo usuário era mesmo uma URL
+    de deployment específico, como ele suspeitava — confirmado e corrigido
+    na documentação (nunca chegou a ser usada em nenhum arquivo real).
+- Pendências (dependem do usuário, não de um agente):
+  - Criar a propriedade "Prefixo de URL" no Google Search Console para
+    `https://poncell-portifolio.vercel.app`.
+  - Colar o token de verificação em `GOOGLE_SITE_VERIFICATION` no painel
+    da Vercel (Production) e fazer redeploy.
+  - Clicar em "Verificar" no Search Console e submeter o
+    `sitemap.xml`.
+  - Se decidir comprar domínio próprio no futuro, reabrir esta tarefa
+    (checklist já tem os passos gerais documentados).
+- Riscos:
+  - Baixo. Mudança pequena e aditiva (1 campo de metadata condicional, 2
+    linhas de `.env.example`), sem alteração de rota ou de dado real.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a solução de verificação do Search Console via env é
+    aceitável, ou se preferem outro método (ex.: arquivo HTML estático em
+    `public/`, que também funcionaria mas exigiria commitar um arquivo
+    específico por token gerado).
+
 ## Último Handoff — TASK-012 (loop pausado)
 
 - Status: **bloqueado** — parte documental concluída; parte que depende
