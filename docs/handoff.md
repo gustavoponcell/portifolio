@@ -2,6 +2,65 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-010 (finalizada)
+
+- Status: pronto para revisão (revisado por Claude, não por Codex — ver
+  motivo abaixo).
+- Continuação do bloco anterior ("TASK-010 (loop pausado)"): o
+  `/codex:review` continuou indisponível por limite de uso da conta
+  ChatGPT/Codex conectada (mesmo erro, mesmo depois de desabilitar o
+  review gate de stop via `--disable-review-gate`). O usuário pediu
+  explicitamente para eu assumir o papel de revisor objetivo que era do
+  Codex e seguir o loop até a TASK-015.
+- O que foi feito (revisão objetiva por mim, no papel antes do Codex):
+  - Reli o diff completo de TASK-010 (`package.json`, `vitest.config.mts`,
+    os 4 arquivos de teste) como se fosse uma revisão externa, procurando
+    bugs objetivos, não só reafirmando meu próprio trabalho.
+  - **Achado corrigido**: `src/lib/seo/urls.test.ts` dependia
+    implicitamente de `NEXT_PUBLIC_SITE_URL` estar *ausente* do ambiente
+    onde os testes rodam (para cair no default `http://localhost:3000`
+    calculado em `src/config/site.ts`). Isso é frágil: um ambiente de
+    CI/deploy que exportasse essa variável globalmente (ex.: no mesmo job
+    que builda o Next) quebraria o teste sem nenhuma mudança de código.
+    Corrigido fixando `NEXT_PUBLIC_SITE_URL=http://localhost:3000`
+    explicitamente em `test.env` no `vitest.config.mts`, tornando o teste
+    determinístico independente do ambiente externo.
+  - Sem outros achados. `npm.cmd run test` (16/16), `npm.cmd run lint` e
+    `npm.cmd run build` voltaram a passar depois da correção.
+- Decisões técnicas:
+  - Como não há Codex disponível nesta sessão, o "achado corrigido" acima
+    e a ausência de outros problemas foram validados por mim mesmo,
+    lendo o diff com o mesmo padrão crítico que peço ao Codex (bugs
+    objetivos de correção/segurança/manutenção, não preferências).
+- Testes executados:
+  - `npm.cmd run test` (`vitest run`).
+  - `npm.cmd run lint`.
+  - `npm.cmd run build`.
+  - `npm.cmd audit --omit=dev` (já rodado no bloco anterior: 0
+    vulnerabilidades; não voltou a mudar nesta correção, que é só de
+    configuração de teste).
+- Resultado dos testes:
+  - Vitest: 16/16 passando.
+  - Lint: sem erros/avisos.
+  - Build: sucesso, 18 rotas geradas.
+- Problemas encontrados:
+  - 1 achado de robustez no próprio teste (dependência implícita de env
+    ausente), corrigido.
+- Pendências:
+  - Mesma da entrada anterior: observação (não corrigida, fora de escopo)
+    de que `getRelatedProjects` não prioriza mesmo tipo, ao contrário do
+    que `docs/architecture.md` descreve.
+  - Quando o Codex voltar a responder (quota ou login Pro), recomenda-se
+    rodar `/codex:review` retroativamente sobre este commit como segunda
+    opinião, já que a revisão desta tarefa foi feita sem a ferramenta
+    original.
+- Riscos:
+  - Baixo. Mudança aditiva (nova devDependency + testes + 1 ajuste de
+    config), sem alteração de runtime de produção.
+- Revisão pedida ao ChatGPT:
+  - Quando disponível, revisar este commit e o anterior (TASK-010) como
+    segunda opinião, já que não passaram pelo Codex.
+
 ## Último Handoff — TASK-010 (loop pausado)
 
 - Status: **bloqueado** — código pronto e validado, aguardando revisão

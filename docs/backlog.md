@@ -123,15 +123,21 @@ Atualizado em: 2026-08-26.
 
 ### TASK-010 — Criar testes mínimos
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (revisada por Claude no papel de revisor objetivo,
+  Codex indisponível por limite de uso da conta).
 - Especificação: `docs/tasks/task-010-minimal-tests.md`.
 
 - Avaliar Playwright para rotas públicas e login/admin básico.
 - Avaliar testes unitários para helpers críticos.
+- Resultado: Vitest escolhido (pequeno, sem browser, sem credenciais).
+  16 testes em 4 arquivos cobrindo `absoluteUrl`, `validateImageFile`,
+  paths de storage (anti path-traversal) e `getRelatedProjects`.
+  `npm.cmd run test` roda a suíte. Playwright avaliado e adiado (exigiria
+  browser + credenciais/mocks de login, fora do "mínimo" pedido).
 
 ### TASK-011 — CI simples no GitHub Actions
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-011-github-actions-ci.md`.
 
 - Rodar `npm ci`, `npm run lint`, `npm run build` em push/PR.

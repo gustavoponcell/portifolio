@@ -23,8 +23,12 @@ prompts-log) que ainda mencionava mock como fonte pública atual, sem
 apagar nenhum conteúdo, e TASK-009 decidiu manter o status `mock` no
 schema/tipos/admin por enquanto (DEC-006 em `docs/decisions.md`), já que
 o risco público é zero e a remoção exigiria acesso ao Supabase de
-produção. O próximo bloco de trabalho deve focar em testes mínimos
-(TASK-010) e nas tarefas de manutenção restantes (P2/P3).
+produção, e TASK-010 adicionou uma base mínima de testes automatizados
+(Vitest, 16 testes) para helpers críticos de segurança/correção. A partir
+da TASK-010, com o Codex indisponível por limite de uso da conta, as
+revisões objetivas passaram a ser feitas por Claude Code no mesmo papel
+crítico, a pedido do usuário. O próximo bloco de trabalho foca em CI
+(TASK-011) e nas tarefas de manutenção restantes (P2/P3).
 
 ## Stack Verificada
 
@@ -154,7 +158,14 @@ acesso ao Supabase de produção que esta sessão não tem.
 
 ### Testes Automatizados
 
-Não há script `test`. A validação atual depende de lint, build e testes manuais.
+Resolvido parcialmente em TASK-010.
+
+Resultado atual: existe `npm.cmd run test` (Vitest), com 16 testes cobrindo
+`absoluteUrl`, `validateImageFile`, os helpers de path de Storage
+(anti path-traversal) e `getRelatedProjects`. Cobertura ainda é mínima —
+não há testes de rota pública nem E2E de login/admin (Playwright foi
+avaliado e adiado por exigir browser e credenciais/mocks, fora do escopo
+de "mínimo"). Build e lint continuam sendo a validação principal.
 
 ### Layout Responsivo
 
