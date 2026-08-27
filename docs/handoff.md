@@ -2,6 +2,95 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-004
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - Nenhum arquivo de código. Apenas `docs/handoff.md` (este registro).
+    `docs/backlog.md` e `docs/project-status.md` serão atualizados em seguida,
+    como parte do procedimento padrão do loop (passos 13-14), mas ainda não
+    estavam alterados no momento em que a revisão Codex rodou (achado P3
+    corrigido aqui).
+- O que foi feito:
+  - `git status -sb` limpo antes de começar (`## main...origin/main`).
+  - Especificação lida: `docs/tasks/task-004-visual-responsive-check.md`.
+  - Tentei usar a skill `claude-in-chrome` para navegar e capturar screenshots
+    reais nos viewports pedidos (360x740, 430x932, 768x1024, 1366x768,
+    1440x900). A extensão não está conectada nesta sessão (usuário optou por
+    não usar); sem navegador real disponível. Não há Playwright instalado no
+    projeto (isso é escopo da TASK-010, não desta).
+  - Diante disso, registrei a limitação e fiz uma auditoria estrutural/código
+    (não visual) das rotas e componentes listados na especificação, como
+    aproximação razoável ao objetivo da tarefa:
+    - Subi o servidor local (`npm.cmd run dev`) e confirmei HTTP 200 em `/`
+      via `curl`, só para validar que a árvore de componentes renderiza sem
+      erro de servidor; encerrei o processo ao final.
+    - Revisei `src/app/globals.css`: `.brutal-section` usa
+      `width: min(100% - 2rem, 72rem)`, garantindo margem mínima de 2rem e
+      sem overflow horizontal por essa regra.
+    - Revisei `Container` (`max-w-7xl` + `px-4 sm:px-6 lg:px-8`), `SiteHeader`
+      e `ModeSwitcher`: navegação usa `flex-wrap`/`w-full sm:w-auto`, sem
+      largura fixa que quebre em 360px; links quebram em várias linhas em
+      vez de cortar horizontalmente.
+    - Revisei `SiteFooter`: grid `md:grid-cols-[1.2fr_1fr_1fr]` (1 coluna até
+      `md`), links em `flex-wrap`.
+    - Procurei por padrões de risco em todo `src/`: `grid-cols-N` fixo sem
+      prefixo responsivo, `whitespace-nowrap`, larguras fixas em `px`/`w-[…]`.
+      Encontrei 3 grids fixos (`design-hero-section.tsx` 3 colunas,
+      `dev-hero-section.tsx` 4 colunas, `github-repository-card.tsx` 2
+      colunas) — todos contêm apenas blocos decorativos vazios ou rótulos
+      curtos ("Stars: N"/"Forks: N"), sem risco real de overflow em 360px.
+    - Revisei `HeroSection` (home), `DesignHeroSection`, `DevHeroSection`,
+      `ProjectDetailsSidebar`, páginas `/contato` e `/login`: textos usam
+      `max-w-*` + `text-balance` + tamanhos responsivos (`sm:`/`lg:`), tags e
+      badges usam `flex-wrap`, imagem (`ResponsiveImage`) sempre recebe
+      `w-full`/`max-w-[75%]` do container, nunca largura fixa maior que a
+      tela.
+    - Nenhum problema objetivo de clipping, sobreposição ou largura fixa
+      quebrando em mobile foi encontrado nos arquivos revisados.
+  - Como nenhum bug objetivo foi encontrado, não houve alteração de código
+    nesta tarefa.
+  - Efeito colateral detectado e revertido: rodar `npm.cmd run dev`
+    localmente fez o Next.js 16.3.3 anexar automaticamente um bloco
+    `<!-- BEGIN:nextjs-agent-rules -->` em `AGENTS.md` (feature nativa do
+    `next dev`, desativável via `agentRules: false` em `next.config.ts`).
+    Isso não tem relação com a tarefa, então revertido com
+    `git checkout -- AGENTS.md` antes de seguir. Registrando aqui para que
+    sessões futuras não estranhem esse comportamento ao rodar `next dev`.
+- Decisões técnicas:
+  - Não instalei Playwright nem qualquer dependência nova só para esta
+    tarefa (fora de escopo; TASK-010 trata disso explicitamente).
+  - Não alterei a direção visual nem criei novas seções/features.
+  - Não toquei em Supabase, Auth, Storage, schema, dados reais ou secrets.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `/codex:review --background` (ver resultado abaixo/registro seguinte).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 17 rotas geradas.
+- Problemas encontrados:
+  - Nenhum problema objetivo de layout/responsividade encontrado na revisão
+    de código. Ver limitação abaixo.
+- Pendências:
+  - Esta tarefa **não incluiu verificação visual real em navegador** (sem
+    Claude in Chrome conectado, sem Playwright). Recomendo uma passada manual
+    rápida do usuário nas rotas/viewports da especificação quando conveniente,
+    já que revisão estática de código não substitui 100% o rendering real
+    (métricas de fonte, imagens reais, comportamento de navegador).
+  - Rotas verificadas apenas por código-fonte, não por rendering real:
+    `/`, `/design`, `/dev`, `/contato`, `/login`,
+    `/projetos/bacanal-da-dionisios`, `/projetos/jequitimuu-identidade-visual`,
+    `/projetos/xi-sintegra-tecnologia`.
+- Riscos:
+  - Baixo-médio. Nenhuma mudança de código foi feita (risco de regressão
+    zero), mas a cobertura de verificação é menor que o pedido original
+    (visual real) por falta de ferramenta de navegador nesta sessão.
+- Revisão pedida ao ChatGPT:
+  - Decidir se a auditoria estrutural/código é suficiente para aprovar
+    TASK-004 ou se é necessária uma rodada com verificação visual real
+    (navegador do usuário ou Playwright via TASK-010 adiantada).
+
 ## Revisão ChatGPT/Codex — Fechamento TASK-002 e TASK-003
 
 - Status: aprovadas.

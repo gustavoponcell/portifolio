@@ -7,9 +7,12 @@ Atualizado em: 2026-08-26.
 O portfólio está publicado em produção na Vercel e validado para continuidade.
 A base pública, admin, Supabase, upload de imagens, curadoria Dev, SEO básico,
 sitemap, robots e manifest já existem. TASK-001 zerou vulnerabilidades de
-dependências, TASK-002 validou produção e TASK-003 não encontrou exposição
-objetiva de secrets. O próximo bloco de trabalho deve focar em teste visual e
-responsivo, acessibilidade, SEO fino e limpeza de documentação legada.
+dependências, TASK-002 validou produção, TASK-003 não encontrou exposição
+objetiva de secrets e TASK-004 revisou a estrutura responsiva do layout
+(neobrutalista) sem encontrar problema objetivo de clipping/sobreposição,
+via auditoria de código (sem navegador real conectado nesta sessão). O
+próximo bloco de trabalho deve focar em acessibilidade básica, SEO fino,
+links quebrados e limpeza de documentação legada.
 
 ## Stack Verificada
 
@@ -115,6 +118,18 @@ para garantir que nada público depende disso.
 ### Testes Automatizados
 
 Não há script `test`. A validação atual depende de lint, build e testes manuais.
+
+### Layout Responsivo
+
+Revisado em TASK-004 (auditoria de código, sem navegador real conectado nesta
+sessão nem Playwright instalado).
+
+Resultado atual: `.brutal-section`, `Container`, `SiteHeader`, `ModeSwitcher`,
+`SiteFooter` e as seções de hero/projeto usam larguras fluidas
+(`max-w-*`, `flex-wrap`, `min(...)`, breakpoints `sm:`/`md:`/`lg:`), sem
+larguras fixas que quebrem em 360px. Nenhum problema objetivo encontrado.
+Pendência: validação visual real (navegador ou Playwright) ainda recomendada
+quando houver ferramenta disponível.
 
 ### Deploy
 

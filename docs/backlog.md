@@ -30,17 +30,24 @@ Atualizado em: 2026-08-26.
 
 ### TASK-004 — Teste visual e responsivo manual
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (auditoria de código; sem verificação visual real em
+  navegador nesta sessão — ver pendência em `docs/handoff.md`).
 - Especificação: `docs/tasks/task-004-visual-responsive-check.md`.
 - Objetivo: verificar celular pequeno, celular grande, tablet, notebook e
   desktop; registrar screenshots/problemas; corrigir layout sem patches
   aleatórios.
+- Resultado: nenhum problema objetivo de layout/responsividade encontrado na
+  revisão estrutural de `globals.css`, `Container`, `SiteHeader`,
+  `ModeSwitcher`, `SiteFooter` e das seções de home/design/dev/projeto. Sem
+  Claude in Chrome conectado nem Playwright instalado nesta sessão, então não
+  houve captura de screenshots reais — recomenda-se checagem visual manual
+  quando conveniente.
 
 ## P1 — Qualidade Para Lançamento
 
 ### TASK-005 — Auditoria de acessibilidade básica
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-005-accessibility-basic-audit.md`.
 
 - Navegação por teclado.
