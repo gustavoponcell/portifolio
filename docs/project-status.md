@@ -11,11 +11,13 @@ dependências, TASK-002 validou produção, TASK-003 não encontrou exposição
 objetiva de secrets, TASK-004 revisou a estrutura responsiva do layout
 (neobrutalista) sem encontrar problema objetivo de clipping/sobreposição, e
 TASK-005 auditou acessibilidade básica (foco visível, labels, contraste, alt
-text, navegação por teclado) sem encontrar problema objetivo, e TASK-006
+text, navegação por teclado) sem encontrar problema objetivo, TASK-006
 revisou SEO/compartilhamento e corrigiu a imagem OG (antes um placeholder
-`/window.svg`, agora gerada sob demanda em `/og` via `next/og`). O próximo
-bloco de trabalho deve focar em links quebrados e limpeza de documentação
-legada.
+`/window.svg`, agora gerada sob demanda em `/og` via `next/og`), e TASK-007
+corrigiu um link âncora interno quebrado (`#projetos-dev`) e confirmou que
+os links de contato reais (GitHub/LinkedIn/WhatsApp/Behance) dependem
+apenas de dados do Supabase, sem URLs fictícias no código. O próximo bloco
+de trabalho deve focar em limpeza de documentação legada.
 
 ## Stack Verificada
 
@@ -163,6 +165,19 @@ usava o `/window.svg` padrão do `create-next-app`. Corrigido com uma imagem
 OG gerada sob demanda em `/og` (`next/og`/`ImageResponse`, sem dependência
 nova), com as cores de marca (design `#ffd84d`, dev `#39ff88`, fundo
 `#0f0f0f`).
+
+### Links Quebrados
+
+Resolvido em TASK-007.
+
+Resultado atual: navegação, rodapé e todos os `href` internos apontam para
+rotas existentes. Corrigido 1 link âncora quebrado: `#projetos-dev` (botão
+em `DevHeroSection`) não tinha elemento correspondente — `id` da seção
+renomeado de `github` para `projetos-dev` em `GithubPreviewSection`. Links
+de contato (GitHub/LinkedIn/WhatsApp/Behance) dependem 100% de dados reais
+do Supabase (perfil/`contact_links`), sem URL fictícia no código. Pendência:
+validar ao vivo se as URLs reais cadastradas em produção resolvem sem
+erro — fora do alcance desta sessão sem acesso à base de produção.
 
 ### Deploy
 

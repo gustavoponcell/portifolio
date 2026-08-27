@@ -10,7 +10,7 @@ type GithubPreviewSectionProps = {
 export function GithubPreviewSection({ repositories }: GithubPreviewSectionProps) {
 
   return (
-    <section id="github" className="brutal-section space-y-8">
+    <section id="projetos-dev" className="brutal-section space-y-8">
       <BrutalCard className="bg-dev brutal-card-accent ink-on-accent">
         <SectionHeading
           eyebrow="Repositórios"

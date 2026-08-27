@@ -79,17 +79,23 @@ Atualizado em: 2026-08-26.
 
 ### TASK-007 — Checagem de links quebrados
 
-- Status: próxima tarefa recomendada.
+- Status: concluída e aprovada por revisão Codex objetiva.
 - Especificação: `docs/tasks/task-007-broken-links-check.md`.
 
 - Validar links internos e externos.
 - Validar GitHub, LinkedIn, WhatsApp, Behance se usado.
+- Resultado: 1 link interno quebrado encontrado e corrigido (âncora
+  `#projetos-dev` sem elemento com esse `id`; `GithubPreviewSection` usava
+  `id="github"`). Links de contato (GitHub/LinkedIn/WhatsApp/Behance) são
+  100% orientados a dados reais do Supabase, sem URLs fictícias no código;
+  validação ao vivo das URLs de produção fica como pendência (fora do
+  alcance desta sessão sem acesso à base de produção).
 
 ## P2 — Limpeza e Manutenção
 
 ### TASK-008 — Limpar documentação legada de mocks
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-008-clean-legacy-mock-docs.md`.
 
 - Diferenciar histórico de instrução atual.

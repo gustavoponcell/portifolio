@@ -2,6 +2,85 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-007
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `src/components/dev/github-preview-section.tsx` (id do `<section>`
+    corrigido).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-007-broken-links-check.md`.
+  - Verifiquei navegação (`siteConfig.mainNav`, `restrictedNav`, rodapé):
+    todas as rotas (`/`, `/design`, `/dev`, `/contato`, `/admin`) existem.
+  - Verifiquei todos os `href="/..."` internos em `src/components` e
+    `src/app` (grep manual): nenhum aponta para rota inexistente ou com
+    erro de digitação.
+  - **Achado objetivo**: o botão "Ver projetos Dev" em `DevHeroSection`
+    usa `href="#projetos-dev"`, mas nenhum elemento tinha
+    `id="projetos-dev"` — a seção real de projetos Dev
+    (`GithubPreviewSection`) usava `id="github"`, sem nenhuma outra
+    referência a `#github` no código. Ou seja, o link âncora não levava a
+    lugar nenhum (o padrão em Design/`#projetos-design` funciona
+    corretamente, o de Dev não).
+  - Corrigido: renomeei o `id` de `"github"` para `"projetos-dev"` em
+    `src/components/dev/github-preview-section.tsx`, alinhando com o
+    padrão já usado em Design (`#projetos-design` → seção com
+    `id="projetos-design"`) e Home (`#projetos` → `id="projetos"`).
+    Confirmei por grep que nenhuma outra parte do código referenciava
+    `#github` antes de renomear.
+  - Verifiquei `target="_blank"`: as duas ocorrências
+    (`GitHubRepositoryCard`, `ProjectLinksSection`) já usam
+    `rel="noreferrer"`. Correto.
+  - Verifiquei links de contato (`ContactLinkCard`/`getPublicContactLinks`
+    em `src/lib/public-profile.ts`): GitHub/LinkedIn/WhatsApp/
+    Behance/Instagram só renderizam se houver valor real vindo do
+    Supabase (perfil ou `contact_links`); nada hardcoded ou fictício no
+    código. `rel`/`target` já condicionais a `link.external`.
+  - Verifiquei `BehancePreviewSection`: é um placeholder intencional
+    (`<span aria-disabled="true">Novos materiais em breve</span>`, sem
+    `href`), não um link quebrado — consistente com "Behance real fica
+    para próximas etapas" já documentado no admin.
+  - Verifiquei `sitemap.ts`: só lista `publicRoutes` + slugs de projetos
+    Design reais (`getPublicDesignProjects`), sem URLs inventadas.
+- Decisões técnicas:
+  - Não pude validar ao vivo se as URLs reais de GitHub/LinkedIn/WhatsApp/
+    Behance cadastradas no Supabase de produção realmente resolvem (200),
+    porque isso exigiria acesso à base de dados de produção, que esta
+    sessão não tem e não deve simular/inventar. Ver pendência abaixo.
+  - Não alterei nenhum dado real, apenas o `id` de um elemento HTML
+    (correção de bug, sem efeito visual).
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `/codex:review --background`.
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 18 rotas geradas (sem
+    mudança na lista, é uma correção de `id` interno).
+  - Codex review: nenhum problema bloqueante encontrado; confirmou que o
+    `id` da seção agora corresponde ao alvo do link já existente na
+    página.
+- Problemas encontrados:
+  - 1 link interno quebrado (âncora `#projetos-dev` sem alvo). Corrigido.
+- Pendências:
+  - Validar manualmente (ou via `/api/site/health`/`/api/supabase/health`
+    em produção, ou navegador) se os links reais de GitHub, LinkedIn,
+    WhatsApp e Behance cadastrados no Supabase de produção resolvem sem
+    erro 404/erro de DNS. Esta sessão não tem acesso à base de produção
+    para checar valores reais.
+- Riscos:
+  - Baixo. Mudança de uma linha (renomear um `id` de `<section>`), sem
+    alteração de conteúdo visível, validada por build e revisão Codex.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a correção do `id` (`github` → `projetos-dev`) é
+    aceitável ou se preferem manter `id="github"` e corrigir o `href` do
+    botão em vez disso (resultado visual é idêntico; só muda qual arquivo
+    foi tocado).
+  - Decidir se vale abrir uma tarefa/pendência específica para validar os
+    links reais de redes sociais em produção.
+
 ## Último Handoff — TASK-006
 
 - Status: pronto para revisão.
