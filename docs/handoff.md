@@ -2,6 +2,86 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-005
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - Nenhum arquivo de código. Apenas `docs/handoff.md` (este registro);
+    `docs/backlog.md` e `docs/project-status.md` serão atualizados em
+    seguida, como de costume no loop.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-005-accessibility-basic-audit.md`.
+  - Auditoria de código (sem navegador; ver limitação já registrada em
+    TASK-004) cobrindo o escopo pedido:
+    - Landmarks: `src/app/layout.tsx` define `lang="pt-BR"`;
+      `SiteShell` usa `<header>`, `<main>` e `<footer>` semânticos; nav
+      principal e nav do rodapé têm `aria-label`.
+    - Foco visível: `globals.css` define `:focus-visible { outline: 4px
+      solid var(--color-dev); outline-offset: 4px; }` globalmente, aplicado
+      de forma consistente (inputs/textareas/selects também usam
+      `focus-visible:ring-4` nos formulários admin).
+    - Labels de formulário: revisado `LoginForm`, `ProfileForm`,
+      `DevCurationForm`, `DesignProjectForm`, `ImageUploadField` — todo
+      input/textarea/select usa `<label htmlFor>` + `id` correspondente;
+      checkboxes ficam envolvidos pelo próprio `<label>` com texto
+      (“Visível no site”, “Destacar projeto”); campos obrigatórios usam o
+      atributo nativo `required` (accessible por padrão em leitores de tela).
+    - Texto alternativo: todo uso de `<img>`/`ResponsiveImage` no client
+      recebe `alt` descritivo (`alt` é prop obrigatória no tipo de
+      `ResponsiveImage`); nenhuma imagem com `alt=""` genérico ou ausente
+      encontrada.
+    - Contraste: calculei manualmente a razão de contraste (WCAG) dos pares
+      de token mais usados em `globals.css`: texto `--muted-foreground`
+      (#a8a29a) sobre `--background` (#0f0f0f) ≈ 7.6:1; texto principal
+      (#f7f3e8) sobre `--muted` (#2e2e2e) ≈ 12.3:1; texto `#111111` sobre
+      accent design (#ffd84d) e dev (#39ff88) é muito alto contraste. Todos
+      acima do mínimo AA (4.5:1) para texto normal.
+    - Estado sem depender só de cor: badges de status em
+      `DevRepositoryAdminCard`, `AdminOverviewCards` e
+      `DesignProjectForm`/`DevCurationForm` sempre combinam cor com texto
+      (“Visível”/“Oculto”, “Configurado”/“Não configurado”,
+      “Funcional”/“Pendente”), nunca só cor.
+    - Navegação por teclado: nenhum elemento interativo usa `onClick` em
+      `div`/`span` sem semântica (`grep` não encontrou `onClick=` em todo
+      `src/`); todos os controles usam `<button>`, `<Link>`/`<a>`, `<input>`
+      ou `<select>` nativos, que já recebem foco e ativação por teclado
+      nativamente. Nenhum ícone isolado sem texto/rótulo foi encontrado como
+      botão interativo (`lucide-react` só aparece ao lado de rótulos de
+      texto em `design-tools-section.tsx`/`tech-stack-section.tsx`).
+  - Nenhum problema objetivo de acessibilidade foi encontrado nos critérios
+    de aceite da tarefa. Não houve, portanto, alteração de código.
+- Decisões técnicas:
+  - Não adicionei um link "pular para o conteúdo" (skip link): é uma boa
+    prática comum, mas não está nos critérios de aceite desta tarefa nem
+    corrige um problema existente — registrando como sugestão de melhoria
+    futura, não como bug.
+  - Não alterei identidade visual, não criei features novas e não toquei em
+    Supabase/Auth/Storage/secrets.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `/codex:review --background`.
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 17 rotas geradas.
+- Problemas encontrados:
+  - Nenhum problema objetivo de acessibilidade básica encontrado no código
+    revisado.
+- Pendências:
+  - Assim como em TASK-004, esta auditoria foi feita por leitura de código,
+    não por teste real com leitor de tela (NVDA/VoiceOver) ou navegação por
+    teclado ao vivo. Recomenda-se uma passada manual quando conveniente,
+    especialmente nas páginas `/admin/projetos/design` e
+    `/admin/projetos/dev`, que têm formulários mais longos.
+  - Sugestão não bloqueante: considerar um "skip to content" link no
+    `SiteShell` em uma tarefa futura de acessibilidade avançada.
+- Riscos:
+  - Baixo. Nenhuma mudança de código foi feita.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a auditoria de código (sem leitor de tela real) é suficiente
+    para aprovar TASK-005 ou se é necessária verificação manual adicional.
+
 ## Último Handoff — TASK-004
 
 - Status: pronto para revisão.

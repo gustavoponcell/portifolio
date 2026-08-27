@@ -47,7 +47,8 @@ Atualizado em: 2026-08-26.
 
 ### TASK-005 — Auditoria de acessibilidade básica
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (auditoria de código; sem teste real com leitor de tela
+  nesta sessão — ver pendência em `docs/handoff.md`).
 - Especificação: `docs/tasks/task-005-accessibility-basic-audit.md`.
 
 - Navegação por teclado.
@@ -56,10 +57,15 @@ Atualizado em: 2026-08-26.
 - Labels de formulários.
 - Textos alternativos.
 - Landmarks.
+- Resultado: nenhum problema objetivo encontrado. Foco visível global via
+  `:focus-visible` em `globals.css`, labels associados em todos os
+  formulários admin, contraste calculado acima do mínimo AA nos principais
+  pares de token, alt text presente em todas as imagens, nenhum controle
+  interativo sem semântica nativa (`button`/`Link`/`input`/`select`).
 
 ### TASK-006 — Auditoria SEO e compartilhamento
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-006-seo-sharing-audit.md`.
 
 - Validar titles, descriptions, Open Graph, Twitter card, canonical, sitemap,

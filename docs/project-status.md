@@ -8,11 +8,13 @@ O portfólio está publicado em produção na Vercel e validado para continuidad
 A base pública, admin, Supabase, upload de imagens, curadoria Dev, SEO básico,
 sitemap, robots e manifest já existem. TASK-001 zerou vulnerabilidades de
 dependências, TASK-002 validou produção, TASK-003 não encontrou exposição
-objetiva de secrets e TASK-004 revisou a estrutura responsiva do layout
-(neobrutalista) sem encontrar problema objetivo de clipping/sobreposição,
-via auditoria de código (sem navegador real conectado nesta sessão). O
-próximo bloco de trabalho deve focar em acessibilidade básica, SEO fino,
-links quebrados e limpeza de documentação legada.
+objetiva de secrets, TASK-004 revisou a estrutura responsiva do layout
+(neobrutalista) sem encontrar problema objetivo de clipping/sobreposição, e
+TASK-005 auditou acessibilidade básica (foco visível, labels, contraste, alt
+text, navegação por teclado) sem encontrar problema objetivo — ambas via
+auditoria de código, sem navegador/leitor de tela real conectado nesta
+sessão. O próximo bloco de trabalho deve focar em SEO fino, links quebrados
+e limpeza de documentação legada.
 
 ## Stack Verificada
 
@@ -130,6 +132,19 @@ Resultado atual: `.brutal-section`, `Container`, `SiteHeader`, `ModeSwitcher`,
 larguras fixas que quebrem em 360px. Nenhum problema objetivo encontrado.
 Pendência: validação visual real (navegador ou Playwright) ainda recomendada
 quando houver ferramenta disponível.
+
+### Acessibilidade Básica
+
+Revisado em TASK-005 (auditoria de código, sem leitor de tela real nesta
+sessão).
+
+Resultado atual: foco visível global via `:focus-visible` em `globals.css`;
+labels associados (`htmlFor`/`id`) em todos os formulários admin e no login;
+alt text descritivo em todas as imagens; badges de status sempre combinam
+cor com texto; nenhum controle interativo depende de `onClick` em elemento
+não semântico. Nenhum problema objetivo encontrado. Pendência: teste manual
+com leitor de tela (NVDA/VoiceOver) e navegação por teclado ao vivo ainda
+recomendado quando houver ferramenta disponível.
 
 ### Deploy
 
