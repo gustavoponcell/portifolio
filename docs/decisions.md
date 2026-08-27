@@ -225,3 +225,24 @@ Revisão futura: reabrir esta decisão se o projeto ganhar colaboradores,
 se o volume de tarefas simultâneas crescer, ou se os limites de quota do
 Codex se tornarem frequentes o suficiente para justificar um Nível 3
 (MCP, agentes com permissões separadas, PRs automáticos).
+
+## DEC-009 — Não versionar `docs/ui-review/` (TASK-016)
+
+Data: 2026-08-27.
+
+Decisão: `docs/ui-review/` (screenshots reais "antes"/"depois" capturados
+durante auditorias de UI/UX) **não é versionado no Git** — adicionado ao
+`.gitignore`, mantido só localmente.
+
+Motivo: são artefatos de evidência de uma rodada específica de diagnóstico
+visual, não documentação viva nem código. Cada rodada futura da auditoria
+de UI/UX vai gerar um novo conjunto de capturas que substitui o anterior;
+versionar imagens binárias no histórico do Git infla o repositório sem
+benefício, já que o achado relevante (o quê, por quê, como foi corrigido)
+já fica registrado em texto em `docs/ui-ux-audit.md` e `docs/handoff.md`.
+
+Revisão futura: reconsiderar se um dia for necessário auditar
+visualmente uma versão histórica específica do site (ex.: comparação
+formal de regressão visual entre releases) — nesse caso, um serviço
+externo de screenshot/diffing visual seria mais adequado que versionar
+PNGs/JPEGs direto no Git.

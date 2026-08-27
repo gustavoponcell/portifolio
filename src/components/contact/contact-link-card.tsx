@@ -7,7 +7,7 @@ type ContactLinkCardProps = {
 export function ContactLinkCard({ link }: ContactLinkCardProps) {
   return (
     <a
-      className="brutal-card block p-5 no-underline transition-transform hover:-translate-y-1"
+      className="brutal-card block min-w-0 p-5 no-underline transition-transform hover:-translate-y-1"
       href={link.href}
       rel={link.external ? "noreferrer" : undefined}
       target={link.external ? "_blank" : undefined}

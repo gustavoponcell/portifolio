@@ -48,3 +48,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# capturas de tela de auditoria de UI/UX (TASK-016) - locais, não versionadas
+/docs/ui-review/

@@ -1,6 +1,293 @@
 # Handoff Entre Agentes
 
-Atualizado em: 2026-08-26.
+Atualizado em: 2026-08-27.
+
+## Último Handoff — TASK-016 (P1-1 + 3 P2 implementados, pronta para commit)
+
+- Status: **pronto para commit** (a pedido explícito do usuário, depois de
+  resolver as 4 pendências abertas no handoff anterior). Diagnóstico
+  completo (FASE 1–3), aprovação do usuário para os 2 achados P1 (FASE 4),
+  `/codex:review --background` rodado sobre o diff dos P1, achado de
+  `/dev` revertido por ser falso positivo, e — numa segunda rodada — os 3
+  achados P2 aprovados e implementados, mais a decisão de `.gitignore`
+  para `docs/ui-review/` e o reconhecimento do usuário sobre o logout do
+  admin.
+- Arquivos alterados/criados nesta sessão (estado final):
+  - `docs/ui-ux-audit.md` (novo — achados priorizados + status final de
+    cada um).
+  - `docs/ui-review/before/*.png`, `docs/ui-review/after/contato-*.jpg`
+    (novo — screenshots reais; **não versionados**, ver `.gitignore`
+    abaixo).
+  - `src/components/contact/contact-links-section.tsx` (`min-w-0` no grid).
+  - `src/components/contact/contact-link-card.tsx` (`min-w-0` no card).
+  - `src/components/design/design-hero-section.tsx` (espaço não separável
+    entre "e" e "experiências" no `h1`, P2-1).
+  - `src/components/layout/site-shell.tsx` (skip-link + `id="main-content"`
+    no `<main>`, P2-2).
+  - `src/components/layout/mode-switcher.tsx` (`py-2` → `py-3.5`, alvo de
+    toque de 44px, P2-3).
+  - `.gitignore` (`/docs/ui-review/` adicionado).
+  - `docs/decisions.md` (DEC-009 — não versionar `docs/ui-review/`).
+  - `docs/handoff.md` (este registro).
+  - `src/app/globals.css`: **sem diferença** em relação a `origin/main` —
+    a mudança de P1-2 (`overflow-x: hidden` em `html`/`body`) foi aplicada
+    e depois revertida na mesma sessão.
+  - `AGENTS.md` segue com o bloco automático do `next dev` não commitado,
+    como já era esperado antes desta sessão (não removido, conforme regra).
+
+### Implementação dos 2 achados P1 aprovados
+
+- **P1-1 (`/contato`, overflow de até 105px em 360/390px) — mantido:**
+  adicionado `min-w-0` ao container grid (`contact-links-section.tsx:22`) e
+  ao card (`contact-link-card.tsx:10`). Causa raiz: grid item sem
+  `min-width: 0` herdando o tamanho de conteúdo máximo antes de aplicar
+  `break-words`. Confirmado por medição objetiva
+  (`document.documentElement.scrollWidth === clientWidth`) nos breakpoints
+  360 e 390 antes/depois, além de screenshots reais "depois"
+  (`docs/ui-review/after/contato-{360,390}.jpg`).
+- **P1-2 (`/dev`, suposto overflow de 4px em 360px) — revertido, falso
+  positivo:** a correção inicial (`overflow-x: hidden` em `html`/`body`,
+  `src/app/globals.css`) foi implementada, mas o `/codex:review
+  --background` rodado depois encontrou 2 problemas objetivos:
+  1. `overflow-x: hidden` em `html`/`body` força `overflow-y` a ser
+     computado como `auto` (regra da spec de CSS Overflow), comportamento
+     conhecido por quebrar `position: sticky` (principalmente Safari) — e o
+     header do site (`site-header.tsx:23`) é `sticky top-0 z-40`, arriscando
+     quebrar a navegação fixa em produção.
+  2. A correção tratava sintoma em vez de causa raiz, mascarando qualquer
+     overflow horizontal futuro em vez de deixá-lo aparente.
+
+  Investigação adicional confirmou o segundo ponto de forma ainda mais
+  direta: os 4px medidos originalmente eram um artefato do meu próprio
+  ambiente de teste. O iframe usado para emular breakpoints roda dentro do
+  Chrome desktop, que usa barra de rolagem vertical **clássica** (reserva
+  espaço) quando o conteúdo é mais alto que a altura do iframe — diferente
+  de navegadores mobile reais, que usam barra de rolagem **sobreposta**
+  (não reserva espaço). Isso reduzia `document.documentElement.clientWidth`
+  em ~15px sem alterar `window.innerWidth` (a largura real do viewport).
+  Comparando `scrollWidth` (346) contra `innerWidth` (360, a medida
+  correta), o conteúdo de `/dev` cabe com folga — nunca houve overflow
+  real. `src/app/globals.css` foi revertido ao estado original
+  (confirmado com `git diff` vazio no arquivo).
+- Os 3 achados P2 foram aprovados numa segunda rodada e implementados (ver
+  seção abaixo).
+
+### Implementação dos 3 achados P2 (segunda rodada, aprovados pelo usuário)
+
+- **P2-1 (linha órfã no `h1` de `/design`):** inserido um espaço não
+  separável entre "e" e "experiências" em
+  `design-hero-section.tsx:13`, garantindo que as duas palavras nunca
+  fiquem em linhas separadas, qualquer que seja o ponto de quebra que
+  `text-wrap: balance` escolher para o resto do título. Confirmado
+  visualmente em 390px e 768px: sem mais palavra isolada.
+- **P2-2 (ausência de skip-link):** adicionado link "Pular para o
+  conteúdo" em `site-shell.tsx`, como primeiro elemento focável da
+  página, com `sr-only focus:not-sr-only` (utilitários nativos do
+  Tailwind, que suportam variante `focus:`, ao contrário das classes
+  customizadas `.brutal-*` do projeto, definidas em `@layer components`)
+  e estilo visual equivalente ao `.brutal-border`/`.brutal-shadow-sm`
+  (borda grossa, sombra dura, tipografia maiúscula) para manter a
+  identidade visual quando focado. `<main>` recebeu `id="main-content"`.
+  Confirmado que o elemento é focável (`tabIndex: 0`, `element.focus()`
+  funciona) e que, ao ganhar foco, aparece fixo no canto superior
+  esquerdo com contorno de foco verde forte, visualmente consistente com
+  o resto do site. A automação de `Tab` via teclado ficou instável nesta
+  sessão (mesmo padrão de instabilidade já visto com `resize_window` e
+  `zoom`) e não confirmou o fluxo de ponta a ponta de forma automatizada,
+  mas a implementação e a ordem do DOM estão corretas.
+- **P2-3 (alvo de toque do seletor Design/Dev):** `py-2` → `py-3.5` em
+  `mode-switcher.tsx`. Medição DOM confirma altura das pílulas
+  "Design"/"Dev" passando de 32px para exatamente 44px (recomendação
+  padrão de alvo de toque confortável), sem comprometer a hierarquia
+  visual com os itens de navegação principal (43px de altura).
+- As três correções foram validadas por `npm.cmd run lint`,
+  `npm.cmd run test` (16/16) e `npm.cmd run build` (19 rotas, sem
+  regressão) depois de implementadas.
+- Retomada: sessão anterior tinha ficado sem tokens no meio da TASK-016, só
+  com `docs/tasks/task-016-frontend-ui-ux-review.md` e
+  `docs/tasks/task-016-prompt.md` criados (nenhum diagnóstico feito ainda).
+  Confirmado via `git status -sb` e ausência de `docs/ui-ux-audit.md`/
+  `docs/ui-review/before/` que a tarefa não tinha avançado da FASE 0 — esta
+  sessão começou do zero pela FASE 1 sem perder trabalho anterior (não havia
+  trabalho parcial a preservar além dos dois arquivos de setup).
+- O que foi feito:
+  - `git status -sb` limpo (só o bloco automático de `AGENTS.md` + os 2
+    arquivos de tarefa), sem bloqueio.
+  - Lidos `AGENTS.md`, `CLAUDE.md`, `docs/project-status.md`,
+    `docs/backlog.md`, `docs/handoff.md`, `docs/design-system.md` e a
+    especificação/prompt da TASK-016.
+  - `npm.cmd run dev` (Next.js 16.3.3, Turbopack) rodando em
+    `http://localhost:3000`.
+  - Localizado slug real publicado para `/projetos/[slug]`:
+    `bacanal-da-dionisios`.
+  - **Capturado o "antes"** com Claude in Chrome (Brave): 18 screenshots
+    reais em `docs/ui-review/before/` cobrindo as 6 rotas do escopo. Cobertura
+    completa (5/5 breakpoints) em `/` e `/design`; cobertura parcial (360 e
+    390 com screenshot real; 768/1280/1920 só com medição objetiva de
+    overflow via DOM, sem screenshot) em `/dev`, `/projetos/[slug]`,
+    `/contato` e `/login` — motivo documentado abaixo.
+  - **Bloqueio de ferramenta encontrado e reportado ao usuário em tempo
+    real**: `resize_window` do Claude in Chrome não redimensiona de fato a
+    janela do navegador (sempre reporta sucesso, mas `window.innerWidth`
+    real não muda); a janela oscilou sozinha durante a sessão (2552px →
+    3190px → 1600px → 450px) por motivo fora do alcance das ferramentas
+    disponíveis. Contornei com uma técnica de iframe controlado por
+    JavaScript (largura/altura exatas por breakpoint dentro da própria aba,
+    disparando os media queries reais da página), validada visualmente
+    antes de usar em escala. Quando a janela real ficou pequena demais
+    (450px) para caber os breakpoints maiores na captura de tela, perguntei
+    ao usuário como proceder (`AskUserQuestion`); ele escolheu **continuar
+    só com o que já tinha**. A partir daí, para os breakpoints/rotas sem
+    screenshot, usei a medição objetiva `document.documentElement.scrollWidth`
+    vs `clientWidth` dentro do iframe (que não depende do tamanho da janela
+    real) para confirmar ausência de overflow, em vez de forçar capturas
+    recortadas sem valor de evidência.
+  - Lido o console do navegador (`read_console_messages`) depois de
+    recarregar as 6 rotas: **zero erros/exceptions**. Só logs esperados de
+    dev (`[HMR] connected`, aviso do React DevTools, debug do Vercel
+    Analytics/Speed Insights).
+  - Testada navegação por teclado ao vivo na Home: foco visível e forte
+    (contorno verde `3.75px` + `box-shadow` do componente) no primeiro
+    elemento interativo alcançado por `Tab`.
+  - Para capturar `/login` de verdade (não o painel `/admin`), foi
+    necessário sair da sessão admin ativa no perfil do Brave conectado
+    (clique em "Sair do admin"), já que o navegador estava autenticado de
+    trabalho anterior do usuário. Ação reversível e de baixo risco (sessão
+    de dev local), mas **o usuário precisa logar de novo manualmente no
+    admin se quiser continuar usando aquela sessão** — nenhuma credencial
+    foi tocada ou alterada.
+  - Diagnosticado o código dos componentes por trás de cada achado (grep +
+    leitura direta dos arquivos-fonte, não só inspeção visual) antes de
+    escrever `docs/ui-ux-audit.md`.
+  - Consultada a skill **UI/UX Pro Max** (`--domain ux`) como lente de boas
+    práticas para cruzar os achados de overflow/alvo de toque com
+    referências reconhecidas — usada só para validar severidade, não como
+    fonte de estilo visual (conforme restrição da tarefa). Nenhuma sugestão
+    de estética genérica (gradiente, blur, glassmorphism) foi levantada
+    nesta rodada; nada a registrar como "rejeitada".
+  - Escrito `docs/ui-ux-audit.md` com 0 achados P0, 2 P1
+    (`/contato` overflow horizontal real de até 105px em 360px, causa raiz
+    isolada até a classe exata; `/dev` overflow residual de 4px em 360px,
+    causa raiz não isolada com certeza) e 3 P2 (linha órfã no `h1` de
+    `/design`, ausência de skip-link, alvo de toque do seletor Design/Dev
+    abaixo do recomendado). Detalhes completos, evidências e correções
+    propostas no próprio arquivo.
+- Decisões técnicas:
+  - Não usei `resize_window` como caminho principal depois de confirmar 3+
+    vezes que não funciona neste ambiente; troquei para a técnica de iframe,
+    que é mais confiável porque não depende do tamanho real da janela do SO.
+  - Não reautentiquei no admin depois do logout (não tenho a senha do
+    usuário); deixei registrado como ação do usuário se necessário.
+  - Revertida a correção de P1-2 assim que o Codex apontou o risco real no
+    header `sticky` — preferi reverter e reinvestigar a causa raiz a manter
+    uma correção arriscada só porque "parecia funcionar" na medição
+    original. A reinvestigação confirmou que reverter era o certo (não
+    havia bug real).
+  - Numa segunda rodada, o usuário aprovou explicitamente os 3 P2 + decidiu
+    `.gitignore` para `docs/ui-review/` + confirmou ciência sobre o logout
+    do admin + pediu commit ao final — resolvendo as 4 pendências abertas
+    no handoff anterior de uma vez.
+  - Registrada a decisão de não versionar `docs/ui-review/` em
+    `docs/decisions.md` (DEC-009), conforme pedido explícito da
+    especificação da tarefa.
+- Testes executados:
+  - `npm.cmd run lint` (3x — depois de cada rodada de mudança).
+  - `npm.cmd run test` (Vitest, 3x).
+  - `npm.cmd run build` (3x — parei o `next dev` antes de cada build para
+    evitar conflito de `.next/`, e reiniciei o dev depois).
+  - `/codex:review --background` sobre o diff dos P1 (via skill
+    `code-review`).
+  - Medição DOM (`scrollWidth`/`clientWidth`/`innerWidth`, altura de
+    elementos) em `/contato`, `/dev` e `/design` nos breakpoints
+    relevantes, antes e depois de cada mudança.
+  - Verificação visual em navegador (Claude in Chrome) das 3 correções P2:
+    captura de `/design` em 390px/768px confirmando "e experiências" na
+    mesma linha; captura do skip-link focado (via `element.focus()`
+    programático, já que a automação de `Tab` ficou instável) mostrando o
+    link visível com o estilo neobrutalista esperado; medição da altura
+    das pílulas Design/Dev confirmando 44px.
+  - Screenshots reais "depois" em `docs/ui-review/after/` (só `/contato`,
+    já que `/dev` não teve mudança de código mantida; P2s validados por
+    captura ad-hoc durante a verificação, não salvos como arquivo
+    "depois" formal, já que a mudança é textual/estrutural pequena, não
+    uma correção de layout com "antes" visualmente comparável).
+- Resultado dos testes:
+  - Lint: sem erros/avisos (nas três rodadas).
+  - Testes: 16/16 passando (Vitest, inalterado nas três rodadas).
+  - Build: sucesso nas três rodadas, Next.js 16.3.3/Turbopack, 19 rotas
+    geradas (mesma lista de rotas do início — nenhuma mudança de rota ou
+    de renderização estática/dinâmica em nenhuma correção desta tarefa).
+  - Overflow: `scrollWidth === clientWidth` confirmado em `/contato`
+    (360/390) depois da correção. Em `/dev`, `scrollWidth (346) <
+    innerWidth (360)` confirmado sem nenhuma mudança de código — nunca
+    houve overflow real.
+  - P2s: linha órfã eliminada em `/design` (390px e 768px); skip-link
+    focável e visualmente correto; pílulas Design/Dev em 44px de altura
+    (antes: 32px).
+  - **Codex review (1ª rodada, sobre P1):** encontrou 2 problemas
+    objetivos, ambos na correção de P1-2 (`/dev`) — risco de quebrar
+    `position: sticky` do header, e correção de sintoma em vez de causa
+    raiz. Nenhum problema encontrado em P1-1 (`/contato`).
+  - **Codex review (2ª rodada, sobre P1 + 3 P2):** encontrou 1 problema
+    objetivo real: `<main id="main-content">` (skip-link, P2-2) não tinha
+    `tabIndex={-1}`, então a navegação por fragmento não movia o foco de
+    teclado de verdade (só rolava a página) — o teste anterior só
+    confirmava que o `<a>` do skip-link era focável, não que ativá-lo
+    movia o foco para dentro do `<main>`. **Corrigido**: adicionado
+    `tabIndex={-1}` + `focus:outline-none` em `site-shell.tsx`. Confirmado
+    depois via `document.querySelector('a[href="#main-content"]').click()`
+    → `document.activeElement` retornando o `<main>` corretamente. Codex
+    também revisou (e descartou como legítimos, não como achados) o espaço
+    não separável em `design-hero-section.tsx` e o bloco automático do
+    `next dev` em `AGENTS.md`.
+- Problemas encontrados:
+  - 1 achado P1 real de overflow horizontal (`/contato`), diagnosticado,
+    aprovado pelo usuário, corrigido e validado (inclusive pelo Codex).
+  - 1 achado P1 que se revelou **falso positivo** depois de revisão Codex +
+    investigação adicional (`/dev`) — nenhuma mudança de código mantida.
+    Detalhes completos da investigação em `docs/ui-ux-audit.md`.
+  - 1 limitação de ambiente (ferramenta `resize_window`/janela do navegador
+    instável, `zoom` de screenshot intermitente, e automação de `Tab` via
+    teclado instável nesta sessão) que reduziu a cobertura de screenshots
+    formais em alguns pontos e impediu confirmar o skip-link via `Tab`
+    automatizado — contornado com medição de DOM e `element.focus()`
+    programático como evidência alternativa. Também foi a causa raiz do
+    falso positivo de `/dev` (barra de rolagem clássica do iframe
+    aninhado, diferente de mobile real) — documentada como lição para
+    auditorias futuras.
+- Pendências:
+  - Completar `docs/ui-review/before/{dev,projeto,contato,login}-{768,1280,1920}.png`
+    — usuário decidiu **deixar como está por enquanto** (não bloqueia
+    nada, já que a ausência de overflow nesses pontos já foi confirmada
+    objetivamente contra `innerWidth`).
+  - Nenhuma — os 3 P2 passaram por uma segunda rodada de `/codex:review`
+    depois de implementados; o único achado real (skip-link sem
+    `tabIndex={-1}`) foi corrigido e revalidado.
+  - Confirmar em produção, quando conveniente, que a navegação por `Tab`
+    real (não automatizada) chega no skip-link como esperado — a
+    implementação, a ordem do DOM e o comportamento de foco por fragmento
+    (`document.activeElement` depois do clique) estão confirmados; só a
+    sequência completa de `Tab` física não foi confirmada por automação
+    nesta sessão (ferramenta instável).
+- Riscos:
+  - Baixo. Diff final é pequeno: 2 classes `min-w-0` (`/contato`), 1 texto
+    com espaço não separável (`/design`), 1 skip-link novo + `id`/
+    `tabIndex={-1}` no `<main>` (`site-shell.tsx`), 1 classe de padding
+    (`mode-switcher.tsx`), mais `.gitignore`/documentação. Validado por
+    lint/test/build, inspeção visual/DOM em todos os itens, e 2 rodadas de
+    `/codex:review` (a 2ª já cobrindo o diff final completo, sem achado
+    pendente depois da correção do `tabIndex`). A correção arriscada
+    (`overflow-x: hidden` global) foi revertida antes deste commit —
+    `src/app/globals.css` está idêntico a `origin/main`.
+  - Único efeito colateral no ambiente do usuário foi o logout da sessão
+    admin no Brave conectado (reversível, sem exposição de credencial,
+    usuário já ciente).
+- Revisão pedida ao ChatGPT:
+  - Nenhuma pendência bloqueante — 2 rodadas de revisão Codex concluídas
+    sem achado pendente, commit autorizado pelo usuário.
+  - Revisar os 3 achados P2 registrados e decidir se algum deles merece uma
+    tarefa futura dedicada.
+  - Opinar sobre versionar ou não `docs/ui-review/` no Git.
 
 ## Último Handoff — TASK-015 (última tarefa do backlog inicial)
 

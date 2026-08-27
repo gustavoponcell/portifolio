@@ -1,6 +1,30 @@
 # Backlog Inicial Priorizado
 
-Atualizado em: 2026-08-26.
+Atualizado em: 2026-08-27.
+
+## Pós-Backlog Inicial
+
+### TASK-016 — Revisão e melhoria de UI/UX do frontend público
+
+- Status: em andamento — diagnóstico completo, revisão Codex feita, pronta
+  para revisão final/commit. 1 achado P1 real corrigido e validado
+  (`/contato`); 1 achado P1 revertido depois de se confirmar falso
+  positivo do ambiente de teste (`/dev`). 3 achados P2 registrados, não
+  implementados (fora do lote aprovado pelo usuário).
+- Especificação: `docs/tasks/task-016-frontend-ui-ux-review.md`.
+- Resultado: primeira revisão de UI/UX com evidência visual real
+  (screenshots em navegador via Claude in Chrome) e medição objetiva de
+  overflow via DOM nas 6 rotas públicas em escopo, nos breakpoints 360,
+  390, 768, 1280 e 1920 (cobertura visual completa em `/` e `/design`;
+  cobertura parcial + medição objetiva nas demais, por limitação de
+  ambiente documentada em `docs/handoff.md`). Corrigido 1 bug real de
+  overflow horizontal em `/contato` (até 105px em 360/390px, causa raiz em
+  grid sem `min-w-0`). O suposto bug em `/dev` (4px) se revelou um falso
+  positivo causado pela barra de rolagem clássica do iframe de teste
+  (Chrome desktop) reduzindo a largura medida, diferente de navegadores
+  mobile reais (barra sobreposta) — apontado pela revisão Codex e
+  confirmado por investigação adicional; nenhuma mudança de código mantida
+  para esse item. Detalhes completos em `docs/ui-ux-audit.md`.
 
 ## P0 — Bloqueia Produção
 

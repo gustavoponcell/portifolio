@@ -19,7 +19,7 @@ export function ContactLinksSection({ links }: ContactLinksSectionProps) {
       </div>
 
       {links.length > 0 ? (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid min-w-0 gap-5 md:grid-cols-2 xl:grid-cols-3">
           {links.map((link, index) => (
             <ContactLinkCard
               key={`${link.kind}-${link.href}-${index}`}

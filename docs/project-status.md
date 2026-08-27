@@ -1,8 +1,21 @@
 # Status do Projeto
 
-Atualizado em: 2026-08-26.
+Atualizado em: 2026-08-27.
 
 ## Resumo Executivo
+
+**TASK-016 (revisão de UI/UX do frontend público) em andamento**, depois do
+fechamento do backlog inicial. Diagnóstico completo com screenshots reais em
+navegador (Claude in Chrome) nas 6 rotas públicas × 5 breakpoints (cobertura
+visual completa em `/` e `/design`; parcial + medição objetiva de overflow
+via DOM nas demais). 1 achado P1 de overflow horizontal real corrigido
+(`/contato`); 1 achado P1 inicial (`/dev`) foi revertido depois que o
+`/codex:review` apontou risco de quebrar o header `sticky` e investigação
+adicional confirmou que era um falso positivo do ambiente de teste (barra de
+rolagem clássica do iframe de diagnóstico, não um bug do site). 3 achados P2
+registrados como pendência opcional, não implementados. Pronta para revisão
+final/commit. Detalhes completos em `docs/ui-ux-audit.md` e
+`docs/handoff.md`.
 
 **O backlog inicial (TASK-001 a TASK-015) está concluído.** O portfólio
 está publicado em produção na Vercel (`https://poncell-portifolio.vercel.app`,

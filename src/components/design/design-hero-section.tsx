@@ -10,7 +10,7 @@ export function DesignHeroSection() {
 
         <div className="space-y-5">
           <h1 className="max-w-5xl text-balance text-5xl font-black leading-none tracking-tight sm:text-7xl">
-            Eu uso design para dar forma visual a ideias, marcas e experiências digitais.
+            Eu uso design para dar forma visual a ideias, marcas e experiências digitais.
           </h1>
           <p className="max-w-3xl text-lg font-medium leading-8 sm:text-xl">
             Nesta parte do portfólio, reúno projetos e estudos que mostram meu
