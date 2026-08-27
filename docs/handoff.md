@@ -2,6 +2,83 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-009
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `docs/decisions.md` (DEC-006 adicionada).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-009-decide-mock-status.md`.
+  - Mapeei todo uso de `mock` no escopo pedido:
+    - `src/types/project.ts`, `src/types/admin.ts`, `src/types/github.ts`:
+      `"mock"` é um membro dos unions de status.
+    - `supabase/schema.sql`: `projects_status_check` e
+      `github_repository_custom_status_check` permitem `'mock'`.
+    - `design-project-form.tsx`/`dev-curation-form.tsx`: `<option
+      value="mock">Mock</option>` nos selects admin.
+    - `project-status-badge.tsx`: label "Mock" e cor de badge (amarelo).
+  - Confirmei em `src/lib/design-projects.ts` e
+    `src/lib/dev-repositories.ts` que as únicas fontes de dados públicas
+    filtram exclusivamente `status`/`custom_status = 'published'` — um
+    valor `mock` não pode alcançar o público hoje, por construção da
+    query, não por convenção.
+  - Decisão registrada em `docs/decisions.md` (DEC-006): **manter** `mock`
+    no schema/tipos/UI admin por enquanto, sem remover ou migrar nesta
+    tarefa. Motivo: risco público já é zero (estrutural), e remover
+    exigiria migração real em Supabase de produção (checar linhas
+    existentes com `status/custom_status = 'mock'` antes de estreitar a
+    constraint) — esta sessão não tem acesso ao banco de produção para
+    fazer essa verificação com segurança, e a tarefa proíbe migração
+    destrutiva sem necessidade clara.
+  - Incluí em DEC-006 um plano de migração SQL completo (checagem
+    read-only → reatribuição para `draft` → `ALTER TABLE`/`DROP
+    CONSTRAINT`/`ADD CONSTRAINT`), **não executado**, para uma tarefa
+    futura que decida remover `mock` de fato.
+  - Não alterei nenhum tipo, componente, Server Action ou schema — a
+    decisão foi manter o estado atual.
+  - **Correção de um problema apontado pela revisão Codex**: minha
+    primeira versão do DEC-006 dizia que o default da coluna continuava
+    `'draft'` para as duas tabelas; na verdade, `projects.status` tem
+    default `'draft'`, mas `github_repository_curations.custom_status`
+    tem default `'published'` (confirmado em `supabase/schema.sql:143`).
+    Corrigido o texto para não confundir uma limpeza/migração futura.
+- Decisões técnicas:
+  - Não toquei em `src/lib/data-source.ts` (sinalizado como código morto
+    na TASK-008) — está fora do escopo desta tarefa também, já que essa
+    decisão é sobre o status `mock`, não sobre arquivos de referência
+    locais não utilizados.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `/codex:review --background` (2 rodadas: a primeira encontrou 1
+    problema P3, corrigido; a segunda não encontrou problemas).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 18 rotas geradas (mudança
+    é só documentação, sem impacto em código).
+  - Codex review (1ª rodada): achado P3 sobre o default incorreto de
+    `custom_status`. Corrigido.
+  - Codex review (2ª rodada): nenhum problema encontrado.
+- Problemas encontrados:
+  - Nenhum problema de segurança ou exposição pública relacionado a
+    `mock`. 1 imprecisão factual cometida por mim mesmo no primeiro
+    rascunho da decisão, corrigida na mesma sessão.
+- Pendências:
+  - Se uma tarefa futura decidir remover `mock` de fato, seguir o plano
+    SQL registrado em DEC-006 (`docs/decisions.md`), incluindo a checagem
+    read-only obrigatória antes de qualquer `UPDATE`/`ALTER TABLE` em
+    produção.
+- Riscos:
+  - Baixo. Nenhuma mudança de código/schema foi feita; a decisão foi
+    documental, com um plano de migração explícito para o futuro caso
+    necessário.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se a decisão de manter `mock` por enquanto (em vez de
+    remover agora) é aceitável, ou se preferem priorizar a remoção numa
+    tarefa dedicada com acesso ao Supabase de produção.
+
 ## Último Handoff — TASK-008
 
 - Status: pronto para revisão.

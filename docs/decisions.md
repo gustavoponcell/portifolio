@@ -47,3 +47,88 @@ Decisão: o site público deve exibir dados reais ou estados vazios profissionai
 
 Motivo: o portfólio final precisa ser confiável e não pode apresentar projetos,
 experiências, números ou links fictícios.
+
+## DEC-006 — Manter o status `mock` no schema/tipos por enquanto (TASK-009)
+
+Data: 2026-08-26.
+
+Mapeamento do uso atual:
+
+- `src/types/project.ts`: `ProjectStatus = "mock" | "draft" | "published" | "archived"`.
+- `src/types/admin.ts`: `AdminProjectStatus` (mesmo union) e o union de status de
+  curadoria Dev, ambos incluindo `"mock"`.
+- `src/types/github.ts`: union de status da curadoria GitHub inclui `"mock"`.
+- `supabase/schema.sql`: `projects_status_check` e
+  `github_repository_custom_status_check` permitem `'mock'` como valor válido
+  de `status`/`custom_status`. Os defaults das colunas são diferentes entre
+  si e não mudam com esta decisão: `projects.status` tem default `'draft'`;
+  `github_repository_curations.custom_status` tem default `'published'`.
+- UI admin: `<option value="mock">Mock</option>` em
+  `design-project-form.tsx` e `dev-curation-form.tsx`; label "Mock" e cor de
+  badge (amarelo/design) em `project-status-badge.tsx`.
+- Confirmado por leitura de `src/lib/design-projects.ts` e
+  `src/lib/dev-repositories.ts`: as duas únicas funções que alimentam o site
+  público filtram exclusivamente `status = 'published'` /
+  `custom_status = 'published'`. Um projeto ou curadoria com status `mock`
+  **não pode** aparecer no público hoje — o filtro é por igualdade exata, não
+  por exclusão de `mock`, então a proteção já existe estruturalmente na
+  camada de leitura pública, independente de o valor `mock` existir no enum.
+
+Decisão: **manter** `mock` no schema, nos tipos e na UI admin por enquanto.
+Não remover, migrar ou renomear nesta tarefa.
+
+Motivo:
+
+- Risco atual é zero: o valor nunca alcança o público, por construção da
+  query (`= 'published'`), não por convenção.
+- Remover o valor do enum exigiria uma migração real em Supabase de
+  produção (`ALTER TABLE ... DROP CONSTRAINT` + `ADD CONSTRAINT`), incluindo
+  primeiro verificar se alguma linha real já usa `status/custom_status =
+  'mock'` e decidir para onde migrá-la (`draft` é o equivalente mais
+  próximo). Esta sessão não tem acesso ao banco de produção para fazer essa
+  verificação com segurança, e a tarefa explicitamente proíbe migração
+  destrutiva sem necessidade clara.
+- `mock` continua útil como rótulo interno de teste/QA no admin (permite a
+  quem administra marcar um item como "não é rascunho real nem publicado,
+  é só teste"), sem risco de vazamento.
+
+Plano de migração (não executado, para uma tarefa futura que decida
+remover `mock`):
+
+```sql
+-- 1) Somente leitura: checar se existe alguma linha real com status mock
+select id, slug, status from public.projects where status = 'mock';
+select id, repository_name, custom_status
+  from public.github_repository_curations
+  where custom_status = 'mock';
+
+-- 2) Se houver linhas, reatribuir para o equivalente mais próximo (draft)
+--    ANTES de estreitar a constraint. Rodar somente depois de revisar o
+--    resultado do passo 1 manualmente.
+update public.projects set status = 'draft' where status = 'mock';
+update public.github_repository_curations
+  set custom_status = 'draft' where custom_status = 'mock';
+
+-- 3) Estreitar as constraints (Postgres não tem "alter check", precisa
+--    dropar e recriar)
+alter table public.projects
+  drop constraint projects_status_check;
+alter table public.projects
+  add constraint projects_status_check
+  check (status in ('draft', 'published', 'archived'));
+
+alter table public.github_repository_curations
+  drop constraint github_repository_custom_status_check;
+alter table public.github_repository_curations
+  add constraint github_repository_custom_status_check
+  check (custom_status in ('draft', 'published', 'archived'));
+```
+
+Depois de rodar o SQL acima em produção, os três `union types` em
+`src/types/project.ts`, `src/types/admin.ts` e `src/types/github.ts`
+perderiam `"mock"`, e as opções `<option value="mock">` e a entrada `mock`
+em `project-status-badge.tsx` seriam removidas do código.
+
+Revisão futura: reabrir esta decisão se o valor `mock` começar a ser usado
+de forma real em produção, ou se a limpeza de código/schema for priorizada
+por outra razão.

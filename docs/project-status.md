@@ -20,9 +20,11 @@ apenas de dados do Supabase, sem URLs fictícias no código, e TASK-008
 marcou claramente como histórico o changelog legado (README, architecture,
 requirements, roadmap, performance-checklist, supabase/README,
 prompts-log) que ainda mencionava mock como fonte pública atual, sem
-apagar nenhum conteúdo. O próximo bloco de trabalho deve focar em decidir
-o destino do status `mock` (TASK-009) e nas tarefas de manutenção
-restantes (P2/P3).
+apagar nenhum conteúdo, e TASK-009 decidiu manter o status `mock` no
+schema/tipos/admin por enquanto (DEC-006 em `docs/decisions.md`), já que
+o risco público é zero e a remoção exigiria acesso ao Supabase de
+produção. O próximo bloco de trabalho deve focar em testes mínimos
+(TASK-010) e nas tarefas de manutenção restantes (P2/P3).
 
 ## Stack Verificada
 
@@ -130,6 +132,8 @@ nenhuma página.
 
 ### Mocks Internos
 
+Decidido em TASK-009 (DEC-006 em `docs/decisions.md`).
+
 Existem tipos e status `mock` em:
 
 - `src/types/project.ts`;
@@ -140,6 +144,13 @@ Existem tipos e status `mock` em:
 
 Isso pode ser legítimo no admin/histórico, mas deve ser auditado antes do deploy
 para garantir que nada público depende disso.
+
+Resultado atual: auditado. `getPublicDesignProjects`/`getPublicDevRepositories`
+filtram exclusivamente `status`/`custom_status = 'published'`, então `mock`
+nunca alcança o público, por construção da query. Decisão: manter `mock`
+por enquanto (não remover/migrar); plano de migração SQL completo fica
+registrado em DEC-006 para uma tarefa futura, caso decidam removê-lo — exige
+acesso ao Supabase de produção que esta sessão não tem.
 
 ### Testes Automatizados
 

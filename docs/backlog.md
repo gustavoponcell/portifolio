@@ -110,15 +110,20 @@ Atualizado em: 2026-08-26.
 
 ### TASK-009 — Decidir destino do status `mock`
 
-- Status: próxima tarefa recomendada.
+- Status: concluída e aprovada por revisão Codex objetiva (2 rodadas).
 - Especificação: `docs/tasks/task-009-decide-mock-status.md`.
 
 - Avaliar se `mock` ainda precisa existir no schema/admin.
 - Se não precisar, planejar migração segura.
+- Resultado: decisão registrada em `docs/decisions.md` (DEC-006) —
+  **manter** `mock` por enquanto. Risco público é zero (queries públicas
+  filtram exclusivamente `= 'published'`). Plano de migração SQL completo
+  registrado para remoção futura, se decidido, mas não executado (exige
+  acesso ao Supabase de produção que esta sessão não tem).
 
 ### TASK-010 — Criar testes mínimos
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-010-minimal-tests.md`.
 
 - Avaliar Playwright para rotas públicas e login/admin básico.
