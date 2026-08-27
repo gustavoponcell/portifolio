@@ -2,6 +2,78 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-012 (loop pausado)
+
+- Status: **bloqueado** — parte documental concluída; parte que depende
+  do domínio final não pode avançar sem resposta do usuário.
+- Arquivos alterados:
+  - `docs/domain-search-console-checklist.md` (novo).
+  - `docs/handoff.md` (este registro).
+  - `docs/backlog.md`/`docs/project-status.md` **não** atualizados como
+    "concluída" — a tarefa não terminou, só a parte não bloqueada.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-012-domain-search-console.md`.
+  - O primeiro item do escopo é literalmente "Verificar domínio desejado
+    com o usuário" — isso bate com uma das condições explícitas de parada
+    do loop contínuo ("uma tarefa exigir... decisão de produto do
+    usuário"). Não tenho essa informação e a tarefa proíbe inventar
+    domínio final.
+  - Fiz a parte que **não** depende do domínio: criei
+    `docs/domain-search-console-checklist.md` com um guia reutilizável e
+    genérico (não fica preso a um domínio específico):
+    - Passos para adicionar domínio em Vercel → Settings → Domains.
+    - Padrão geral de DNS esperado (`A`/`ALIAS` para o domínio raiz,
+      `CNAME` para `www`), deixando claro que os valores exatos só a
+      Vercel mostra depois que o domínio real for adicionado.
+    - Passo de atualizar `NEXT_PUBLIC_SITE_URL` em Production, mas
+      explicitamente marcado como "só depois de confirmação do usuário",
+      não executado.
+    - Passos de Google Search Console: criar propriedade, verificar,
+      submeter `sitemap.xml`, confirmar que `/admin`/`/login`/`/api/*`
+      não aparecem indexados (já garantido por `robots.txt`/`noindex`
+      desde TASK-006/007).
+    - Checklist resumido em formato de caixas de seleção.
+  - Não alterei `NEXT_PUBLIC_SITE_URL`, DNS, domínio de produção, nem
+    comprei nada — todas restrições da tarefa respeitadas.
+  - Não atualizei `docs/backlog.md`/`docs/project-status.md` marcando
+    TASK-012 como concluída, porque não está — só a parte documental
+    genérica.
+- Decisões técnicas:
+  - Optei por criar um arquivo novo (`docs/domain-search-console-checklist.md`)
+    em vez de só escrever no handoff, porque é um checklist operacional
+    reutilizável (vai ser consultado de novo quando o domínio for
+    decidido), diferente de um registro de decisão pontual.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run build` (mudança é só documentação;
+    ambos já passavam e continuam passando).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso, sem mudança de rotas.
+- Problemas encontrados:
+  - Nenhum problema de código. O bloqueio é a falta de decisão do usuário
+    sobre o domínio final.
+- Pendências (para o usuário/ChatGPT decidirem, não para um agente):
+  - Qual é o domínio final desejado (ou manter
+    `poncell-portifolio.vercel.app`)?
+  - O domínio já foi comprado, ou ainda precisa ser?
+  - Depois dessa resposta, retomar TASK-012 para: adicionar o domínio na
+    Vercel, configurar DNS, atualizar `NEXT_PUBLIC_SITE_URL`, redeploy, e
+    configurar o Google Search Console.
+- Riscos:
+  - Nenhum risco técnico. Risco de produto: sem domínio final decidido,
+    TASK-013 (analytics) e qualquer comunicação pública do domínio ficam
+    também em espera.
+- Revisão pedida ao ChatGPT:
+  - Perguntar ao usuário qual domínio final usar (ou confirmar que o
+    domínio da Vercel atual é definitivo).
+  - Se o usuário responder, reabrir TASK-012 com essa informação.
+
+**Loop pausado aqui.** Meu papel neste momento (a pedido do usuário) é
+também o de revisor objetivo no lugar do Codex; como implementador, não
+posso decidir por conta própria qual domínio usar, então parei em vez de
+inventar um valor ou pular para TASK-013 sem resolver esta pendência.
+
 ## Último Handoff — TASK-011
 
 - Status: pronto para revisão (revisado por Claude, Codex indisponível).
