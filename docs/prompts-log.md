@@ -1,5 +1,13 @@
 # Registro de Prompts
 
+> **Aviso — log histórico.** Este arquivo é um registro cronológico reverso
+> (mais recente primeiro) de todos os prompts que construíram o projeto,
+> incluindo fases muito antigas em que os dados públicos eram
+> intencionalmente mockados (Prompts 6 a 9). Nenhuma linha aqui é instrução
+> ativa — é apenas histórico de como o projeto chegou ao estado atual, que
+> usa dados reais de Supabase/GitHub. Para o estado e regras atuais, use
+> `docs/project-status.md`, `docs/backlog.md` e `AGENTS.md`.
+
 ## Prompt 16.10 — Revisão final e push para GitHub
 
 - Data: 19/07/2026.

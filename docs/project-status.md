@@ -16,8 +16,13 @@ revisou SEO/compartilhamento e corrigiu a imagem OG (antes um placeholder
 `/window.svg`, agora gerada sob demanda em `/og` via `next/og`), e TASK-007
 corrigiu um link âncora interno quebrado (`#projetos-dev`) e confirmou que
 os links de contato reais (GitHub/LinkedIn/WhatsApp/Behance) dependem
-apenas de dados do Supabase, sem URLs fictícias no código. O próximo bloco
-de trabalho deve focar em limpeza de documentação legada.
+apenas de dados do Supabase, sem URLs fictícias no código, e TASK-008
+marcou claramente como histórico o changelog legado (README, architecture,
+requirements, roadmap, performance-checklist, supabase/README,
+prompts-log) que ainda mencionava mock como fonte pública atual, sem
+apagar nenhum conteúdo. O próximo bloco de trabalho deve focar em decidir
+o destino do status `mock` (TASK-009) e nas tarefas de manutenção
+restantes (P2/P3).
 
 ## Stack Verificada
 
@@ -107,10 +112,21 @@ transitivas.
 
 ### Documentação Legada
 
+Resolvido em TASK-008.
+
 Trechos em README, `docs/architecture.md`, `docs/requirements.md`,
-`docs/roadmap.md`, `docs/performance-checklist.md` e `supabase/README.md`
-ainda mencionam fases antigas com mock/fallback/placeholder. Parte é histórico,
-mas parte pode confundir agentes.
+`docs/roadmap.md`, `docs/performance-checklist.md`, `supabase/README.md` e
+`docs/prompts-log.md` ainda mencionam fases antigas com
+mock/fallback/placeholder. Parte é histórico, mas parte pode confundir
+agentes.
+
+Resultado atual: cada um desses arquivos agora tem um aviso no topo
+deixando explícito o que é changelog histórico (seções "Atualização Prompt
+N") versus instrução ativa, e as frases mais enganosas ganharam uma nota
+inline apontando que foram superadas por TASK-001/003/006. Nenhum conteúdo
+histórico foi apagado. Achado colateral (não corrigido, fora de escopo de
+código): `src/lib/data-source.ts` é código morto, não importado por
+nenhuma página.
 
 ### Mocks Internos
 

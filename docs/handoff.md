@@ -2,6 +2,110 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-008
+
+- Status: pronto para revisão.
+- Arquivos alterados:
+  - `README.md`
+  - `docs/architecture.md`
+  - `docs/requirements.md`
+  - `docs/roadmap.md`
+  - `docs/performance-checklist.md`
+  - `supabase/README.md`
+  - `docs/prompts-log.md` (fora da lista original da tarefa, mas
+    qualifica como "outro documento que confunda estado atual com
+    histórico antigo").
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-008-clean-legacy-mock-docs.md`.
+  - Li os 6 documentos do escopo por completo. Todos seguem o mesmo
+    padrão: changelog "Atualização Prompt N" em ordem cronológica
+    reversa (mais recente primeiro), com seções antigas contendo
+    afirmações como "a exibição pública continua usando mocks" que
+    **já foram superadas** por TASK-001–007, mas nada no texto avisava
+    disso a um agente lendo fora de ordem.
+  - Também chequei `docs/decisions.md` e `docs/design-system.md`
+    (mencionados como candidatos a "outros documentos"): ambos já
+    afirmam a regra atual corretamente (`DEC-005` e a nota de
+    "textos públicos não devem expor mock/fallback/placeholder"), sem
+    necessidade de alteração.
+  - Correção aplicada (sem apagar nenhum conteúdo histórico):
+    - Adicionei um aviso curto no topo de cada um dos 6 arquivos do
+      escopo + `docs/prompts-log.md`, explicando que as seções
+      "Atualização Prompt N"/"Prompt N" são changelog histórico, não
+      instrução ativa, e apontando para `docs/project-status.md`/
+      `docs/backlog.md`/`docs/handoff.md` como fonte do estado atual.
+    - Adicionei notas inline curtas ("histórico, superado: ...") logo
+      depois das frases mais enganosas que afirmavam mock como fonte
+      pública atual (README, architecture.md, requirements.md), sem
+      remover a frase original.
+    - Em `docs/performance-checklist.md`, anotei que a pendência de
+      "imagem Open Graph final" já foi resolvida na TASK-006.
+    - No README, corrigi também a linha `/login: placeholder do futuro
+      login` (login é real desde a Fase 11) e a seção
+      "Objetivo/Stack planejada/Status atual" (snapshot da Fase 1, que
+      chamava Supabase/Vercel/GitHub API de "etapa futura").
+  - **Correção de um problema apontado pela revisão Codex**: minha
+    primeira versão do aviso no README dizia "tudo abaixo desta linha é
+    histórico", mas isso incluía seções ainda válidas e ativas (Como
+    instalar, Como rodar em dev/lint/build, Integração GitHub, Projetos
+    individuais, Estrutura de rotas, Desenvolvimento com Codex,
+    Repositório) intercaladas com o changelog. Reescrevi o aviso para
+    citar especificamente que só as seções "Revisão final antes do
+    deploy" e "Atualização Prompt N" são histórico, e que as demais
+    seções continuam válidas — corrigindo a violação da restrição "não
+    apagar/invalidar instruções ainda válidas".
+  - Não toquei em `docs/automation.md` (loop PowerShell separado, sem
+    menção a mock, fora do escopo desta tarefa — é mais um tema de
+    TASK-015).
+  - Não apaguei nenhuma linha histórica; toda correção foi aditiva
+    (avisos + notas inline).
+  - Não alterei nenhum arquivo de código.
+- Decisões técnicas:
+  - Optei por avisos/notas inline em vez de reescrever ou apagar as
+    seções antigas, conforme a restrição explícita "não apagar histórico
+    útil sem substituição clara".
+  - Não removi `src/lib/data-source.ts` (código morto, não importado por
+    nada) porque a tarefa proíbe alterar código; deixei anotado nos docs
+    e sinalizo como candidato de limpeza para TASK-009 (destino do status
+    `mock`) ou uma tarefa de code cleanup futura.
+- Testes executados:
+  - `npm.cmd run lint`
+  - `npm.cmd run build`
+  - `/codex:review --background` (2 rodadas: a primeira encontrou 1
+    problema P2, corrigido; a segunda não encontrou problemas).
+- Resultado dos testes:
+  - Lint: sem erros/avisos.
+  - Build: sucesso (Next.js 16.3.3, Turbopack), 18 rotas geradas (mudança
+    é só documentação, sem impacto em rotas).
+  - Codex review (1ª rodada): 1 achado P2 — aviso do README rotulava
+    seções ativas como histórico. Corrigido.
+  - Codex review (2ª rodada): nenhum problema encontrado.
+- Problemas encontrados:
+  - Diversas afirmações desatualizadas sobre "mock" como fonte pública
+    atual, espalhadas em 6+ documentos. Todas anotadas como históricas.
+  - 1 erro cometido por mim mesmo (aviso do README overreaching) e
+    corrigido na mesma sessão após revisão Codex.
+- Pendências:
+  - `src/lib/data-source.ts` é código morto (não importado); não removido
+    por estar fora do escopo desta tarefa (não alterar código). Sinalizar
+    para TASK-009 ou uma tarefa de limpeza de código.
+  - `docs/automation.md` descreve um loop PowerShell separado do loop
+    `/codex:review` usado neste protocolo; não fica claro qual é a fonte
+    de verdade para automação — possível tema para TASK-015, não tratado
+    aqui.
+- Riscos:
+  - Baixo. Mudança 100% documental e aditiva; nenhuma linha histórica foi
+    removida; corrigida por revisão Codex antes de finalizar.
+- Revisão pedida ao ChatGPT:
+  - Confirmar se o nível de detalhe dos avisos/notas é suficiente ou se
+    preferem uma reescrita mais agressiva de algum desses documentos.
+  - Decidir se `src/lib/data-source.ts` deve ser removido em uma tarefa
+    futura (TASK-009 ou nova tarefa de cleanup).
+  - Decidir se `docs/automation.md` deve ser arquivado/atualizado para
+    não conflitar com `docs/claude-codex-continuous-loop.md`.
+
 ## Último Handoff — TASK-007
 
 - Status: pronto para revisão.

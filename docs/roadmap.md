@@ -1,5 +1,12 @@
 # Roadmap
 
+> **Aviso — documento histórico.** Este arquivo registra o roadmap original
+> em fases (definido antes da criação do projeto Next.js) e o changelog de
+> cada fase concluída, da mais recente para a mais antiga. Todas as 16 fases
+> listadas em "Fase 1" a "Fase 16" já foram concluídas — incluindo TASK-001 a
+> TASK-007, que vieram depois e não estão registradas aqui. Para o estado e
+> backlog atuais, use `docs/project-status.md` e `docs/backlog.md`.
+
 ## Atualização Prompt 16.10
 
 - Revisão final de segurança, conteúdo público, fontes de projetos e arquivos versionáveis concluída.

@@ -95,15 +95,22 @@ Atualizado em: 2026-08-26.
 
 ### TASK-008 — Limpar documentação legada de mocks
 
-- Status: próxima tarefa recomendada.
+- Status: concluída e aprovada por revisão Codex objetiva (2 rodadas).
 - Especificação: `docs/tasks/task-008-clean-legacy-mock-docs.md`.
 
 - Diferenciar histórico de instrução atual.
 - Evitar que agentes futuros sigam trechos obsoletos.
+- Resultado: adicionados avisos de "documento histórico" no topo de
+  `README.md`, `docs/architecture.md`, `docs/requirements.md`,
+  `docs/roadmap.md`, `docs/performance-checklist.md`,
+  `supabase/README.md` e `docs/prompts-log.md`, mais notas inline nas
+  frases que afirmavam mock como fonte pública atual. Nenhum conteúdo
+  histórico foi removido. Pendência identificada (fora de escopo, código):
+  `src/lib/data-source.ts` é código morto não importado por nada.
 
 ### TASK-009 — Decidir destino do status `mock`
 
-- Status: pendente.
+- Status: próxima tarefa recomendada.
 - Especificação: `docs/tasks/task-009-decide-mock-status.md`.
 
 - Avaliar se `mock` ainda precisa existir no schema/admin.

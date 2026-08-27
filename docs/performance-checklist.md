@@ -1,5 +1,12 @@
 # Checklist de SEO, performance e acessibilidade
 
+> **Aviso — documento histórico.** Este checklist registra validações e
+> pendências identificadas nas fases 16 a 16.10, antes do deploy inicial.
+> Várias pendências listadas aqui já foram resolvidas por tarefas
+> posteriores: deploy Vercel (TASK-002), imagem Open Graph final (TASK-006,
+> rota `/og`) e revisão de acessibilidade (TASK-005). Para o estado atual,
+> use `docs/project-status.md` e `docs/backlog.md`.
+
 ## Prompt 16.10
 
 Validações automatizadas concluídas:
@@ -79,6 +86,8 @@ Status atual:
 - Confirmar que `sitemap.xml` nao lista `/admin`, `/login` ou `/api`.
 - Confirmar que `robots.txt` bloqueia rotas privadas.
 - Conferir se a imagem Open Graph final deve substituir o placeholder atual.
+  (Resolvido na TASK-006: imagem gerada em `/og`, substituindo o
+  `/window.svg` placeholder.)
 
 ## Fora desta etapa
 

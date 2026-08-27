@@ -17,6 +17,21 @@ O desenvolvimento passa a usar um protocolo versionado no próprio repositório:
 Para continuar o projeto, comece lendo `docs/handoff.md` e a próxima tarefa em
 `docs/backlog.md`.
 
+> **Aviso — changelog histórico misturado com instruções ativas.** As seções
+> tituladas **"Revisão final antes do deploy"** e **"Atualização Prompt N"**
+> abaixo são changelog histórico das fases 10 a 16.10 do projeto, preservado
+> como registro, **não** como instrução ativa — qualquer menção a "mocks",
+> "placeholder" ou "etapa futura" nelas reflete o estado da época em que
+> foram escritas, não o estado atual. Dados públicos hoje vêm de Supabase e
+> GitHub reais (ver TASK-001 a TASK-003 em `docs/handoff.md`); não há mocks
+> alimentando o site público. Já as seções sem prefixo "Atualização"/"Prompt"
+> — **Como instalar**, **Como rodar em desenvolvimento/lint/build**,
+> **Integração GitHub**, **Projetos individuais**, **Estrutura básica de
+> rotas**, **Desenvolvimento com Codex** e **Repositório** — continuam
+> válidas como instrução ativa (com a correção inline já feita na entrada de
+> `/login`). Para o estado atual do projeto, use sempre
+> `docs/project-status.md`, `docs/backlog.md` e `docs/handoff.md`.
+
 ## Revisão final antes do deploy
 
 O Prompt 16.10 concluiu a revisão técnica local e a preparação do repositório:
@@ -185,6 +200,9 @@ Funcionalidades:
 
 O CRUD usa Server Components, Server Actions e client admin do Supabase apenas no servidor, sempre depois de validar o administrador. A exibicao publica continua usando mocks nesta etapa; upload real, Storage, CRUD Dev, curadoria GitHub real e leitura publica Supabase ficam para prompts futuros.
 
+> Nota (histórica, superada): desde a Fase 16.9 a exibição pública lê
+> projetos reais publicados no Supabase, não mocks.
+
 Para testar localmente contra Supabase real, configure `.env.local` com Supabase publico, `ADMIN_EMAIL` e `SUPABASE_SECRET_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`, entre em `/login` e acesse `/admin/projetos/design`.
 
 ## Atualizacao Prompt 12: CRUD inicial do admin
@@ -207,6 +225,9 @@ SUPABASE_SERVICE_ROLE_KEY=
 ```
 
 O build continua funcionando sem `.env.local`, mas as operacoes de CRUD exigem Supabase publico, usuario admin autenticado e chave admin server-side. Avatar e certificado sao apenas URLs textuais nesta etapa; upload real ainda nao existe.
+
+> Nota (histórica, superada): upload real de imagens existe desde a Fase 15
+> (Supabase Storage), documentado em `supabase/README.md`.
 
 ## Atualizacao Prompt 11: Login e Admin
 
@@ -242,7 +263,7 @@ A fundacao Supabase foi preparada com `@supabase/supabase-js` e `@supabase/ssr`,
 Arquivos principais:
 
 - `src/lib/supabase/`: helpers de env, client browser, client server, client admin server-only e proxy de sessao.
-- `src/lib/data-source.ts`: ponto atual de origem dos dados publicos, mantendo fallback por mocks.
+- `src/lib/data-source.ts`: ponto atual de origem dos dados publicos, mantendo fallback por mocks (histórico: hoje os dados públicos reais vêm de `src/lib/design-projects.ts`/`src/lib/dev-repositories.ts`; este arquivo não é mais importado por nenhuma página).
 - `src/app/api/supabase/health/route.ts`: diagnostico seguro sem retornar URL, keys ou tokens.
 - `supabase/schema.sql`: tabelas, constraints, indices, triggers e RLS planejado.
 - `supabase/seed.sql`: seeds temporarios sem dados pessoais reais.
@@ -285,6 +306,14 @@ Criar uma presença digital profissional, visualmente marcante e fácil de atual
 Base Next.js criada, design system inicial configurado, layout global implementado, Home completa estruturada, modos Design/Dev criados, integração GitHub server-side configurada e páginas individuais de projetos Design publicados implementadas.
 
 O projeto já possui App Router, TypeScript, Tailwind CSS 4, ESLint, shadcn/ui, estrutura com `src/`, componentes visuais neobrutalistas, Header, Footer, navegação entre modos, Home completa, página Design com projetos publicados no Supabase, página Dev com repositórios reais e curadoria, processo técnico e detalhes de projeto em `/projetos/[slug]`.
+
+> Nota (histórica, superada): "Objetivo", "Stack planejada" e "Status atual"
+> acima são o snapshot original da Fase 1 (antes do `next init`). O rótulo
+> "em etapa futura" para Supabase/Vercel/GitHub API não é mais verdade — as
+> três integrações estão implementadas e em produção. Auth, admin, upload,
+> SEO, deploy (TASK-002) e auditoria de segurança (TASK-001/003) também já
+> existem, mas não estão listados aqui por serem posteriores a este
+> snapshot. Estado real e atual: `docs/project-status.md`.
 
 ## Como instalar
 
@@ -349,9 +378,12 @@ Cada projeto pode exibir resumo, problema, solução, ferramentas, tags, destaqu
 - `/dev`: modo Dev.
 - `/projetos/[slug]`: página individual de projeto gerada a partir da seleção atual.
 - `/admin`: área restrita protegida.
-- `/login`: placeholder do futuro login com Supabase Auth.
+- `/login`: placeholder do futuro login com Supabase Auth (histórico,
+  superado: login com Supabase Auth é real e funcional desde a Fase 11).
+- `/contato`, `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest` e `/og`
+  também existem (adicionados em fases posteriores a este snapshot).
 
-## Roadmap resumido
+## Roadmap resumido (histórico — plano original da Fase 1, concluído)
 
 1. Documentação e estruturação.
 2. Criação do projeto Next.js.

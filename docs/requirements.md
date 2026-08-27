@@ -1,5 +1,13 @@
 # Requisitos do Projeto
 
+> **Aviso — documento histórico.** Este arquivo registra requisitos
+> adicionados ao longo das fases 10 a 16.9, da mais recente para a mais
+> antiga. A seção logo abaixo (Prompt 16.9) já é o requisito **atual e
+> vigente**: dados públicos reais, sem mocks. Seções mais abaixo (Prompt 10 a
+> 13) descrevem requisitos de fases anteriores, já superados nesse ponto —
+> preservadas como histórico, não como regra ativa. Para o estado atual do
+> projeto, use `docs/project-status.md`.
+
 ## Atualização Prompt 16.9: projetos públicos reais
 
 - Home, Design, Dev, páginas individuais, metadata e sitemap não podem usar
@@ -105,6 +113,7 @@ Requisitos adicionados:
 - Todas as escritas devem validar admin antes de chamar Supabase.
 - O client admin do Supabase deve continuar server-only e fora de Client Components.
 - Publico continua lendo mocks ate a etapa propria de publicacao Supabase.
+  (Histórico, superado: veja Prompt 16.9 no topo do arquivo.)
 - CRUD Dev, upload, Behance real, curadoria GitHub e contato publico seguem fora desta etapa.
 
 ## Atualizacao Prompt 12: CRUD inicial do admin

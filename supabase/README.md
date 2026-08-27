@@ -1,5 +1,14 @@
 # Supabase
 
+> **Aviso — seções históricas abaixo.** Este arquivo mistura instruções
+> ainda válidas (criar projeto, aplicar schema, configurar `.env.local`,
+> bucket `portfolio-media`) com registros de fases já concluídas (Prompt 10
+> a 15). Onde aparecer "mock"/"temporário"/"etapa futura", trata-se do
+> estado da época, não do estado atual — dados públicos reais vêm de
+> Supabase/GitHub (ver `docs/handoff.md`, TASK-001 a TASK-003). Os passos de
+> configuração (criar projeto, `.env.local`, aplicar `schema.sql`) continuam
+> válidos para configurar uma instância nova.
+
 ## Storage: portfolio-media
 
 O upload de imagens usa Supabase Storage com o bucket:

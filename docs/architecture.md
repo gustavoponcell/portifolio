@@ -1,5 +1,13 @@
 # Arquitetura Inicial
 
+> **Aviso — documento histórico.** Este arquivo registra decisões e estados
+> de arquitetura ao longo das fases 10 a 16.9, da mais recente para a mais
+> antiga. Seções mais abaixo (Prompt 10, 11, 12, 13) descrevem estados
+> **já superados**, incluindo menções a "mock" como fonte pública — isso não
+> é mais verdade: dados públicos vêm hoje de Supabase/GitHub reais (ver
+> topo deste arquivo e `docs/handoff.md`, TASK-001 a TASK-003). Para a
+> arquitetura e estado atuais, use `docs/project-status.md`.
+
 ## Atualização Prompt 16.9: fontes reais de projetos públicos
 
 A leitura pública de projetos foi separada das referências locais:
@@ -138,8 +146,8 @@ Regras importantes:
 - Todas as operacoes exigem admin antes de acessar o client administrativo.
 - A camada de dados sempre filtra `type = 'design'` em updates, deletes e listagens.
 - Projeto Dev, curadoria GitHub, upload/Storage e leitura publica Supabase nao foram implementados.
-- A exibicao publica usa `src/data/portfolio-projects.ts` via `src/lib/data-source.ts`.
-- URLs de imagem/capa sao apenas texto; upload real fica para etapa futura.
+- A exibicao publica usa `src/data/portfolio-projects.ts` via `src/lib/data-source.ts` (histórico, superado: veja Prompt 16.9 no topo).
+- URLs de imagem/capa sao apenas texto; upload real fica para etapa futura (histórico, superado: upload real existe desde a Fase 15).
 
 ## Atualizacao Prompt 12: CRUD inicial do admin
 
@@ -157,7 +165,7 @@ O painel protegido recebeu o primeiro conjunto de CRUDs reais com Supabase:
 - `src/components/admin/lists/`: listas de experiencias e cursos com editar, excluir e alternar visibilidade.
 - `src/app/api/admin/health/route.ts`: diagnostico seguro do admin.
 
-Todas as escritas validam admin antes de chamar o Supabase. O client administrativo continua server-only e exige `SUPABASE_SECRET_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`. As paginas publicas seguem usando mocks; a exibicao publica dos dados administrados sera refinada depois.
+Todas as escritas validam admin antes de chamar o Supabase. O client administrativo continua server-only e exige `SUPABASE_SECRET_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`. As paginas publicas seguem usando mocks; a exibicao publica dos dados administrados sera refinada depois (histórico, superado: veja Prompt 16.9 no topo — dados administrados já alimentam o público via Supabase real).
 
 ## Atualizacao Prompt 11: Login e Admin
 
@@ -207,14 +215,15 @@ Arquivos e responsabilidades:
 - `src/lib/supabase/admin.ts`: client administrativo com `import "server-only"`, usando apenas secret/service role.
 - `src/lib/supabase/proxy.ts` e `proxy.ts`: refresh de sessao via cookies quando Supabase estiver configurado.
 - `src/lib/supabase/types.ts`: tipos temporarios de tabelas planejadas.
-- `src/lib/data-source.ts`: centraliza a origem dos dados publicos; nesta etapa continua em mock.
+- `src/lib/data-source.ts`: centraliza a origem dos dados publicos; nesta etapa continua em mock (histórico, superado: arquivo hoje não é mais importado por nenhuma página; dados públicos reais vêm de `src/lib/design-projects.ts`/`src/lib/dev-repositories.ts`).
 - `src/app/api/supabase/health/route.ts`: retorna apenas flags booleanas e timestamp.
 - `supabase/schema.sql`: planejamento inicial de tabelas, constraints, indices, triggers e RLS.
 - `supabase/seed.sql`: seeds temporarios baseados nos mocks atuais.
 
 Estrategia:
 
-- Dados publicos continuam vindo de mocks ate CRUD/admin.
+- Dados publicos continuam vindo de mocks ate CRUD/admin (histórico,
+  superado: veja o topo deste arquivo — Prompt 16.9).
 - Build publico nao depende de Supabase remoto.
 - Conteudo publicado/visivel podera ser lido publicamente via RLS.
 - Escrita publica nao e liberada.
