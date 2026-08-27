@@ -2,6 +2,129 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-010 (loop pausado)
+
+- Status: **bloqueado** — código pronto e validado, aguardando revisão
+  Codex objetiva antes de commit/push.
+- Arquivos alterados (ainda não commitados):
+  - `package.json`, `package-lock.json` (nova devDependency `vitest`).
+  - `vitest.config.mts` (novo).
+  - `src/lib/seo/urls.test.ts` (novo).
+  - `src/lib/storage/validation.test.ts` (novo).
+  - `src/lib/storage/paths.test.ts` (novo).
+  - `src/lib/projects.test.ts` (novo).
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-010-minimal-tests.md`.
+  - Avaliação de ferramenta: Playwright exigiria instalar browsers,
+    manter um servidor rodando durante os testes e (para cobrir
+    login/admin) mockar ou usar credenciais do Supabase Auth — a própria
+    tarefa proíbe depender de credenciais reais e pede algo pequeno/barato.
+    Optei por **Vitest** para testes unitários de helpers puros e
+    críticos, sem servidor, sem browser, sem credenciais. Registrando a
+    avaliação de Playwright como adiada, não descartada — pode ser
+    retomada em uma tarefa futura dedicada a E2E.
+  - Instalado `vitest` como devDependency (`npm install --save-dev
+    vitest`); `npm.cmd audit --omit=dev` continua em 0 vulnerabilidades
+    (vitest é devDependency, omitida do audit de produção, mesmo padrão já
+    usado no projeto para eslint/typescript).
+  - Adicionado script `"test": "vitest run"` ao `package.json`.
+  - Criado `vitest.config.mts` com alias `@` → `src` (mesmo path mapping
+    do `tsconfig.json`) e `environment: "node"` (sem jsdom, já que os
+    testes são de funções puras, não de componentes React).
+  - Escritos 4 arquivos de teste (16 casos no total) para helpers
+    críticos de segurança/correção, sem tocar em Supabase, GitHub ou
+    qualquer rede:
+    - `src/lib/seo/urls.test.ts`: `absoluteUrl` (path relativo, sem
+      barra inicial, default `/`, URL já absoluta).
+    - `src/lib/storage/validation.test.ts`: `validateImageFile` (tipo
+      permitido, arquivo ausente/vazio, tipo MIME não permitido, acima do
+      limite de 5 MB, nome de arquivo com `..`/`/` — path traversal).
+    - `src/lib/storage/paths.test.ts`: `createProfileAvatarPath`/
+      `createDesignProjectCoverPath`/`createDesignProjectGalleryPath` —
+      confirma que o path final nunca contém `..` nem começa com `/`
+      mesmo com entrada maliciosa, que o slug é sanitizado e que a
+      extensão vem do content type (não do nome de arquivo, que pode ser
+      forjado).
+    - `src/lib/projects.test.ts`: `getRelatedProjects` — nunca inclui o
+      projeto atual, respeita o `limit`.
+  - `npm.cmd run test` (`vitest run`): **16/16 testes passando**.
+  - `npm.cmd run lint`: sem erros/avisos.
+  - `npm.cmd run build`: sucesso, 18 rotas geradas (arquivos `.test.ts`
+    não entram no build do Next, só no `tsconfig` para type-check).
+  - `npm.cmd audit --omit=dev`: 0 vulnerabilidades.
+  - Corrigi dois avisos do próprio Vitest durante o setup (não
+    relacionados a Codex): renomeei `vitest.config.ts` para
+    `vitest.config.mts` (evita aviso de ESM-em-CommonJS) e troquei
+    `__dirname` por `import.meta.dirname` (evita aviso de API descontinuada
+    no `configLoader` nativo do Vite). `npm.cmd run test` roda limpo, sem
+    warnings, depois dessas duas correções.
+  - **Rodei `/codex:review --background` e ele falhou**: o log mostra
+    `Codex error: You've hit your usage limit. Upgrade to Pro
+    (https://chatgpt.com/explore/pro), visit
+    https://chatgpt.com/codex/settings/usage to purchase more credits or
+    try again at 11:17 PM.` — não é um problema no meu diff, é limite de
+    uso da conta ChatGPT/Codex conectada a este plugin.
+  - Conforme `CLAUDE.md` (Modo Contínuo Claude + Codex): só posso
+    commitar/pushar uma tarefa se `/codex:review` não encontrou problema
+    objetivo bloqueante — como a revisão nem chegou a rodar (erro de
+    quota, não uma aprovação), **não commitei nem fiz push** desta tarefa.
+    O working tree fica com as mudanças acima pendentes de commit.
+  - Isso também bate com uma das condições de parada do loop contínuo:
+    "uma tarefa exigir credenciais, dashboard, compra de domínio, conta
+    externa ou decisão de produto do usuário" — decidir entre esperar o
+    reset de quota (23:17, horário mencionado no erro) ou comprar mais
+    créditos Codex é uma decisão do usuário, não algo que eu deva
+    contornar sozinho.
+- Decisões técnicas:
+  - Não tentei rodar `/codex:review` de novo imediatamente, para não
+    insistir contra um limite de conta que não vai se resolver por
+    tentativa repetida.
+  - Não commitei o trabalho parcialmente aprovado; preferi deixar tudo no
+    working tree, documentado aqui, para retomar assim que o Codex voltar
+    a responder.
+- Testes executados:
+  - `npm.cmd run test` (`vitest run`).
+  - `npm.cmd run lint`.
+  - `npm.cmd run build`.
+  - `npm.cmd audit --omit=dev`.
+  - `/codex:review --background` (falhou por limite de uso da conta, não
+    por problema no código).
+- Resultado dos testes:
+  - Vitest: 16/16 passando.
+  - Lint: sem erros/avisos.
+  - Build: sucesso, 18 rotas.
+  - Audit: 0 vulnerabilidades.
+  - Codex review: **não concluído** (erro de quota).
+- Problemas encontrados:
+  - Nenhum problema de código. O único bloqueio é externo (quota da conta
+    Codex/ChatGPT conectada).
+  - Observação lateral (não é bug, não fiz nada a respeito): documentado
+    em `docs/architecture.md` que `RelatedProjectsSection` deveria
+    "priorizar o mesmo tipo" de projeto, mas a implementação atual de
+    `getRelatedProjects` (`src/lib/projects.ts`) não prioriza por tipo,
+    só remove o projeto atual e corta pelo `limit`. Os testes escritos
+    documentam o comportamento real atual, não o comportamento descrito
+    na doc antiga. Não alterei o comportamento nesta tarefa (fora de
+    escopo de "criar testes"); fica como possível ajuste futuro.
+- Pendências:
+  - **Rodar `/codex:review --background` novamente** quando a quota for
+    liberada (o próprio erro sugere ~23:17) ou o usuário decidir comprar
+    mais créditos. Se aprovado sem achado bloqueante, seguir os passos
+    13-15 do loop (atualizar backlog/project-status, commit
+    `task-010: cria testes minimos`, push).
+  - Decidir (não urgente) se vale corrigir `getRelatedProjects` para
+    priorizar mesmo tipo, conforme a doc antiga descreve.
+- Riscos:
+  - Baixo. Nenhuma mudança de runtime de produção; só uma devDependency
+    nova e arquivos de teste. Risco real é só o bloqueio temporário de
+    ferramenta (Codex), não do código.
+- Revisão pedida ao ChatGPT:
+  - Assim que a quota permitir, rodar a revisão objetiva desta mudança e
+    aprovar/pedir correção.
+  - Confirmar se Vitest (em vez de Playwright) é a escolha aceitável para
+    "testes mínimos", com Playwright registrado como avaliado e adiado.
+
 ## Último Handoff — TASK-009
 
 - Status: pronto para revisão.
