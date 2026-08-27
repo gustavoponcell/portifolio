@@ -137,17 +137,23 @@ Atualizado em: 2026-08-26.
 
 ### TASK-011 — CI simples no GitHub Actions
 
-- Status: próxima tarefa recomendada.
+- Status: concluída (revisada por Claude, Codex indisponível).
 - Especificação: `docs/tasks/task-011-github-actions-ci.md`.
 
 - Rodar `npm ci`, `npm run lint`, `npm run build` em push/PR.
 - Adicionar audit como warning ou job separado.
+- Resultado: `.github/workflows/ci.yml` criado com job `build` (lint,
+  test, build; Node 22) bloqueante e job `audit` (`npm audit --omit=dev`)
+  não bloqueante. Validado localmente que o build funciona com e sem
+  `.env.local`. Execução real do Actions ainda pendente do próximo
+  push/PR no GitHub.
 
 ## P3 — Pós-Deploy
 
 ### TASK-012 — Configurar domínio final e Search Console
 
-- Status: pendente.
+- Status: próxima tarefa recomendada (provavelmente exige decisão/conta
+  externa do usuário — ver pendência que pode pausar o loop aqui).
 - Especificação: `docs/tasks/task-012-domain-search-console.md`.
 
 ### TASK-013 — Analytics leve e privacidade

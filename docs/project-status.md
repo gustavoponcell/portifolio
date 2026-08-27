@@ -6,29 +6,18 @@ Atualizado em: 2026-08-26.
 
 O portfólio está publicado em produção na Vercel e validado para continuidade.
 A base pública, admin, Supabase, upload de imagens, curadoria Dev, SEO básico,
-sitemap, robots e manifest já existem. TASK-001 zerou vulnerabilidades de
-dependências, TASK-002 validou produção, TASK-003 não encontrou exposição
-objetiva de secrets, TASK-004 revisou a estrutura responsiva do layout
-(neobrutalista) sem encontrar problema objetivo de clipping/sobreposição, e
-TASK-005 auditou acessibilidade básica (foco visível, labels, contraste, alt
-text, navegação por teclado) sem encontrar problema objetivo, TASK-006
-revisou SEO/compartilhamento e corrigiu a imagem OG (antes um placeholder
-`/window.svg`, agora gerada sob demanda em `/og` via `next/og`), e TASK-007
-corrigiu um link âncora interno quebrado (`#projetos-dev`) e confirmou que
-os links de contato reais (GitHub/LinkedIn/WhatsApp/Behance) dependem
-apenas de dados do Supabase, sem URLs fictícias no código, e TASK-008
-marcou claramente como histórico o changelog legado (README, architecture,
-requirements, roadmap, performance-checklist, supabase/README,
-prompts-log) que ainda mencionava mock como fonte pública atual, sem
-apagar nenhum conteúdo, e TASK-009 decidiu manter o status `mock` no
-schema/tipos/admin por enquanto (DEC-006 em `docs/decisions.md`), já que
-o risco público é zero e a remoção exigiria acesso ao Supabase de
-produção, e TASK-010 adicionou uma base mínima de testes automatizados
-(Vitest, 16 testes) para helpers críticos de segurança/correção. A partir
-da TASK-010, com o Codex indisponível por limite de uso da conta, as
-revisões objetivas passaram a ser feitas por Claude Code no mesmo papel
-crítico, a pedido do usuário. O próximo bloco de trabalho foca em CI
-(TASK-011) e nas tarefas de manutenção restantes (P2/P3).
+sitemap, robots e manifest já existem. TASK-001 a TASK-009 zeraram
+vulnerabilidades de dependências, validaram produção, auditaram secrets,
+responsividade, acessibilidade e SEO (corrigindo a imagem OG e um link
+quebrado), limparam a documentação legada de mocks e decidiram manter o
+status `mock` por enquanto (detalhes de cada uma no histórico deste arquivo
+e em `docs/handoff.md`). TASK-010 adicionou uma base mínima de testes
+automatizados (Vitest, 16 testes) e TASK-011 criou CI no GitHub Actions
+(lint, test, build bloqueantes; audit não bloqueante). A partir da
+TASK-010, com o Codex indisponível por limite de uso da conta, as revisões
+objetivas passaram a ser feitas por Claude Code no mesmo papel crítico, a
+pedido do usuário. O próximo bloco de trabalho é P3 (TASK-012 a TASK-015),
+onde TASK-012 provavelmente exige domínio/conta externa do usuário.
 
 ## Stack Verificada
 
@@ -166,6 +155,18 @@ Resultado atual: existe `npm.cmd run test` (Vitest), com 16 testes cobrindo
 não há testes de rota pública nem E2E de login/admin (Playwright foi
 avaliado e adiado por exigir browser e credenciais/mocks, fora do escopo
 de "mínimo"). Build e lint continuam sendo a validação principal.
+
+### CI (GitHub Actions)
+
+Resolvido em TASK-011.
+
+Resultado atual: `.github/workflows/ci.yml` roda em push para `main` e em
+todo pull request. Job `build` (bloqueante): `npm ci`, `npm run lint`,
+`npm run test`, `npm run build` em Node 22. Job `audit` (não bloqueante):
+`npm audit --omit=dev` com `continue-on-error: true`. Validado localmente
+que o build funciona com e sem `.env.local`. Sem secrets no workflow, sem
+step de deploy. Execução real no Actions ainda depende do próximo
+push/PR.
 
 ### Layout Responsivo
 

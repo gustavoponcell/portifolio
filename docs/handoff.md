@@ -2,6 +2,72 @@
 
 Atualizado em: 2026-08-26.
 
+## Último Handoff — TASK-011
+
+- Status: pronto para revisão (revisado por Claude, Codex indisponível).
+- Arquivos alterados:
+  - `.github/workflows/ci.yml` (novo).
+  - `docs/handoff.md`, `docs/backlog.md`, `docs/project-status.md`.
+- O que foi feito:
+  - `git status -sb` limpo antes de começar.
+  - Especificação lida: `docs/tasks/task-011-github-actions-ci.md`.
+  - Criado `.github/workflows/ci.yml` com dois jobs:
+    - `build` (bloqueante): checkout, `actions/setup-node@v4` (Node 22,
+      compatível com o `engines.node >= 20.9.0` do Next.js 16.3.3, cache
+      npm), `npm ci`, `npm run lint`, `npm run test` (Vitest da
+      TASK-010), `npm run build`.
+    - `audit` (não bloqueante): `npm audit --omit=dev` com
+      `continue-on-error: true`, seguindo a recomendação original do
+      backlog ("Adicionar audit como warning ou job separado").
+    - Roda em `push` para `main` e em todo `pull_request`.
+    - Usa `npm`/`npm ci`, não `npm.cmd` (irrelevante no Linux do runner,
+      mas explicitamente confirmado no workflow).
+    - Nenhum secret referenciado; nenhum passo de deploy.
+  - **Validação local do requisito mais arriscado** ("o projeto deve
+    continuar buildando sem `.env.local`"): renomeei `.env.local` para
+    `.env.local.bak` temporariamente, rodei `npm.cmd run build`,
+    `npm.cmd run lint` e `npm.cmd run test` — todos passaram. Build sem
+    Supabase configurado gera `/projetos/[slug]` sem os 3 slugs
+    específicos pré-renderizados (porque `generateStaticParams` depende
+    do Supabase), mas não falha — comportamento esperado e já documentado
+    em `docs/project-status.md` ("Build não depende de Supabase
+    configurado"). Restaurei `.env.local` e rodei o build normal de novo
+    para confirmar que voltou ao estado com os 3 slugs.
+  - Validei a sintaxe do YAML com `python -c "import yaml; yaml.safe_load(...)"`
+    (não tenho como rodar o workflow de verdade sem GitHub Actions, mas a
+    sintaxe está correta e a lógica foi revisada manualmente).
+- Decisões técnicas:
+  - Node 22 (LTS) escolhido por compatibilidade com
+    `next@16.3.3` (`engines.node: ">=20.9.0"`) e por ser uma versão
+    amplamente suportada pelo `actions/setup-node`; não há
+    `.nvmrc`/`engines` no projeto para seguir, então documentei a escolha
+    aqui.
+  - Audit como job separado e não bloqueante (`continue-on-error: true`),
+    para não travar PRs por vulnerabilidades moderadas/baixas que ainda
+    não têm correção — decisão já sugerida no backlog original.
+  - Não configurei deploy nem qualquer step que exija secrets (Vercel
+    token, Supabase, etc.), conforme restrição da tarefa.
+- Testes executados:
+  - `npm.cmd run lint`, `npm.cmd run test`, `npm.cmd run build` — com e
+    sem `.env.local` presente.
+  - Validação de sintaxe YAML.
+- Resultado dos testes:
+  - Todos passaram nos dois cenários (com/sem `.env.local`).
+- Problemas encontrados:
+  - Nenhum.
+- Pendências:
+  - O workflow em si só será validado de fato na próxima vez que houver
+    push/PR no GitHub e o Actions rodar de verdade; esta sessão não tem
+    como disparar o Actions diretamente.
+- Riscos:
+  - Baixo. Arquivo novo e isolado (`.github/workflows/ci.yml`), sem
+    impacto em código de produção; validado localmente nos dois cenários
+    relevantes (com e sem env real).
+- Revisão pedida ao ChatGPT:
+  - Confirmar a escolha de Node 22 e a estratégia de audit não bloqueante.
+  - Acompanhar a primeira execução real do workflow no GitHub Actions após
+    o próximo push/PR.
+
 ## Último Handoff — TASK-010 (finalizada)
 
 - Status: pronto para revisão (revisado por Claude, não por Codex — ver
